@@ -1,0 +1,19 @@
+PODS:
+  - ObjectiveDropboxOfficial (2.0.3)
+  - TBDropboxKit (0.1.0):
+    - ObjectiveDropboxOfficial (~> 2.0)
+
+DEPENDENCIES:
+  - TBDropboxKit (from `../`)
+
+EXTERNAL SOURCES:
+  TBDropboxKit:
+    :path: ../
+
+SPEC CHECKSUMS:
+  ObjectiveDropboxOfficial: 02668c6b322bb9a85cdcb8d8e54cdf2ddc804db4
+  TBDropboxKit: 91513584462d82bc3b43335d9c7d70b9b702957f
+
+PODFILE CHECKSUM: 100065672cb26d1e1a87969b808819e0797deb68
+
+COCOAPODS: 1.1.1

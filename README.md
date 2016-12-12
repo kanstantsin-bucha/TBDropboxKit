@@ -4,6 +4,7 @@
 [![Version](https://img.shields.io/cocoapods/v/TBDropboxKit.svg?style=flat)](http://cocoapods.org/pods/TBDropboxKit)
 [![License](https://img.shields.io/cocoapods/l/TBDropboxKit.svg?style=flat)](http://cocoapods.org/pods/TBDropboxKit)
 [![Platform](https://img.shields.io/cocoapods/p/TBDropboxKit.svg?style=flat)](http://cocoapods.org/pods/TBDropboxKit)
+## Under Development
 
 ## Example
 
@@ -22,7 +23,7 @@ pod "TBDropboxKit"
 
 ## Author
 
-truebucha, truebucha@gmail.com
+truebucha, Kanstantsin Bucha truebucha@gmail.com
 
 ## License
 

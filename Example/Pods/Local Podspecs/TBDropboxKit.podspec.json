@@ -1,0 +1,28 @@
+{
+  "name": "TBDropboxKit",
+  "version": "0.1.0",
+  "summary": "Dropbox ObjC kit using API v2f",
+  "description": "This framework provide basic two way synchronization functionality for dropbox.\nIt is using dropbox API version 2. It writed using SOLID principles\"",
+  "homepage": "https://github.com/truebucha/TBDropboxKit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "truebucha": "truebucha@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/truebucha/TBDropboxKit.git",
+    "tag": "0.1.0"
+  },
+  "social_media_url": "https://twitter.com/truebucha",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "TBDropboxKit/Classes/**/*",
+  "dependencies": {
+    "ObjectiveDropboxOfficial": [
+      "~> 2.0"
+    ]
+  }
+}
