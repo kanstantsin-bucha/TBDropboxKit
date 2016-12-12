@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'TBDropboxKit_Example' do
+  pod 'TBDropboxKit', :path => '../'
+
+  target 'TBDropboxKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
