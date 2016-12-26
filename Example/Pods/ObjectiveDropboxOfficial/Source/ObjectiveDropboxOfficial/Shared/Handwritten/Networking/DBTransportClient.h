@@ -59,7 +59,7 @@
 @property (nonatomic) NSURLSession * _Nonnull backgroundSession;
 
 /// The Dropbox OAuth2 access token used to make requests.
-@property (nonatomic, copy) NSString * _Nonnull accessToken;
+@property (nonatomic, copy) NSString * _Nullable accessToken;
 
 #pragma mark - Constructors
 
@@ -83,6 +83,8 @@
 ///
 - (nonnull instancetype)initWithAccessToken:(NSString * _Nullable)accessToken selectUser:(NSString * _Nullable)selectUser;
 
+- (nonnull instancetype)initWithForceForegroundSession;
+
 ///
 /// `DBTransportClient` full constructor.
 ///
@@ -102,6 +104,14 @@
                                  selectUser:(NSString * _Nullable)selectUser
                                   userAgent:(NSString * _Nullable)userAgent
                               delegateQueue:(NSOperationQueue * _Nullable)delegateQueue
+                                     appKey:(NSString * _Nullable)appKey
+                                  appSecret:(NSString * _Nullable)appSecret;
+
+- (nonnull instancetype)initWithAccessToken:(NSString * _Nullable)accessToken
+                                 selectUser:(NSString * _Nullable)selectUser
+                                  userAgent:(NSString * _Nullable)userAgent
+                              delegateQueue:(NSOperationQueue * _Nullable)delegateQueue
+                     forceForegroundSession:(BOOL)forceForegroundSession
                                      appKey:(NSString * _Nullable)appKey
                                   appSecret:(NSString * _Nullable)appSecret;
 

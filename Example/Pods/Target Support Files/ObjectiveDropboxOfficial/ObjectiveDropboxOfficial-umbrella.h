@@ -471,6 +471,7 @@
 #import "DBSDKReachability.h"
 #import "DBSessionData.h"
 #import "DBTasks.h"
+#import "DBTasksImpl.h"
 #import "DBTasksStorage.h"
 #import "DBTransportClient.h"
 #import "DBTransportClientBase.h"
@@ -483,9 +484,9 @@
 #import "DBChunkInputStream.h"
 #import "DBConstants.h"
 #import "DBCustomRoutes.h"
-#import "DBOAuthMobile.h"
-#import "DropboxClientsManager+MobileAuth.h"
-#import "DropboxSDKImportsMobile.h"
+#import "DBOAuthMobile-iOS.h"
+#import "DropboxClientsManager+MobileAuth-iOS.h"
+#import "DropboxSDKImports-iOS.h"
 
 FOUNDATION_EXPORT double ObjectiveDropboxOfficialVersionNumber;
 FOUNDATION_EXPORT const unsigned char ObjectiveDropboxOfficialVersionString[];
