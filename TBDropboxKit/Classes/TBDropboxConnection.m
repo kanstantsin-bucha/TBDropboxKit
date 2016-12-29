@@ -305,9 +305,12 @@
 
 /// MARK convert auth result to NSError
 
-- (NSError *)errorUsingAuthResult:(DBOAuthResult *)result {
-    /// TODO : create error using result
-    return nil;
+- (NSError *)errorUsingAuthResult:(DBOAuthResult *)authResult {
+    NSDictionary * userInfo = @{ NSLocalizedDescriptionKey: authResult.errorDescription };
+    NSError * result = [NSError errorWithDomain: @"TBDropboxConnection"
+                                           code: authResult.errorType
+                                       userInfo: userInfo];
+    return result;
 }
 
 @end
