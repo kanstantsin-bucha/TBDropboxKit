@@ -7,7 +7,7 @@
 //
 
 #import "TBDropboxConnection.h"
-#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
+#import "TBDropboxConnection+Private.h"
 
 
 #define AccessTokenUIDKey @"TB.TBDropboxConnection.AccessToken.UID=NSString"
@@ -25,14 +25,14 @@
 
 /// MARK: property
 
-- (void)setConnectionDesired:(BOOL)connectionDesired {
-    if (_connectionDesired == connectionDesired) {
+- (void)setDesired:(BOOL)desired {
+    if (_desired == desired) {
         return;
     }
     
-    _connectionDesired = connectionDesired;
+    _desired = desired;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (_connectionDesired) {
+        if (_desired) {
             [self openConnection];
         } else {
             [self closeConnection];
@@ -50,7 +50,7 @@
 }
 
 - (void)setAccessTokenUID:(NSString *)tokenUID {
-    [self saveAccessTokenUID:tokenUID];
+    [self saveAccessTokenUID: tokenUID];
 }
 
 - (NSString *)accessTokenUID {
@@ -58,42 +58,30 @@
     return reusult;
 }
 
-/// MARK: life cycle
-
-+ (instancetype)sharedInstance {
-    static TBDropboxConnection * _sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sharedInstance = [[super allocWithZone:NULL] init];
-    });
-    
-    return _sharedInstance;
-}
-
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
-    return [self sharedInstance];
-}
-
-- (instancetype)copyWithZone:(struct _NSZone *)zone {
-    return self;
-}
-
 /// MARK: public
 
-- (void)initiateWithConnectionDesired:(BOOL)desired
-                          usingAppKey:(NSString *)key
-                             delegate:(id<TBDropboxConnectionDelegate>)delegate {
-    [self subscribeToNotifications];
-    [DropboxClientsManager setupWithAppKey: key];
-    self.delegate = delegate;
-    
-    if (self.accessTokenUID == nil) {
-        self.state = TBDropboxConnectionStateDisconnected;
-    } else {
-        self.state = TBDropboxConnectionStatePaused;
++ (instancetype _Nullable)connectionDesired:(BOOL)desired
+                                usingAppKey:(NSString * _Nonnull)key
+                                   delegate:(id<TBDropboxConnectionDelegate> _Nonnull)delegate {
+    if (key == nil
+        || delegate == nil) {
+        return nil;
     }
     
-    self.connectionDesired = desired;
+    TBDropboxConnection * result = [TBDropboxConnection new];
+    [result subscribeToNotifications];
+    [DropboxClientsManager setupWithAppKey: key];
+    result.delegate = delegate;
+    
+    if (result.accessTokenUID == nil) {
+        result.state = TBDropboxConnectionStateDisconnected;
+    } else {
+        result.state = TBDropboxConnectionStatePaused;
+    }
+    
+    result.desired = desired;
+    
+    return result;
 }
 
 - (NSArray *)provideDropboxURLSchemes {
@@ -307,7 +295,7 @@
 
 - (NSError *)errorUsingAuthResult:(DBOAuthResult *)authResult {
     NSDictionary * userInfo = @{ NSLocalizedDescriptionKey: authResult.errorDescription };
-    NSError * result = [NSError errorWithDomain: @"TBDropboxConnection"
+    NSError * result = [NSError errorWithDomain: TBDropboxErrorDomain
                                            code: authResult.errorType
                                        userInfo: userInfo];
     return result;
