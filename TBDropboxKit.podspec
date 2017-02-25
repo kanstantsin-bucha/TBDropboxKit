@@ -37,7 +37,7 @@ It is using dropbox API version 2. It writed using SOLID principles"
   #   'TBDropboxKit' => ['TBDropboxKit/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'ObjectiveDropboxOfficial', '~> 3.0'
   s.dependency 'CDBKit', '~> 0.0'
