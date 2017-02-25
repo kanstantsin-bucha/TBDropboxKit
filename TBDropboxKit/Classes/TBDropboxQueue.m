@@ -42,14 +42,29 @@
     return result;
 }
 
+- (NSMutableArray<TBDropboxTask *> *)scheduledTasksHolder {
+    if (_scheduledTasksHolder != nil) {
+        return _scheduledTasksHolder;
+    }
+    
+    _scheduledTasksHolder = [NSMutableArray array];
+    return _scheduledTasksHolder;
+}
+
 /// MARK: life cycle
+
+- (instancetype)initInstance {
+    if (self = [super init]) {
+    }
+    return self;
+}
 
 + (instancetype)queueUsingFilesRoutesSource:(id<TBDropboxFileRoutesSource>)source {
     if (source == nil) {
         return nil;
     }
     
-    TBDropboxQueue * result = [TBDropboxQueue new];
+    TBDropboxQueue * result = [[[self class] alloc] initInstance];
     result.routesSource = source;
     
     return result;
@@ -63,7 +78,8 @@
     }
     
     self.runningTasksQueue = YES;
-    self.runningTaskShouldBeRestored = self.runningTask.state != TBDropboxTaskStateCompleted;
+    self.runningTaskShouldBeRestored = self.runningTask != nil
+                                       && self.runningTask.state != TBDropboxTaskStateCompleted;
     
     weakCDB(wself);
     dispatch_time_t time =
@@ -77,6 +93,8 @@
 
 - (void)stop {
     self.runningTasksQueue = NO;
+    [self.runningTask suspend];
+    self.runningTask.state = TBDropboxTaskStateSuspended;
 }
 
 - (NSNumber *)addTask:(TBDropboxTask *)task {
@@ -121,7 +139,7 @@
     return result;
 }
 
-- (NSArray<TBDropboxTask *> *)taskByEntry:(TBDropboxEntry *)entry {
+- (NSArray<TBDropboxTask *> *)tasksByEntry:(id<TBDropboxEntry>)entry {
     NSPredicate * predicate = [self tasksPredicateByPath: entry.dropboxPath];
     NSArray * result =
         [self.scheduledTasksHolder filteredArrayUsingPredicate: predicate];
@@ -132,6 +150,11 @@
 
 - (void)resumeQueue {
     if (self.runningTaskShouldBeRestored) {
+        BOOL resumed = [self.runningTask resume];
+        if (resumed) {
+            return;
+        }
+        
         [self runTask: self.runningTask];
     } else {
         [self runNextTask];
@@ -178,6 +201,10 @@
         [wself runNextTask];
     }];
 }
+
+/// MARK: logging
+
+
 
 /// MARK: predicates
 

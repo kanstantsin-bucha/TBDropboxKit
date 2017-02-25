@@ -13,6 +13,8 @@
 
 @interface TBDropboxFolderEntry ()
 
+- (instancetype)initInstance;
+
 - (void)updateUsingMetadataEntries:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries;
 - (void)updateCursor:(TBDropboxEntryCursor * _Nonnull)cursor;
 

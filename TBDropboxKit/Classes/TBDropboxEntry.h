@@ -2,29 +2,24 @@
 //  TBDropboxEntry.h
 //  Pods
 //
-//  Created by Bucha Kanstantsin on 12/31/16.
+//  Created by Bucha Kanstantsin on 2/24/17.
 //
 //
 
-#import <Foundation/Foundation.h>
-#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
+#ifndef TBDropboxEntry_h
+#define TBDropboxEntry_h
 
+#import "TBDropbox.h"
 
-typedef NS_ENUM(NSInteger, TBDropboxEntrySource) {
-    TBDropboxEntrySourcePath = 0,
-    TBDropboxEntrySourceMetadata = 1
-};
-
-
-@interface TBDropboxEntry : NSObject
+@protocol TBDropboxEntry
 
 @property (assign, nonatomic, readonly) TBDropboxEntrySource source;
 
-@property (copy, nonatomic, readonly) NSString * dropboxPath;
+@property (copy, nonatomic, readonly, nonnull) NSString * dropboxPath;
+@property (copy, nonatomic, readonly, nullable) NSNumber * size;
 
-@property (strong, nonatomic, readonly) DBFILESMetadata * metadata;
-
-+ (instancetype)entryUsingMetadata:(DBFILESMetadata *)fileMetadata;
-+ (instancetype)entryUsingDropboxPath:(NSString *)path;
+@property (strong, nonatomic, readonly, nullable) DBFILESMetadata * metadata;
 
 @end
+
+#endif /* TBDropboxEntry_h */

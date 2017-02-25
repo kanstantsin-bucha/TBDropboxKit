@@ -10,6 +10,7 @@
 #define TBDropbox_h
 
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
+#import <CDBKit/CDBKit.h>
 
 #define TBDropboxErrorDomain @"TBDropboxKit"
 
@@ -20,12 +21,8 @@ typedef NSString TBDropboxEntryCursor;
 
 @class TBDropboxQueue;
 @class TBDropboxConnection;
-@class TBDropboxEntry;
+@class TBDropboxFileEntry;
 @class TBDropboxClient;
-
-typedef void (^TBDropboxEntriesBlock) (NSArray<TBDropboxEntry *> * _Nullable entries,
-                                       NSError * _Nullable error);
-
 
 typedef NS_ENUM(NSInteger, TBDropboxConnectionState) {
     TBDropboxConnectionStateUndefined = 0,
@@ -34,7 +31,6 @@ typedef NS_ENUM(NSInteger, TBDropboxConnectionState) {
     TBDropboxConnectionStateConnected = 3,
     TBDropboxConnectionStatePaused = 4 // Disconnected but has authorization token
 };
-
 
 typedef NS_ENUM(NSInteger, TBDropboxAuthState) {
     TBDropboxAuthStateUndefined = 0,
@@ -45,6 +41,20 @@ typedef NS_ENUM(NSInteger, TBDropboxAuthState) {
     TBDropboxAuthStateSucceed = 5
 };
 
+typedef NS_ENUM(NSInteger, TBDropboxEntrySource) {
+    TBDropboxEntrySourcePath = 0,
+    TBDropboxEntrySourceMetadata = 1
+};
+
+#define StringFromDropboxEntrySource(enum) (([@[\
+    @"TBDropboxEntrySourcePath",\
+    @"TBDropboxEntrySourceMetadata",\
+] objectAtIndex:(enum)]))
+
+#define hasPropertyWithName(object, propertyName) [object respondsToSelector:NSSelectorFromString(propertyName)]
+#define valueUsingMetadata(metadata, key) hasPropertyWithName(metadata, key) ? [metadata valueForKey: key] : nil;
+
+#define sizeUsingMetadata(metadata) valueUsingMetadata(metadata, @"size")
 
 @protocol TBDropboxConnectionDelegate <NSObject>
 

@@ -18,4 +18,7 @@
 + (instancetype)taskUsingEntry:(TBDropboxFolderEntry * _Nonnull)entry
                     completion:(TBDropboxEntriesBlock _Nonnull)completion;
 
++ (instancetype)new __unavailable;
+- (id) init __unavailable;
+
 @end

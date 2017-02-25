@@ -10,7 +10,6 @@
 #import "TBDropbox.h"
 #import "TBDropboxQueue.h"
 #import "TBDropboxConnection.h"
-#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 
 @interface TBDropboxClient : NSObject
@@ -26,19 +25,15 @@
 
 + (instancetype)sharedInstance;
 
++ (instancetype)alloc __attribute__((unavailable("alloc not available, call sharedInstance instead")));
+- (instancetype)init __attribute__((unavailable("init not available, call sharedInstance instead")));
++ (instancetype)new __attribute__((unavailable("new not available, call sharedInstance instead")));
+- (instancetype)copy __attribute__((unavailable("copy not available, call sharedInstance instead")));
+
 - (void)initiateWithConnectionDesired:(BOOL)desired
                           usingAppKey:(NSString * _Nullable)key;
 
-/**
- Add delegate to notify changes
- **/
-
 - (void)addDelegate:(id<TBDropboxClientDelegate> _Nonnull)delegate;
-
-/**
- Remove delegate
- **/
-
 - (void)removeDelegate:(id<TBDropboxClientDelegate> _Nonnull)delegate;
 
 @end

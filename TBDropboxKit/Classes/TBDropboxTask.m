@@ -13,6 +13,33 @@
 
 @implementation TBDropboxTask
 
+/// MARK: life cycle
+
+- (instancetype)initInstance {
+    if (self = [super init]) {
+    }
+    return self;
+}
+
+/// MARK: private
+
+- (void)suspend {
+    if (self.dropboxTask == nil) {
+        return;
+    }
+    
+    [self.dropboxTask suspend];
+}
+
+- (BOOL)resume {
+    if (self.dropboxTask == nil) {
+        return NO;
+    }
+    
+    [self.dropboxTask resume];
+    return YES;
+}
+
 - (void)runUsingRoutesSource:(id<TBDropboxFileRoutesSource>)routesSource
               withCompletion:(CDBErrorCompletion)completion {
     

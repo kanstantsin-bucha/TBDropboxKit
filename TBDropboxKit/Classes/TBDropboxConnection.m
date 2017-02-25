@@ -35,7 +35,7 @@
         if (_desired) {
             [self openConnection];
         } else {
-            [self closeConnection];
+            [self pauseConnection];
         }
     });
 }
@@ -58,7 +58,13 @@
     return reusult;
 }
 
-/// MARK: public
+/// MARK: life cycle
+
+- (instancetype)initInstance {
+    if (self = [super init]) {
+    }
+    return self;
+}
 
 + (instancetype _Nullable)connectionDesired:(BOOL)desired
                                 usingAppKey:(NSString * _Nonnull)key
@@ -68,21 +74,17 @@
         return nil;
     }
     
-    TBDropboxConnection * result = [TBDropboxConnection new];
+    TBDropboxConnection * result = [[[self class] alloc] initInstance];
     [result subscribeToNotifications];
-    [DropboxClientsManager setupWithAppKey: key];
+    [DBClientsManager setupWithAppKey: key];
     result.delegate = delegate;
-    
-    if (result.accessTokenUID == nil) {
-        result.state = TBDropboxConnectionStateDisconnected;
-    } else {
-        result.state = TBDropboxConnectionStatePaused;
-    }
-    
+    result.state = TBDropboxConnectionStateDisconnected;    
     result.desired = desired;
     
     return result;
 }
+
+/// MARK: public
 
 - (NSArray *)provideDropboxURLSchemes {
     NSArray * URLTypes =
@@ -111,23 +113,6 @@
     return result;
 }
 
-- (void)pauseConnection {
-    if (self.state != TBDropboxConnectionStateConnected) {
-        return;
-    }
-    
-    [DropboxClientsManager resetClients];
-    self.state = TBDropboxConnectionStatePaused;
-}
-
-- (void)resumeConnection {
-    if (self.state != TBDropboxConnectionStatePaused) {
-        return;
-    }
-    
-    [self openConnection];
-}
-
 /// MARK: notifications
 
 - (void)subscribeToNotifications {
@@ -146,9 +131,9 @@
     
     self.state = TBDropboxConnectionStateAuthorization;
     [self noteAuthStateChanged: TBDropboxAuthStateInitiated];
-    [DropboxClientsManager authorizeFromController: [UIApplication sharedApplication]
-                                        controller: [UIViewController new]
-                                           openURL: ^(NSURL *url) {
+    [DBClientsManager authorizeFromController: [UIApplication sharedApplication]
+                                   controller: [UIViewController new]
+                                      openURL: ^(NSURL *url) {
         [self noteAuthStateChanged: TBDropboxAuthStateAuthorization];
         [[UIApplication sharedApplication] openURL: url];
     }
@@ -163,8 +148,9 @@
         return;
     }
     
-    if (self.accessTokenUID != nil) {
-        BOOL connected = [DropboxClientsManager reauthorizeClient: self.accessTokenUID];
+    if (self.state == TBDropboxConnectionStatePaused
+        && self.accessTokenUID != nil) {
+        BOOL connected = [DBClientsManager reauthorizeClient: self.accessTokenUID];
         if (connected) {
             self.state = TBDropboxConnectionStateConnected;
             return;
@@ -179,9 +165,18 @@
         return;
     }
     
-    [DropboxClientsManager unlinkClients];
+    [DBClientsManager resetClients];
     self.accessTokenUID = nil;
     self.state = TBDropboxConnectionStateDisconnected;
+}
+
+- (void)pauseConnection {
+    if (self.state != TBDropboxConnectionStateConnected) {
+        return;
+    }
+    
+    [DBClientsManager resetClients];
+    self.state = TBDropboxConnectionStatePaused;
 }
 
 - (void)appBecomeActive:(NSNotification *)notification {
@@ -225,7 +220,7 @@
 /// MARK: redirect URL
 
 - (BOOL)handleDropboxAuthorisationRedirectURL:(NSURL *)url {
-    DBOAuthResult * authResult = [DropboxClientsManager handleRedirectURL: url];
+    DBOAuthResult * authResult = [DBClientsManager handleRedirectURL: url];
     if (authResult == nil) {
         return NO;
     }

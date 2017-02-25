@@ -18,7 +18,7 @@
 >
 
 @property (weak, nonatomic, readwrite) TBDropboxConnection * connection;
-@property (strong, nonatomic, readonly) DropboxClient * client;
+@property (strong, nonatomic, readonly) DBUserClient * client;
 @property (strong, nonatomic) CDBDelegateCollection * delegates;
 
 @end
@@ -28,8 +28,8 @@
 
 /// MARK: property
 
-- (DropboxClient *)client {
-    DropboxClient * result = [DropboxClientsManager authorizedClient];
+- (DBUserClient *)client {
+    DBUserClient * result = [DBClientsManager authorizedClient];
     return result;
 }
 
@@ -38,7 +38,7 @@
         return _tasksQueue;
     }
     
-    _tasksQueue = [TBDropboxQueue new];
+    _tasksQueue = [TBDropboxQueue queueUsingFilesRoutesSource: self];
     return _tasksQueue;
 }
 
@@ -58,7 +58,7 @@
     static TBDropboxClient * _sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedInstance = [[super allocWithZone:NULL] init];
+        _sharedInstance = [[super allocWithZone:NULL] initInstance];
     });
     
     return _sharedInstance;
@@ -72,12 +72,19 @@
     return self;
 }
 
+- (instancetype)initInstance {
+    if (self = [super init]) {
+    }
+    return self;
+}
+
+
 - (void)initiateWithConnectionDesired:(BOOL)desired
                           usingAppKey:(NSString *)key {
-    TBDropboxConnection * connection = [TBDropboxConnection connectionDesired:desired
-                                                                  usingAppKey:key
-                                                                     delegate:self];
-    
+    TBDropboxConnection * connection = [TBDropboxConnection connectionDesired: desired
+                                                                  usingAppKey: key
+                                                                     delegate: self];
+    self.connection = connection;
 }
 
 /// MARK: protocols

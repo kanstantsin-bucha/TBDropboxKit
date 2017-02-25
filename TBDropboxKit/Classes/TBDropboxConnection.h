@@ -20,10 +20,10 @@
 @property (assign, nonatomic, readonly) BOOL connected;
 @property (assign, nonatomic) BOOL desired;
 
-- (BOOL)handleAuthorisationRedirectURL:(NSURL * _Nonnull)url;
++ (instancetype)new __unavailable;
+- (id) init __unavailable;
 
-- (void)pauseConnection;
-- (void)resumeConnection;
+- (BOOL)handleAuthorisationRedirectURL:(NSURL * _Nonnull)url;
 
 - (NSArray * _Nullable)provideDropboxURLSchemes;
 
