@@ -20,9 +20,10 @@
     "ios": "8.0"
   },
   "source_files": "TBDropboxKit/Classes/**/*",
+  "public_header_files": "Pod/Classes/**/*.h",
   "dependencies": {
     "ObjectiveDropboxOfficial": [
-      "~> 2.0"
+      "~> 3.0"
     ],
     "CDBKit": [
       "~> 0.0"

@@ -20,7 +20,7 @@ Full documentation [here](http://dropbox.github.io/dropbox-sdk-obj-c/api-docs/la
 * [Configure your project](#configure-your-project)
   * [Application `.plist` file](#application-plist-file)
   * [Handling the authorization flow](#handling-the-authorization-flow)
-    * [Initialize a `DropboxClient` instance](#initialize-a-dropboxclient-instance)
+    * [Initialize a `DBUserClient` instance](#initialize-a-dbuserclient-instance)
     * [Begin the authorization flow](#begin-the-authorization-flow)
     * [Handle redirect back into SDK](#handle-redirect-back-into-sdk)
 * [Try some API requests](#try-some-api-requests)
@@ -37,10 +37,12 @@ Full documentation [here](http://dropbox.github.io/dropbox-sdk-obj-c/api-docs/la
   * [Customizing network calls](#customizing-network-calls)
     * [Configure network client](#configure-network-client)
     * [Specify API call response queue](#specify-api-call-response-queue)
-  * [`DropboxClientsManager` class](#dropboxclientsmanager-class)
+  * [`DBClientsManager` class](#dbclientsmanager-class)
     * [Single Dropbox user case](#single-dropbox-user-case)
     * [Multiple Dropbox user case](#multiple-dropbox-user-case)
 * [Examples](#examples)
+* [Migrating from API v1](#migrating-from-api-v1)
+    * [Migrating OAuth tokens from earlier SDKs](#migrating-oauth-tokens-from-earlier-sdks)
 * [Documentation](#documentation)
 * [Stone](#stone)
 * [Modifications](#modifications)
@@ -95,22 +97,29 @@ $ gem install cocoapods
 Then navigate to the directory that contains your project and create a new file called `Podfile`. You can do this either with `pod init`, or open an existing Podfile, and then add `pod 'ObjectiveDropboxOfficial'` to the main loop. Your Podfile should look something like this:
 
 ```ruby
+platform :ios, '8.0'
+use_frameworks!
+
 target '<YOUR_PROJECT_NAME>' do
     pod 'ObjectiveDropboxOfficial'
 end
 ```
 
-Then, run the following command to install the dependency:
+Then, after ensuring that your project window in Xcode is **closed**, run the following command to install the dependency:
 
 ```bash
 $ pod install
 ```
 
-Once your project is integrated with the Dropbox Objective-C SDK, you can pull SDK updates using the following command:
+Once this command completes, open the newly create `.xcworkspace` file. Your project should now be successfully integrated with the the SDK.
+
+From here, you can pull SDK updates using the following command:
 
 ```bash
 $ pod update
 ```
+
+If Xcode errors with a message about `Undefined symbols for architecture...`, try adding `$(inherited)` to your project's **Other Linker Flags** in **Build Settings**, and ensure that the `-ObjC` flag is included in **Other Linker Flags**.
 
 ---
 
@@ -127,7 +136,7 @@ brew install carthage
 
 ```
 # ObjectiveDropboxOfficial
-github "https://github.com/dropbox/dropbox-sdk-obj-c" ~> 2.0.6
+github "https://github.com/dropbox/dropbox-sdk-obj-c" ~> 3.0.2
 ```
 
 Then, run the following command to checkout and build the Dropbox Objective-C SDK repository:
@@ -248,7 +257,7 @@ To facilitate the above authorization flows, you should take the following steps
 
 ---
 
-#### Initialize a `DropboxClient` instance
+#### Initialize a `DBUserClient` instance
 
 ##### iOS
 
@@ -256,7 +265,7 @@ To facilitate the above authorization flows, you should take the following steps
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [DropboxClientsManager setupWithAppKey:@"<APP_KEY>"];
+    [DBClientsManager setupWithAppKey:@"<APP_KEY>"];
     return YES;
 }
 
@@ -268,7 +277,7 @@ To facilitate the above authorization flows, you should take the following steps
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [DropboxClientsManager setupWithAppKeyDesktop:@"<APP_KEY>"];
+    [DBClientsManager setupWithAppKeyDesktop:@"<APP_KEY>"];
 }
 ```
 
@@ -285,7 +294,7 @@ view controller. If you wish to authenticate via the in-app webview, then set `b
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 - (void)myButtonInControllerPressed {
-    [DropboxClientsManager authorizeFromController:[UIApplication sharedApplication]
+    [DBClientsManager authorizeFromController:[UIApplication sharedApplication]
                                         controller:self
                                            openURL:^(NSURL *url) {
                                                 [[UIApplication sharedApplication] openURL:url];
@@ -301,7 +310,7 @@ view controller. If you wish to authenticate via the in-app webview, then set `b
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 - (void)myButtonInControllerPressed {
-    [DropboxClientsManager authorizeFromControllerDesktop:[NSWorkspace sharedWorkspace]
+    [DBClientsManager authorizeFromControllerDesktop:[NSWorkspace sharedWorkspace]
                                         controller:self
                                            openURL:^(NSURL *url){ [[NSWorkspace sharedWorkspace] openURL:url]; }
                                        browserAuth:YES];
@@ -326,8 +335,9 @@ To handle the redirection back into the Objective-C SDK once the authentication 
 ```objective-c
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    DBOAuthResult *authResult = [DropboxClientsManager handleRedirectURL:url];
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    DBOAuthResult *authResult = [DBClientsManager handleRedirectURL:url];
     if (authResult != nil) {
         if ([authResult isSuccess]) {
             NSLog(@"Success! User is logged into Dropbox.");
@@ -341,16 +351,16 @@ To handle the redirection back into the Objective-C SDK once the authentication 
 }
 ```
 
-For iOS targets >= 9, use:
+For iOS targets < 9, use:
 
 ```objective-c
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
-            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    DBOAuthResult *authResult = [DropboxClientsManager handleRedirectURL:url];
-    ....
-    ....
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    DBOAuthResult *authResult = [DBClientsManager handleRedirectURL:url];
+    ...
+    ...
+    ...
 }
 ```
 
@@ -370,7 +380,7 @@ For iOS targets >= 9, use:
 // custom handler
 - (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     NSURL *url = [NSURL URLWithString:[[event paramDescriptorForKeyword:keyDirectObject] stringValue]];
-    DBOAuthResult *authResult = [DropboxClientsManager handleRedirectURL:url];
+    DBOAuthResult *authResult = [DBClientsManager handleRedirectURL:url];
     if (authResult != nil) {
         if ([authResult isSuccess]) {
             NSLog(@"Success! User is logged into Dropbox.");
@@ -403,13 +413,13 @@ Once you have obtained an OAuth 2.0 token, you can try some API v2 calls using t
 
 ### Dropbox client instance
 
-Start by creating a reference to the `DropboxClient` or `DropboxTeamClient` instance that you will use to make your API calls.
+Start by creating a reference to the `DBUserClient` or `DBTeamClient` instance that you will use to make your API calls.
 
 ```objective-c
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 // Reference after programmatic auth flow
-DropboxClient *client = [DropboxClientsManager authorizedClient];
+DBUserClient *client = [DBClientsManager authorizedClient];
 ```
 
 or
@@ -418,7 +428,7 @@ or
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 // Initialize with manually retrieved auth token
-DropboxClient *client = [[DropboxClient alloc] initWithAccessToken:@"<MY_ACCESS_TOKEN>"];
+DBUserClient *client = [[DBUserClient alloc] initWithAccessToken:@"<MY_ACCESS_TOKEN>"];
 ```
 
 ---
@@ -444,7 +454,7 @@ Response handlers are required for all endpoints. Progress handlers, on the othe
 #### RPC-style request
 ```objective-c
 [[client.filesRoutes createFolder:@"/test/path"]
-    response:^(DBFILESFolderMetadata *result, DBFILESCreateFolderError *routeError, DBRequestError *error) {
+    setResponseBlock:^(DBFILESFolderMetadata *result, DBFILESCreateFolderError *routeError, DBRequestError *error) {
         if (result) {
             NSLog(@"%@\n", result);
         } else {
@@ -459,7 +469,7 @@ Response handlers are required for all endpoints. Progress handlers, on the othe
 ```objective-c
 NSData *fileData = [@"file data example" dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
 [[[client.filesRoutes uploadData:@"/test/path/in/Dropbox/account" inputData:fileData]
-    response:^(DBFILESFileMetadata *result, DBFILESUploadError *routeError, DBRequestError *error) {
+    setResponseBlock:^(DBFILESFileMetadata *result, DBFILESUploadError *routeError, DBRequestError *error) {
         if (result) {
             NSLog(@"%@\n", result);
         } else {
@@ -501,7 +511,7 @@ NSFileManager *fileManager = [NSFileManager defaultManager];
 NSURL *outputDirectory = [fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask][0];
 NSURL *outputUrl = [outputDirectory URLByAppendingPathComponent:@"test_file_output.txt"];
 [[[client.filesRoutes downloadUrl:@"/test/path/in/Dropbox/account" overwrite:YES destination:outputUrl]
-    response:^(DBFILESFileMetadata *result, DBFILESDownloadError *routeError, DBRequestError *error, NSURL *destination) {
+    setResponseBlock:^(DBFILESFileMetadata *result, DBFILESDownloadError *routeError, DBRequestError *error, NSURL *destination) {
         if (result) {
             NSLog(@"%@\n", result);
             NSData *data = [[NSFileManager defaultManager] contentsAtPath:[destination path]];
@@ -517,7 +527,7 @@ NSURL *outputUrl = [outputDirectory URLByAppendingPathComponent:@"test_file_outp
 
 // Download to NSData
 [[[client.filesRoutes downloadData:@"/test/path"]
-    response:^(DBFILESFileMetadata *result, DBFILESDownloadError *routeError, DBRequestError *error, NSData *fileContents) {
+    setResponseBlock:^(DBFILESFileMetadata *result, DBFILESDownloadError *routeError, DBRequestError *error, NSData *fileContents) {
         if (result) {
             NSLog(@"%@\n", result);
             NSString *dataStr = [[NSString alloc]initWithData:fileContents encoding:NSUTF8StringEncoding];
@@ -555,7 +565,7 @@ If at run time you attempt to access a union instance field that is not associat
 #### Route-specific errors
 ```objective-c
 [[client.filesRoutes delete_:@"/test/path"]
-    response:^(DBFILESMetadata *result, DBFILESDeleteError *routeError, DBRequestError *error) {
+    setResponseBlock:^(DBFILESMetadata *result, DBFILESDeleteError *routeError, DBRequestError *error) {
         if (result) {
             NSLog(@"%@\n", result);
         } else {
@@ -589,7 +599,7 @@ As with accessing associated values in regular unions, the `as<TAG_STATE>` shoul
 
 ```objective-c
 [[client.filesRoutes delete_:@"/test/path"]
-    response:^(DBFILESMetadata *result, DBFILESDeleteError *routeError, DBRequestError *error) {
+    setResponseBlock:^(DBFILESMetadata *result, DBFILESDeleteError *routeError, DBRequestError *error) {
         if (result) {
             NSLog(@"%@\n", result);
         } else {
@@ -639,7 +649,7 @@ To determine at runtime which subtype the `Metadata` type exists as, perform an 
 
 ```objective-c
 [[client.filesRoutes delete_:@"/test/path"]
-    response:^(DBFILESMetadata *result, DBFILESDeleteError *routeError, DBRequestError *error) {
+    setResponseBlock:^(DBFILESMetadata *result, DBFILESDeleteError *routeError, DBRequestError *error) {
         if (result) {
             if ([result isKindOfClass:[DBFILESFileMetadata class]]) {
                 DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)result;
@@ -675,89 +685,79 @@ In this way, datatypes with subtypes are a hybrid of structs and unions. Only a 
 
 #### Configure network client
 
-It is possible to configure the networking client used by the SDK to make API requests. You can supply custom fields like a custom user agent or custom delegate queue to manage response handler code. See below:
+It is possible to configure the networking client used by the SDK to make API requests. You can supply custom fields like a custom user agent or custom delegate queue to manage response handler code.
+
+For instance, you can force the SDK to make all network requests on a foreground session:
 
 ##### iOS
 ```objective-c
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
-DBTransportClient *transportClient = [[DBTransportClient alloc] initWithAccessToken:nil
-                                                                         selectUser:nil
-                                                                          baseHosts:nil
-                                                                          userAgent:@"CustomUserAgent"
-                                                                backgroundSessionId:@"com.custom.background.session.id"
-                                                                             appKey:(NSString *)@"<APP_KEY>"
-                                                                          appSecret:(NSString *)@"<APP_SECRET>"
-                                                                      delegateQueue:[NSOperationQueue new]];
-[DropboxClientsManager setupWithAppKey:@"<APP_KEY>" transportClient:transportClient];
+DBTransportDefaultConfig *transportConfig =
+    [[DBTransportDefaultConfig alloc] initWithAppKey:@"<APP_KEY>" forceForegroundSession:YES];
+[DBClientsManager setupWithTransportConfig:transportConfig];
 ```
 
 ##### macOS
 ```objective-c
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
-DBTransportClient *transportClient = [[DBTransportClient alloc] initWithAccessToken:nil
-                                                                         selectUser:nil
-                                                                          baseHosts:nil
-                                                                          userAgent:@"CustomUserAgent"
-                                                                backgroundSessionId:@"com.custom.background.session.id"
-                                                                             appKey:(NSString *)@"<APP_KEY>"
-                                                                          appSecret:(NSString *)@"<APP_SECRET>"
-                                                                      delegateQueue:[NSOperationQueue new]];
-[DropboxClientsManager setupWithAppKeyDesktop:@"<APP_KEY>" transportClient:transportClient];
+DBTransportDefaultConfig *transportConfig =
+    [[DBTransportDefaultConfig alloc] initWithAppKey:@"<APP_KEY>" forceForegroundSession:YES];
+[DBClientsManager setupWithTransportConfigDesktop:transportConfig];
 ```
+
+See the `DBTransportDefaultConfig` class for all of the different customizable networking parameters.
 
 #### Specify API call response queue
 
-By default, response/progress handler code runs on the main thread. You can set a custom response queue for each API call that you make via the `response` method, in the event want your response/progress handler code to run on a different thread:
+By default, response/progress handler code runs on the main thread. You can set a custom response queue for each API call that you make via the `setResponseBlock` method, in the event want your response/progress handler code to run on a different thread:
 
 ```objective-c
 [[client.filesRoutes listFolder:@""]
-    response:[NSOperationQueue new] response:^(DBFILESListFolderResult *result, DBFILESListFolderError *routeError, DBRequestError *error) {
+    setResponseBlock:^(DBFILESListFolderResult *result, DBFILESListFolderError *routeError, DBRequestError *error) {
         if (result) {
           NSLog(@"%@", [NSThread currentThread]);  // Output: <NSThread: 0x600000261480>{number = 5, name = (null)}
           NSLog(@"%@", [NSThread mainThread]);     // Output: <NSThread: 0x618000062bc0>{number = 1, name = (null)}
           NSLog(@"%@\n", result);
         }
-    }];
+    } queue:[NSOperationQueue new]];
 ```
 
 ---
 
-### `DropboxClientsManager` class
+### `DBClientsManager` class
 
-The Objective-C SDK includes a convenience class, `DropboxClientsManager`, for integrating the different functions of the SDK into one class.
+The Objective-C SDK includes a convenience class, `DBClientsManager`, for integrating the different functions of the SDK into one class.
 
 #### Single Dropbox user case
 
-For most apps, it is reasonable to assume that only one Dropbox account (and access token) needs to be managed at a time. In this case, the `DropboxClientsManager` flow looks like this: 
+For most apps, it is reasonable to assume that only one Dropbox account (and access token) needs to be managed at a time. In this case, the `DBClientsManager` flow looks like this: 
 
 * call `setupWithAppKey`/`setupWithAppKeyDesktop` (or `setupWithTeamAppKey`/`setupWithTeamAppKeyDesktop`) in integrating app's app delegate
-* client manager determines whether any access tokens are stored -- if any exist, one token is arbitrarily chosen to use
-* if no token is found, call `authorizeFromController`/`authorizeFromControllerDesktop` to initiate the OAuth flow
-* if auth flow is initiated, call `handleRedirectURL` (or `handleRedirectURLTeam`) in integrating app's app delegate to handle auth redirect back into the app and store the retrieved access token (using a `DBOAuthManager` instance)
-* client manager instantiates a `DBTransportClient` (if not supplied by the user)
-* client manager instantiates a `DropboxClient` (or `DropboxTeamClient`) with the transport client as a field
+* `DBClientsManager` class determines whether any access tokens are stored -- if any exist, one token is arbitrarily chosen to use
+* if no token is found, client of the SDK should call `authorizeFromController`/`authorizeFromControllerDesktop` to initiate the OAuth flow
+* if auth flow is initiated, client of the SDK should call `handleRedirectURL` (or `handleRedirectURLTeam`) in integrating app's app delegate to handle auth redirect back into the app and store the retrieved access token
+* `DBClientsManager` class sets up a `DBUserClient` (or `DBTeamClient`) with the particular network configuration as defined by the `DBTransportDefaultConfig` instance passed in (or a standard configuration, if no config instance was passed when the `setupWith...` method was called)
 
-The `DropboxClient` (or `DropboxTeamClient`) is then used to make all of the desired API calls.
+The `DBUserClient` (or `DBTeamClient`) is then used to make all of the desired API calls.
 
-* call `unlinkClients` to logout Dropbox user and clear all access tokens
+* call `unlinkAndResetClients` to logout Dropbox user and clear all access tokens
 
 #### Multiple Dropbox user case
 
-For some apps, it is necessary to manage more than one Dropbox account (and access token) at a time. In this case, the `DropboxClientsManager` flow looks like this: 
+For some apps, it is necessary to manage more than one Dropbox account (and access token) at a time. In this case, the `DBClientsManager` flow looks like this: 
 
 * access token uids are managed by the app that is integrating with the SDK for later lookup
 * call `setupWithAppKeyMultiUser`/`setupWithAppKeyMultiUserDesktop` (or `setupWithTeamAppKeyMultiUser`/`setupWithTeamAppKeyMultiUserDesktop`) in integrating app's app delegate
 * client manager determines whether an access token is stored with the`tokenUid` as a key -- if one exists, this token is chosen to use
-* if no token is found, call `authorizeFromController`/`authorizeFromControllerDesktop` to initiate the OAuth flow
-* if auth flow is initiated, call `handleRedirectURL` (or `handleRedirectURLTeam`) in integrating app's app delegate to handle auth redirect back into the app and store the retrieved access token (using a `DBOAuthManager` instance)
+* if no token is found, client of the SDK should call `authorizeFromController`/`authorizeFromControllerDesktop` to initiate the OAuth flow
+* if auth flow is initiated, call `handleRedirectURL` (or `handleRedirectURLTeam`) in integrating app's app delegate to handle auth redirect back into the app and store the retrieved access token
 * at this point, the app that is integrating with the SDK should persistently save the `tokenUid` from the `DBAccessToken` field of the `DBOAuthResult` object returned from the `handleRedirectURL` (or `handleRedirectURLTeam`) method
 * `tokenUid` can be reused either to authorize a new user mid-way through an app's lifecycle via `reauthorizeClient` (or `reauthorizeTeamClient`) or when the app initially launches via `setupWithAppKeyMultiUser`/`setupWithAppKeyMultiUserDesktop` (or `setupWithTeamAppKeyMultiUser`/`setupWithTeamAppKeyMultiUserDesktop`)
-* client manager instantiates a `DBTransportClient` (if not supplied by the user)
-* client manager instantiates a `DropboxClient` (or `DropboxTeamClient`) with the transport client as a field
+* `DBClientsManager` class sets up a `DBUserClient` (or `DBTeamClient`) with the particular network configuration as defined by the `DBTransportDefaultConfig` instance passed in (or a standard configuration, if no config instance was passed when the `setupWith...` method was called)
 
-The `DropboxClient` (or `DropboxTeamClient`) is then used to make all of the desired API calls.
+The `DBUserClient` (or `DBTeamClient`) is then used to make all of the desired API calls.
 
 * call `resetClients` to logout Dropbox user but not clear any access tokens
 * if specific access tokens need to be removed, use the `clearStoredAccessToken` method in `DBOAuthManager`
@@ -769,6 +769,47 @@ The `DropboxClient` (or `DropboxTeamClient`) is then used to make all of the des
 Example projects that demonstrate how to integrate your app with the SDK can be found in the `Examples/` folder.
 
 * [DBRoulette](https://github.com/dropbox/dropbox-sdk-obj-c/tree/master/Examples/DBRoulette/) - Play a fun game of photo roulette with the image files in your Dropbox!
+
+---
+
+## Migrating from API v1
+
+This section contains relevant info for migrating your app from API v1 to API v2 (which should be finished by June 28, 2017, when API v1 will be retired).
+
+For a general API v1 migration guide, please see [here](https://www.dropbox.com/developers/reference/migration-guide).
+
+### Migrating OAuth tokens from earlier SDKs
+
+If your app was originally using an earlier API v1 SDK, including the [iOS Core SDK](https://www.dropbox.com/developers-v1/core/sdks/ios), the [OS X Core SDK](https://www.dropbox.com/developers-v1/core/sdks/osx), the [iOS Sync SDK](https://www.dropbox.com/developers-v1/sync/sdks/ios), or the [OS X Sync SDK](https://www.dropbox.com/developers-v1/sync/sdks/osx), then you can use the v2 SDK to perform a one-time migration of OAuth 1 tokens to OAuth 2.0 tokens, which are used by API v2. That way, when you migrate your app from the earlier SDK to the new API v2 SDK, users will not need to reauthenticate with Dropbox after you perform this update.
+
+To perform this auth token migration, in your app delegate, you should call the following method:
+
+```objective-c
+[DBClientsManager checkAndPerformV1TokenMigration:^(BOOL shouldRetry, BOOL invalidAppKeyOrSecret,
+                                                    NSArray<NSArray<NSString *> *> *unsuccessfullyMigratedTokenData) {
+      if (invalidAppKeyOrSecret) {
+        // Developers should ensure that the appropriate app key and secret are being supplied.
+        // If your app has multiple app keys / secrets, then run this migration method for
+        // each app key / secret combination, and ignore this boolean.
+      }
+
+      if (shouldRetry) {
+        // Store this BOOL somewhere to retry when network connection has returned
+      }
+
+      if ([unsuccessfullyMigratedTokenData count] != 0) {
+        NSLog(@"The following tokens were unsucessfully migrated:");
+        for (NSArray<NSString *> *tokenData in unsuccessfullyMigratedTokenData) {
+          NSLog(@"%@DropboxUserID: %@, AccessToken: %@, AccessTokenSecret: %@, StoredAppKey: %@",
+                tokenData[0], tokenData[1], tokenData[2], tokenData[3]);
+        }
+      }
+    } queue:nil appKey:@"<APP_KEY>" appSecret:@"<APP_SECRET>"];
+```
+
+This method should successfully migrate all access tokens stored by the official Dropbox API SDKs from approximately 2012 until present, for both iOS and OS X. It will make one call to our OAuth 1 conversion endpoint for each OAuth 1 token that has been stored in your application's keychain by the v1 SDK. The method will execute all network requests off the main thread.
+
+Here, token migration is treated as an atomic operation. Either all tokens that are possible to migrate are migrated at once, or none of them are. If all token conversion requests complete successfully, then the `shouldRetry` argument in `responseBlock` will be `NO`. If some token conversion requests succeed and some fail, and if the failures are for any reason other than network connectivity issues (e.g. token has been invalidated), then the migration will continue normally, and those tokens that were unsuccessfully migrated will be skipped, and `shouldRetry` will be `NO`. If any of the failures were because of network connectivity issues, none of the tokens will be migrated, and `shouldRetry` will be `YES`.
 
 ---
 
