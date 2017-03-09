@@ -13,11 +13,18 @@
 #import "TBDropboxConnection.h"
 #import "TBDropboxClient.h"
 #import "TBDropboxQueue.h"
-#import "TBDropboxTask.h"
-#import "TBDropboxListTask.h"
+
 #import "TBDropboxEntry.h"
 #import "TBDropboxEntryFactory.h"
 #import "TBDropboxFileEntry.h"
 #import "TBDropboxFolderEntry.h"
+
+#import "TBDropboxTask.h"
+#import "TBDropboxListFolderTask.h"
+#import "TBDropboxCreateFolderTask.h"
+#import "TBDropboxUploadFileTask.h"
+#import "TBDropboxDownloadFileTask.h"
+#import "TBDropboxDeleteEntryTask.h"
+
 
 #endif /* TBDropboxKit_h */

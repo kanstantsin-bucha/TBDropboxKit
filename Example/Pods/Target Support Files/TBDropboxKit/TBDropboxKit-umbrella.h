@@ -14,6 +14,9 @@
 #import "TBDropboxClient.h"
 #import "TBDropboxConnection+Private.h"
 #import "TBDropboxConnection.h"
+#import "TBDropboxCreateFolderTask.h"
+#import "TBDropboxDeleteEntryTask.h"
+#import "TBDropboxDownloadFileTask.h"
 #import "TBDropboxEntry.h"
 #import "TBDropboxEntryFactory.h"
 #import "TBDropboxFileEntry+Private.h"
@@ -21,11 +24,12 @@
 #import "TBDropboxFolderEntry+Private.h"
 #import "TBDropboxFolderEntry.h"
 #import "TBDropboxKit.h"
-#import "TBDropboxListTask.h"
+#import "TBDropboxListFolderTask.h"
 #import "TBDropboxQueue.h"
 #import "TBDropboxSnapshot.h"
 #import "TBDropboxTask+Private.h"
 #import "TBDropboxTask.h"
+#import "TBDropboxUploadFileTask.h"
 #import "TBLogger.h"
 
 FOUNDATION_EXPORT double TBDropboxKitVersionNumber;

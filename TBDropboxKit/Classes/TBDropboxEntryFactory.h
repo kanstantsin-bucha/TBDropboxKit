@@ -14,9 +14,10 @@
 
 @interface TBDropboxEntryFactory : NSObject
 
-+ (id<TBDropboxEntry>)entryUsingMetadata:(DBFILESMetadata *)fileMetadata;
-+ (id<TBDropboxEntry>)entryUsingDropboxPath:(NSString *)path;
-+ (id<TBDropboxEntry>)entryUsingDropboxPath:(NSString *)path
-                                   isFolder:(BOOL)folder;
++ (id<TBDropboxEntry>)entryUsingMetadata:(DBFILESMetadata * _Nonnull)metadata;
++ (TBDropboxFileEntry *)fileEntryUsingDropboxPath:(NSString * _Nonnull)path;
++ (TBDropboxFolderEntry *)folderEntryUsingDropboxPath:(NSString * _Nullable)path;
++ (TBDropboxFileEntry *)fileEntryByMirroringLocalURL:(NSURL *)fileURL
+                                        usingBaseURL:(NSURL *)baseURL;
 
 @end

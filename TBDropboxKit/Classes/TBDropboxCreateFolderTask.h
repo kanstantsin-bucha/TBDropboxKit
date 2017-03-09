@@ -1,8 +1,8 @@
 //
-//  TBDropboxListTask.h
+//  TBDropboxCreateFolderTask.h
 //  Pods
 //
-//  Created by Bucha Kanstantsin on 2/6/17.
+//  Created by Bucha Kanstantsin on 3/6/17.
 //
 //
 
@@ -11,12 +11,12 @@
 #import "TBDropboxFolderEntry.h"
 
 
-@interface TBDropboxListTask : TBDropboxTask
+@interface TBDropboxCreateFolderTask : TBDropboxTask
 
 @property (strong, nonatomic, readonly, nonnull) TBDropboxFolderEntry * entry;
 
 + (instancetype)taskUsingEntry:(TBDropboxFolderEntry * _Nonnull)entry
-                    completion:(TBDropboxEntriesBlock _Nonnull)completion;
+                    completion:(TBDropboxTaskCompletion _Nonnull)completion;
 
 + (instancetype)new __unavailable;
 - (id) init __unavailable;

@@ -21,6 +21,7 @@
 @property (weak, nonatomic, readwrite, nullable) TBDropboxQueue * scheduledInQueue;
 
 @property (strong, nonatomic) DBRpcTask * dropboxTask;
+@property (strong, nonatomic) TBDropboxTaskCompletion completion;
 
 @property (strong, nonatomic, readwrite, nullable) NSError * runningError;
 
@@ -34,8 +35,14 @@
 - (void)suspend;
 - (BOOL)resume;
 
+- (void)handleResponseUsingRequestError:(DBRequestError * _Nullable)requestError
+                       taskRelatedError:(id _Nullable)relatedError
+                             completion:(CDBErrorCompletion _Nonnull)completion;
+
 - (NSError * _Nonnull)errorUsingFolderError:(DBFILESListFolderError * _Nonnull)error;
 - (NSError * _Nonnull)errorUsingRequestError:(DBRequestError * _Nonnull)error;
+- (NSError *)errorFileNotExistsAtURL:(NSURL * _Nonnull)URL
+                         description:(NSString * _Nonnull)description;
 
 @end
 

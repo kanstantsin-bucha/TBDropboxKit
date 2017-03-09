@@ -14,9 +14,12 @@
 @interface TBDropboxFileEntry ()
 
 @property (assign, nonatomic, readwrite) TBDropboxEntrySource source;
-@property (copy, nonatomic, readwrite) NSString * dropboxPath;
-@property (strong, nonatomic, readwrite) DBFILESMetadata * metadata;
+
+@property (copy, nonatomic, readwrite, nonnull) NSString * dropboxPath;
 @property (copy, nonatomic, readwrite, nullable) NSNumber * size;
+
+@property (strong, nonatomic, readwrite, nullable) DBFILESMetadata * metadata;
+
 
 - (instancetype)initInstance;
 

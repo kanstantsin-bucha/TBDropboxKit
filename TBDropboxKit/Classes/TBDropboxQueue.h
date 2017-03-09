@@ -16,7 +16,8 @@
 
 @property (strong, nonatomic, readonly, nonnull) NSArray<TBDropboxTask *> * scheduledTasks;
 @property (assign, nonatomic, readonly) BOOL runningTasksQueue;
-@property (strong, nonatomic, readonly, nullable) TBDropboxTask * runningTask;
+@property (assign, nonatomic, readonly) BOOL processingTasks;
+@property (strong, nonatomic, readonly, nullable) TBDropboxTask * currentTask;
 @property (assign, nonatomic) BOOL verboseLogging;
 
 + (instancetype)queueUsingFilesRoutesSource:(id<TBDropboxFileRoutesSource> _Nonnull)source;

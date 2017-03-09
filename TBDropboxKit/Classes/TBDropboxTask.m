@@ -59,7 +59,7 @@
 }
 
 - (void)performMainUsingRoutes:(DBFILESRoutes *)routes
-                withCompletion:(CDBErrorCompletion)completion {
+                withCompletion:(CDBErrorCompletion _Nonnull)completion {
     
     NSAssert(NO, @"main logic method required redefinition in subclass");
     completion([self redefinitionRequiredError]);
@@ -91,7 +91,53 @@
     return result;
 }
 
+- (void)handleResponseUsingRequestError:(DBRequestError * _Nullable)requestError
+                       taskRelatedError:(id _Nullable)relatedError
+                             completion:(CDBErrorCompletion _Nonnull)completion {
+    self.dropboxTask = nil;
+    
+    if (requestError != nil) {
+        NSError * error = [self errorUsingRequestError: requestError];
+        completion(error);
+        self.completion(self, error);
+        
+        return;
+    }
+    
+    if (relatedError != nil) {
+        NSError * error = [self errorUsingRelatedError: relatedError];
+        completion(error);
+        self.completion(self, error);
+        
+        return;
+    }
+    
+    completion(nil);
+    self.completion(self, nil);
+}
+
 /// MARK: dropbox errors
+
+/// TODO: improve errors based on extended description
+/// https://github.com/dropbox/dropbox-sdk-obj-c
+
+- (NSError *)errorUsingRelatedError:(id _Nonnull)relatedError {
+    NSError * result = nil;
+    if ([relatedError isKindOfClass:[DBFILESListFolderError class]]) {
+        result = [self errorUsingFolderError: relatedError];
+    }
+    
+    if (result == nil) {
+        NSString * message =
+        [NSString stringWithFormat:@"Related error %@", relatedError];
+        NSDictionary * info = @{NSLocalizedDescriptionKey: message};
+        result = [NSError errorWithDomain: TBDropboxErrorDomain
+                                     code: 200
+                                 userInfo: info];
+    }
+    
+    return result;
+}
 
 - (NSError *)errorUsingFolderError:(DBFILESListFolderError *)error {
     NSString * message =
@@ -109,7 +155,7 @@
     
     NSDictionary * userInfo = @{ NSLocalizedDescriptionKey: message };
     NSError * result = [NSError errorWithDomain: TBDropboxErrorDomain
-                                           code: 200
+                                           code: 201
                                        userInfo: userInfo];
     return result;
 }
@@ -122,9 +168,24 @@
     
     NSDictionary * userInfo = @{ NSLocalizedDescriptionKey: message };
     NSError * result = [NSError errorWithDomain: TBDropboxErrorDomain
-                                           code: 201
+                                           code: 301
                                        userInfo: userInfo];
     return result;
 }
+
+- (NSError *)errorFileNotExistsAtURL:(NSURL *)URL
+                         description:(NSString *)description {
+    NSString * message =
+        [NSString stringWithFormat: @"File not exists at URL %@ %@",
+                                    URL.absoluteString,
+                                    description];
+    
+    NSDictionary * userInfo = @{ NSLocalizedDescriptionKey: message };
+    NSError * result = [NSError errorWithDomain: TBDropboxErrorDomain
+                                           code: 401
+                                       userInfo: userInfo];
+    return result;
+}
+
 
 @end

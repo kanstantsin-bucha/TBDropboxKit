@@ -3,6 +3,7 @@
 ///
 
 #import "DBDelegate.h"
+#import "DBFILESRouteObjects.h"
 #import "DBStoneBase.h"
 #import "DBTasksImpl.h"
 #import "DBTransportBaseClient+Internal.h"
@@ -19,6 +20,7 @@ static NSString const *const kBackgroundSessionId = @"com.dropbox.dropbox_sdk_ob
 
 @synthesize session = _session;
 @synthesize secondarySession = _secondarySession;
+@synthesize longpollSession = _longpollSession;
 
 #pragma mark - Constructors
 
@@ -43,6 +45,12 @@ static NSString const *const kBackgroundSessionId = @"com.dropbox.dropbox_sdk_ob
     } else {
       _secondarySession = _session;
     }
+
+    NSURLSessionConfiguration *longpollSessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    longpollSessionConfig.timeoutIntervalForRequest = 480.0;
+
+    _longpollSession =
+        [NSURLSession sessionWithConfiguration:longpollSessionConfig delegate:_delegate delegateQueue:_delegateQueue];
   }
   return self;
 }
@@ -60,8 +68,16 @@ static NSString const *const kBackgroundSessionId = @"com.dropbox.dropbox_sdk_ob
 
   NSURLRequest *request = [[self class] requestWithHeaders:headers url:requestUrl content:serializedArgData stream:nil];
 
-  NSURLSessionDataTask *task = [_session dataTaskWithRequest:request];
-  DBRpcTaskImpl *rpcTask = [[DBRpcTaskImpl alloc] initWithTask:task session:_session delegate:_delegate route:route];
+  NSURLSession *sessionToUse = _session;
+
+  // longpoll requests have a much longer timeout period than other requests
+  if ([route class] == [DBFILESRouteObjects.DBFILESListFolderLongpoll class]) {
+    sessionToUse = _longpollSession;
+  }
+
+  NSURLSessionDataTask *task = [sessionToUse dataTaskWithRequest:request];
+  DBRpcTaskImpl *rpcTask =
+      [[DBRpcTaskImpl alloc] initWithTask:task session:sessionToUse delegate:_delegate route:route];
   [task resume];
 
   return rpcTask;
@@ -123,14 +139,31 @@ static NSString const *const kBackgroundSessionId = @"com.dropbox.dropbox_sdk_ob
 
 #pragma mark - Download-style request (NSURL)
 
-- (DBDownloadUrlTaskImpl *)requestDownload:(DBRoute *)route
-                                       arg:(id<DBSerializable>)arg
-                                 overwrite:(BOOL)overwrite
-                               destination:(NSURL *)destination {
+- (DBDownloadUrlTask *)requestDownload:(DBRoute *)route
+                                   arg:(id<DBSerializable>)arg
+                             overwrite:(BOOL)overwrite
+                           destination:(NSURL *)destination {
+  return [self requestDownload:route
+                           arg:arg
+                     overwrite:overwrite
+                   destination:destination
+               byteOffsetStart:nil
+                 byteOffsetEnd:nil];
+}
+
+- (DBDownloadUrlTask *)requestDownload:(DBRoute *)route
+                                   arg:(id<DBSerializable>)arg
+                             overwrite:(BOOL)overwrite
+                           destination:(NSURL *)destination
+                       byteOffsetStart:(NSNumber *)byteOffsetStart
+                         byteOffsetEnd:(NSNumber *)byteOffsetEnd {
   NSURL *requestUrl = [[self class] urlWithRoute:route];
   NSString *serializedArg = [[self class] serializeStringWithRoute:route routeArg:arg];
-  NSDictionary *headers =
-      [self headersWithRouteInfo:route.attrs accessToken:self.accessToken serializedArg:serializedArg];
+  NSDictionary *headers = [self headersWithRouteInfo:route.attrs
+                                         accessToken:self.accessToken
+                                       serializedArg:serializedArg
+                                     byteOffsetStart:byteOffsetStart
+                                       byteOffsetEnd:byteOffsetEnd];
 
   NSURLRequest *request = [[self class] requestWithHeaders:headers url:requestUrl content:nil stream:nil];
 
@@ -148,11 +181,21 @@ static NSString const *const kBackgroundSessionId = @"com.dropbox.dropbox_sdk_ob
 
 #pragma mark - Download-style request (NSData)
 
-- (DBDownloadDataTaskImpl *)requestDownload:(DBRoute *)route arg:(id<DBSerializable>)arg {
+- (DBDownloadDataTask *)requestDownload:(DBRoute *)route arg:(id<DBSerializable>)arg {
+  return [self requestDownload:route arg:arg byteOffsetStart:nil byteOffsetEnd:nil];
+}
+
+- (DBDownloadDataTask *)requestDownload:(DBRoute *)route
+                                    arg:(id<DBSerializable>)arg
+                        byteOffsetStart:(NSNumber *)byteOffsetStart
+                          byteOffsetEnd:(NSNumber *)byteOffsetEnd {
   NSURL *requestUrl = [[self class] urlWithRoute:route];
   NSString *serializedArg = [[self class] serializeStringWithRoute:route routeArg:arg];
-  NSDictionary *headers =
-      [self headersWithRouteInfo:route.attrs accessToken:self.accessToken serializedArg:serializedArg];
+  NSDictionary *headers = [self headersWithRouteInfo:route.attrs
+                                         accessToken:self.accessToken
+                                       serializedArg:serializedArg
+                                     byteOffsetStart:byteOffsetStart
+                                       byteOffsetEnd:byteOffsetEnd];
 
   NSURLRequest *request = [[self class] requestWithHeaders:headers url:requestUrl content:nil stream:nil];
 
@@ -196,6 +239,18 @@ static NSString const *const kBackgroundSessionId = @"com.dropbox.dropbox_sdk_ob
 - (void)setSecondarySession:(NSURLSession *)secondarySession {
   @synchronized(self) {
     _secondarySession = secondarySession;
+  }
+}
+
+- (NSURLSession *)longpollSession {
+  @synchronized(self) {
+    return _longpollSession;
+  }
+}
+
+- (void)setLongpollSession:(NSURLSession *)longpollSession {
+  @synchronized(self) {
+    _longpollSession = longpollSession;
   }
 }
 

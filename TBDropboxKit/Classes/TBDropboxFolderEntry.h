@@ -9,9 +9,6 @@
 #import "TBDropbox.h"
 #import "TBDropboxEntry.h"
 
-typedef void (^TBDropboxEntriesBlock) (NSArray<id<TBDropboxEntry>> * _Nullable entries,
-                                       NSError * _Nullable error);
-
 
 @interface TBDropboxFolderEntry : NSObject<TBDropboxEntry>
 

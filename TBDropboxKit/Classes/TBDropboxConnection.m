@@ -148,6 +148,11 @@
         return;
     }
     
+    if ([DBClientsManager authorizedClient] != nil) {
+        self.state = TBDropboxConnectionStateConnected;
+        return;
+    }
+    
     if (self.state == TBDropboxConnectionStatePaused
         && self.accessTokenUID != nil) {
         BOOL connected = [DBClientsManager reauthorizeClient: self.accessTokenUID];

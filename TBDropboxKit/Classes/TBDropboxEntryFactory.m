@@ -7,46 +7,95 @@
 //
 
 #import "TBDropboxEntryFactory.h"
+#import "TBDropboxEntry.h"
 #import "TBDropboxFileEntry+Private.h"
 #import "TBDropboxFolderEntry+Private.h"
 
 
 @implementation TBDropboxEntryFactory
 
-+ (id<TBDropboxEntry>)entryUsingDropboxPath:(NSString *)path {
-    id<TBDropboxEntry> result = [self entryUsingDropboxPath: path
-                                                   isFolder: NO];
++ (TBDropboxFileEntry *)fileEntryUsingDropboxPath:(NSString *)path {
+    TBDropboxFileEntry * result = [self fileEntryUsingDropboxPath: path
+                                                             size: nil
+                                                         metadata: nil];
     return result;
 }
 
-+ (id<TBDropboxEntry>)entryUsingDropboxPath:(NSString *)path
-                                   isFolder:(BOOL)folder {
-    TBDropboxFileEntry * result = nil;
-    if (folder) {
-        result = [[TBDropboxFolderEntry alloc] initInstance];
-    } else {
-        result = [[TBDropboxFileEntry alloc] initInstance];
++ (TBDropboxFileEntry *)fileEntryUsingDropboxPath:(NSString *)path
+                                             size:(NSNumber *)size
+                                         metadata:(DBFILESMetadata *)metadata {
+
+    if (path.length == 0) {
+        return nil;
     }
+
+    TBDropboxFileEntry * result = [[TBDropboxFileEntry alloc] initInstance];
     
-    result.source = TBDropboxEntrySourcePath;
+    result.source = metadata == nil ? TBDropboxEntrySourcePath
+                                    : TBDropboxEntrySourceMetadata;
+    result.dropboxPath = path;
+    result.size = size;
+    result.metadata = metadata;
     
+    return result;
+}
+
++ (TBDropboxFolderEntry *)folderEntryUsingDropboxPath:(NSString *)path {
+    TBDropboxFolderEntry * result = [self folderEntryUsingDropboxPath: path
+                                                             metadata: nil];
+    return result;
+}
+
++ (TBDropboxFolderEntry *)folderEntryUsingDropboxPath:(NSString *)path
+                                             metadata:(DBFILESMetadata *)metadata {
+    TBDropboxFolderEntry * result = [[TBDropboxFolderEntry alloc] initInstance];
+
+    result.source = metadata == nil ? TBDropboxEntrySourcePath
+                                    : TBDropboxEntrySourceMetadata;
     result.dropboxPath = path != nil ? path
                                      : @"";
+    result.metadata = metadata;
+    
     return result;
 }
 
-+ (id<TBDropboxEntry>)entryUsingMetadata:(DBFILESMetadata *)fileMetadata {
++ (id<TBDropboxEntry>)entryUsingMetadata:(DBFILESMetadata *)metadata {
     
-    TBDropboxFileEntry * result = [[[self class] alloc] initInstance];
+    NSNumber * size = sizeUsingMetadata(metadata);
     
-    result.source = TBDropboxEntrySourceMetadata;
+    BOOL isFolder = size == nil;
     
-    result.dropboxPath = fileMetadata.pathLower;
-    result.metadata = fileMetadata;
+    id<TBDropboxEntry> result =  isFolder ? [self folderEntryUsingDropboxPath: metadata.pathLower
+                                                                     metadata: metadata]
+                                          : [self fileEntryUsingDropboxPath: metadata.pathLower
+                                                                       size: size
+                                                                   metadata: metadata];
     
-    NSNumber * size = sizeUsingMetadata(fileMetadata);
-    result.size = size;
+    return result;
+}
+
++ (TBDropboxFileEntry *)fileEntryByMirroringLocalURL:(NSURL *)fileURL
+                                        usingBaseURL:(NSURL *)baseURL {
+    NSString * dropboxPath = [self relativeURLStringFromURL: fileURL
+                                               usingBaseURL: baseURL];
+    if (dropboxPath == nil) {
+        return nil;
+    }
     
+    TBDropboxFileEntry * result = [self fileEntryUsingDropboxPath:dropboxPath];
+    return result;
+}
+
++ (NSString *)relativeURLStringFromURL:(NSURL *)URL
+                          usingBaseURL:(NSURL *)baseURL {
+    NSRange baseRange = [URL.path rangeOfString: baseURL.path];
+    NSInteger relativeURLstartIndex = NSMaxRange(baseRange) + 1;
+    if (baseRange.location == NSNotFound
+        ||  relativeURLstartIndex >= URL.path.length) {
+        return nil;
+    }
+    
+    NSString * result = [URL.path substringFromIndex:relativeURLstartIndex];
     return result;
 }
 

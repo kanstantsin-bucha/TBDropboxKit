@@ -21,8 +21,8 @@
 @property (assign, nonatomic) NSUInteger taskID;
 
 @property (assign, nonatomic, readwrite) BOOL runningTasksQueue;
-@property (assign, nonatomic, readwrite) BOOL runningTaskShouldBeRestored;
-@property (strong, nonatomic, readwrite) TBDropboxTask * runningTask;
+@property (assign, nonatomic, readwrite) BOOL processingTasks;
+@property (strong, nonatomic, readwrite) TBDropboxTask * currentTask;
 
 @end
 
@@ -78,23 +78,17 @@
     }
     
     self.runningTasksQueue = YES;
-    self.runningTaskShouldBeRestored = self.runningTask != nil
-                                       && self.runningTask.state != TBDropboxTaskStateCompleted;
     
-    weakCDB(wself);
-    dispatch_time_t time =
-        dispatch_time(DISPATCH_TIME_NOW,
-                      (int64_t)(TBDropboxQueueRestoringTimeSec * NSEC_PER_SEC));
-    dispatch_after(time, dispatch_get_main_queue(), ^{
-        [wself resumeQueue];
-    });
-    
+    [self resumeQueue];
 }
 
 - (void)stop {
     self.runningTasksQueue = NO;
-    [self.runningTask suspend];
-    self.runningTask.state = TBDropboxTaskStateSuspended;
+    
+    [self.currentTask suspend];
+    self.currentTask.state = TBDropboxTaskStateSuspended;
+    
+    self.processingTasks = NO;
 }
 
 - (NSNumber *)addTask:(TBDropboxTask *)task {
@@ -103,7 +97,7 @@
     }
     
     BOOL emptyQueue = self.scheduledTasksHolder.count == 0
-                      && self.runningTask == nil;
+                      && self.currentTask == nil;
     
     task.state = TBDropboxTaskStateScheduled;
     task.ID = self.nextTaskID;
@@ -149,13 +143,26 @@
 /// MARK: queue
 
 - (void)resumeQueue {
-    if (self.runningTaskShouldBeRestored) {
-        BOOL resumed = [self.runningTask resume];
+    if (self.runningTasksQueue == NO) {
+        return;
+    }
+
+    BOOL shouldRestoreCurrent = self.currentTask != nil
+                                && self.currentTask.state != TBDropboxTaskStateCompleted;
+
+    if (self.processingTasks) {
+        return;
+    }
+    
+    self.processingTasks = YES;
+    
+    if (shouldRestoreCurrent) {
+        BOOL resumed = [self.currentTask resume];
         if (resumed) {
             return;
         }
         
-        [self runTask: self.runningTask];
+        [self runTask: self.currentTask];
     } else {
         [self runNextTask];
     }
@@ -166,15 +173,14 @@
         return;
     }
     
-    self.runningTaskShouldBeRestored = NO;
+    self.currentTask = self.scheduledTasksHolder.firstObject;
     
-    self.runningTask = self.scheduledTasksHolder.firstObject;
-    
-    [self runTask: self.runningTask];
+    [self runTask: self.currentTask];
 }
 
 - (void)runTask:(TBDropboxTask *)runningTask {
     if (runningTask == nil) {
+        self.processingTasks = NO;
         return;
     }
     
@@ -203,7 +209,6 @@
 }
 
 /// MARK: logging
-
 
 
 /// MARK: predicates

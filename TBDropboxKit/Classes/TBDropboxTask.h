@@ -28,8 +28,6 @@ typedef NS_ENUM(NSInteger, TBDropboxTaskState) {
 };
 
 
-
-
 @interface TBDropboxTask : NSObject
 
 @property (assign, nonatomic, readonly) TBDropboxTaskState state;
@@ -44,4 +42,7 @@ typedef NS_ENUM(NSInteger, TBDropboxTaskState) {
 - (id) init __unavailable;
 
 @end
+
+
+typedef void (^TBDropboxTaskCompletion) (TBDropboxTask * _Nonnull task, NSError * _Nullable error);
 

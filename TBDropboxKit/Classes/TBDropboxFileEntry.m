@@ -16,6 +16,13 @@
 
 @implementation TBDropboxFileEntry
 
+/// MARK: property
+
+- (NSString *)fileName {
+    NSString * result = self.dropboxPath.lastPathComponent;
+    return result;
+}
+
 /// MARK: life cycle
 
 - (instancetype)initInstance {
@@ -26,7 +33,8 @@
 }
 
 - (NSString *)description {
-    NSString * result = [NSString stringWithFormat:@"%@ path: %@,\r\n%@",
+    NSString * result = [NSString stringWithFormat:@"%@ %@\r path: %@,\r%@",
+                                                   NSStringFromClass([self class]),
                                                    StringFromDropboxEntrySource(self.source),
                                                    self.dropboxPath,
                                                    self.metadata.description];

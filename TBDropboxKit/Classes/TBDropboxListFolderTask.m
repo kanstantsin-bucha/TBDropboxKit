@@ -6,31 +6,30 @@
 //
 //
 
-#import "TBDropboxListTask.h"
+#import "TBDropboxListFolderTask.h"
 #import "TBDropboxTask+Private.h"
 #import "TBDropboxFolderEntry+Private.h"
 
 
-@interface TBDropboxListTask ()
+@interface TBDropboxListFolderTask ()
 
-@property (strong, nonatomic) TBDropboxEntriesBlock completion;
 @property (strong, nonatomic, readwrite, nonnull) TBDropboxFolderEntry * entry;
 
 @end
 
 
-@implementation TBDropboxListTask
+@implementation TBDropboxListFolderTask
 
 /// MARK: life cycle
 
 + (instancetype)taskUsingEntry:(TBDropboxFolderEntry *)entry
-                    completion:(TBDropboxEntriesBlock)completion {
+                    completion:(TBDropboxTaskCompletion)completion {
     if (entry == nil
         || completion == nil) {
         return nil;
     }
     
-    TBDropboxListTask * result = [[[self class] alloc] initInstance];
+    TBDropboxListFolderTask * result = [[[self class] alloc] initInstance];
     result.completion = completion;
     result.entry = entry;
     return result;
@@ -42,30 +41,20 @@
                 withCompletion:(CDBErrorCompletion)completion {
     self.dropboxTask = [routes listFolder: self.entry.dropboxPath];
     weakCDB(wself);
-    [self.dropboxTask setResponseBlock: ^(DBFILESListFolderResult * _Nullable result,
+    [self.dropboxTask setResponseBlock: ^(DBFILESListFolderResult * _Nullable response,
                                           DBFILESListFolderError * _Nullable folderError,
                                           DBRequestError * _Nullable requestError) {
-        wself.dropboxTask = nil;
         
-        if (requestError != nil) {
-            NSError * error = [self errorUsingRequestError: requestError];
+        [wself handleResponseUsingRequestError: requestError
+                              taskRelatedError: folderError
+                                    completion: ^(NSError * _Nullable error) {
+            if (error == nil
+                && response.entries.count > 0) {
+                [wself.entry updateUsingMetadataEntries: response.entries];
+            }
+            
             completion(error);
-            wself.completion(nil, error);
-            return;
-        }
-
-        if (folderError != nil) {
-            NSError * error = [self errorUsingFolderError: folderError];
-            completion(error);
-            wself.completion(nil, error);
-            return;
-        }
-
-        
-        [wself.entry updateUsingMetadataEntries: result.entries];
-        
-        completion(nil);
-        wself.completion(self.entry.folderEntries, nil);
+        }];
     }];
     
     [self.dropboxTask start];
