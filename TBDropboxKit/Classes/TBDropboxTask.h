@@ -18,12 +18,13 @@ typedef NS_ENUM(NSInteger, TBDropboxTaskType) {
 
 
 typedef NS_ENUM(NSInteger, TBDropboxTaskState) {
-    TBDropboxTaskStateReady = 0,
-    TBDropboxTaskStateScheduled = 1,
-    TBDropboxTaskStateRunning = 2,
-    TBDropboxTaskStateSuspended = 3,
-    TBDropboxTaskStateCompleted = 4,
-    TBDropboxTaskStateFailed = 5
+    TBDropboxTaskStateUndefined = 0,
+    TBDropboxTaskStateReady = 1,
+    TBDropboxTaskStateScheduled = 2,
+    TBDropboxTaskStateRunning = 3,
+    TBDropboxTaskStateSuspended = 4,
+    TBDropboxTaskStateCompleted = 5,
+    TBDropboxTaskStateFailed = 6
     //TBDropboxTaskTypeUpdat
 };
 

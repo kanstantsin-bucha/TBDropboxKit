@@ -59,7 +59,7 @@
     return self;
 }
 
-+ (instancetype)queueUsingFilesRoutesSource:(id<TBDropboxFileRoutesSource>)source {
++ (instancetype)queueUsingSource:(id<TBDropboxFileRoutesSource>)source {
     if (source == nil) {
         return nil;
     }
@@ -72,7 +72,7 @@
 
 /// MARK: public
 
-- (void)run {
+- (void)resume {
     if (self.runningTasksQueue) {
         return;
     }
@@ -82,7 +82,7 @@
     [self resumeQueue];
 }
 
-- (void)stop {
+- (void)pause {
     self.runningTasksQueue = NO;
     
     [self.currentTask suspend];
@@ -92,6 +92,10 @@
 }
 
 - (NSNumber *)addTask:(TBDropboxTask *)task {
+    if (task == nil) {
+        return nil;
+    }
+    
     if (task.state != TBDropboxTaskStateReady) {
         return nil;
     }

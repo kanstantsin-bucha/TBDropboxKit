@@ -155,8 +155,10 @@
     
     if (self.state == TBDropboxConnectionStatePaused
         && self.accessTokenUID != nil) {
-        BOOL connected = [DBClientsManager reauthorizeClient: self.accessTokenUID];
-        if (connected) {
+        DBUserClient * client =
+            [self authorizedClientUsingTokenUID: self.accessTokenUID];
+        if (client != nil) {
+            [DBClientsManager setAuthorizedClient:client];
             self.state = TBDropboxConnectionStateConnected;
             return;
         }
@@ -269,6 +271,22 @@
 }
 
 /// MARK: token uid
+
+- (DBUserClient *)authorizedClientUsingTokenUID:(NSString *)tokenUID {
+    if ([DBOAuthManager sharedOAuthManager] == nil) {
+        return nil;
+    }
+    
+    DBAccessToken * token =
+        [[DBOAuthManager sharedOAuthManager] getAccessToken: self.accessTokenUID];
+    if (token == nil) {
+        return nil;
+    }
+    
+    DBUserClient * result =
+        [[DBUserClient alloc] initWithAccessToken:token];
+    return result;
+}
 
 - (void)saveAccessTokenUID:(NSString *)token {
     if (token == nil) {

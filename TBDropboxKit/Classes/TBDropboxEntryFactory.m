@@ -82,6 +82,11 @@
         return nil;
     }
     
+    BOOL isDirectory = [dropboxPath hasSuffix:@"/"];
+    if (isDirectory) {
+        return nil;
+    }
+    
     TBDropboxFileEntry * result = [self fileEntryUsingDropboxPath:dropboxPath];
     return result;
 }
@@ -89,7 +94,7 @@
 + (NSString *)relativeURLStringFromURL:(NSURL *)URL
                           usingBaseURL:(NSURL *)baseURL {
     NSRange baseRange = [URL.path rangeOfString: baseURL.path];
-    NSInteger relativeURLstartIndex = NSMaxRange(baseRange) + 1;
+    NSInteger relativeURLstartIndex = NSMaxRange(baseRange);
     if (baseRange.location == NSNotFound
         ||  relativeURLstartIndex >= URL.path.length) {
         return nil;

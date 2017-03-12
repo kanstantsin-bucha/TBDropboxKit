@@ -22,7 +22,7 @@
 
 - (instancetype)initInstance;
 
-- (void)updateUsingMetadataEntries:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries;
+- (void)addIncomingMetadataEntries:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries;
 - (void)updateCursor:(TBDropboxEntryCursor * _Nonnull)cursor;
 
 @end

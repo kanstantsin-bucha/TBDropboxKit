@@ -11,7 +11,7 @@
 
 #import "TBDropbox.h"
 
-@protocol TBDropboxEntry
+@protocol TBDropboxEntry <NSObject>
 
 @property (assign, nonatomic, readonly) TBDropboxEntrySource source;
 

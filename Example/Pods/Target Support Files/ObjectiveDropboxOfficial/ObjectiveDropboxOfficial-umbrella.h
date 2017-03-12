@@ -544,6 +544,7 @@
 #import "DBCustomDatatypes.h"
 #import "DBCustomRoutes.h"
 #import "DBCustomTasks.h"
+#import "DBSDKConstants.h"
 #import "ObjectiveDropboxOfficial.h"
 #import "ObjectiveDropboxOfficialLib.h"
 #import "DBClientsManager+MobileAuth-iOS.h"

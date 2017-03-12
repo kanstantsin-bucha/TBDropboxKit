@@ -25,11 +25,12 @@
 #import "TBDropboxFolderEntry.h"
 #import "TBDropboxKit.h"
 #import "TBDropboxListFolderTask.h"
+#import "TBDropboxMoveEntryTask.h"
 #import "TBDropboxQueue.h"
-#import "TBDropboxSnapshot.h"
 #import "TBDropboxTask+Private.h"
 #import "TBDropboxTask.h"
 #import "TBDropboxUploadFileTask.h"
+#import "TBDropboxWatchdog.h"
 #import "TBLogger.h"
 
 FOUNDATION_EXPORT double TBDropboxKitVersionNumber;

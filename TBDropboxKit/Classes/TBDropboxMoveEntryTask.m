@@ -1,32 +1,35 @@
 //
-//  TBDropboxDeleteEntryTask.m
+//  TBDropboxMoveEntryTask.m
 //  Pods
 //
-//  Created by Bucha Kanstantsin on 3/9/17.
+//  Created by Bucha Kanstantsin on 3/11/17.
 //
 //
 
-#import "TBDropboxDeleteEntryTask.h"
+#import "TBDropboxMoveEntryTask.h"
 #import "TBDropboxTask+Private.h"
 
 
-@interface TBDropboxDeleteEntryTask ()
+@interface TBDropboxMoveEntryTask ()
 
 @property (strong, nonatomic, readwrite, nonnull) id<TBDropboxEntry> entry;
+@property (strong, nonatomic, readwrite, nonnull) id<TBDropboxEntry> destinationEntry;
 
 @end
 
-
-@implementation TBDropboxDeleteEntryTask
+@implementation TBDropboxMoveEntryTask
 
 + (instancetype)taskUsingEntry:(id<TBDropboxEntry>)entry
+              destinationEntry:(id<TBDropboxEntry>)destinationEntry
                     completion:(TBDropboxTaskCompletion)completion {
     if (entry == nil
+        || destinationEntry == nil
+        || [entry class] != [destinationEntry class]
         || completion == nil) {
         return nil;
     }
     
-    TBDropboxDeleteEntryTask * result = [[[self class] alloc] initInstance];
+    TBDropboxMoveEntryTask * result = [[[self class] alloc] initInstance];
     result.completion = completion;
     result.entry = entry;
     result.state = TBDropboxTaskStateReady;
@@ -38,7 +41,8 @@
 - (void)performMainUsingRoutes:(DBFILESRoutes *)routes
                 withCompletion:(CDBErrorCompletion)completion {
     
-    self.dropboxTask = [routes delete_: self.entry.dropboxPath];
+    self.dropboxTask = [routes move: self.entry.dropboxPath
+                             toPath: self.destinationEntry.dropboxPath];
     weakCDB(wself);
     [self.dropboxTask setResponseBlock: ^(id  _Nullable response,
                                           id  _Nullable routeError,

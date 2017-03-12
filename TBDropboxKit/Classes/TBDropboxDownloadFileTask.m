@@ -33,6 +33,7 @@
     result.completion = completion;
     result.entry = entry;
     result.fileURL = fileURL;
+    result.state = TBDropboxTaskStateReady;
     return result;
 }
 

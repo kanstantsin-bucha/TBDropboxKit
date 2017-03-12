@@ -8,24 +8,26 @@
 #import "DBAUTHAuthError.h"
 #import "DBAUTHRateLimitError.h"
 #import "DBRequestErrors.h"
+#import "DBSDKConstants.h"
 #import "DBStoneBase.h"
 #import "DBTransportBaseClient.h"
 #import "DBTransportBaseConfig.h"
 
 #pragma mark - Internal serialization helpers
 
-static NSString *kV2SDKVersion = @"3.0.3";
-static NSString *kV2SDKDefaultUserAgentPrefix = @"OfficialDropboxObjCSDKv2";
 NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
 
 @implementation DBTransportBaseClient
 
 + (void)initialize {
-  kV2SDKBaseHosts = @{
-    @"api" : @"https://api.dropbox.com/2",
-    @"content" : @"https://api-content.dropbox.com/2",
-    @"notify" : @"https://notify.dropboxapi.com/2",
-  };
+  static dispatch_once_t once;
+  dispatch_once(&once, ^{
+    kV2SDKBaseHosts = @{
+      @"api" : @"https://api.dropbox.com/2",
+      @"content" : @"https://api-content.dropbox.com/2",
+      @"notify" : @"https://notify.dropboxapi.com/2",
+    };
+  });
 }
 
 - (nonnull instancetype)initWithAccessToken:(NSString *)accessToken
@@ -101,8 +103,8 @@ NSDictionary<NSString *, NSString *> *kV2SDKBaseHosts;
   }
 
   if (byteOffsetStart && byteOffsetEnd) {
-    NSString *bytesRangeSpecifier =
-        [NSString stringWithFormat:@"bytes=%lu-%lu", [byteOffsetStart unsignedLongValue], [byteOffsetEnd unsignedLongValue]];
+    NSString *bytesRangeSpecifier = [NSString
+        stringWithFormat:@"bytes=%lu-%lu", [byteOffsetStart unsignedLongValue], [byteOffsetEnd unsignedLongValue]];
     [headers setObject:bytesRangeSpecifier forKey:@"Range"];
   }
 

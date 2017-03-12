@@ -20,7 +20,7 @@
 @property (strong, nonatomic, readonly, nullable) TBDropboxTask * currentTask;
 @property (assign, nonatomic) BOOL verboseLogging;
 
-+ (instancetype)queueUsingFilesRoutesSource:(id<TBDropboxFileRoutesSource> _Nonnull)source;
++ (instancetype)queueUsingSource:(id<TBDropboxFileRoutesSource> _Nonnull)source;
 
 + (instancetype)new __unavailable;
 - (id) init __unavailable;
@@ -31,7 +31,7 @@
 - (NSNumber *)addTask:(TBDropboxTask *)task;
 - (BOOL)removeTask:(TBDropboxTask *)task;
 
-- (void)run;
-- (void)stop;
+- (void)resume;
+- (void)pause;
 
 @end

@@ -10,12 +10,14 @@
 #import "TBDropbox.h"
 #import "TBDropboxQueue.h"
 #import "TBDropboxConnection.h"
+#import "TBDropboxWatchdog.h"
 
 
 @interface TBDropboxClient : NSObject
 
 @property (strong, nonatomic, readonly, nullable) TBDropboxConnection * connection;
-@property (strong, nonatomic, nonnull) TBDropboxQueue * tasksQueue;
+@property (strong, nonatomic, readonly, nonnull) TBDropboxQueue * tasksQueue;
+@property (strong, nonatomic, readonly, nonnull) TBDropboxWatchdog * watchdog;
 
 /**
  @brief: Use this option to enable verbose logging

@@ -31,6 +31,7 @@
     TBDropboxCreateFolderTask * result = [[[self class] alloc] initInstance];
     result.completion = completion;
     result.entry = entry;
+    result.state = TBDropboxTaskStateReady;
     return result;
 }
 

@@ -14,11 +14,14 @@
 @interface TBDropboxClient ()
 <
     TBDropboxConnectionDelegate,
-    TBDropboxFileRoutesSource
+    TBDropboxFileRoutesSource,
+    TBDropboxWatchdogDelegate
 >
 
 @property (weak, nonatomic, readwrite) TBDropboxConnection * connection;
 @property (strong, nonatomic, readonly) DBUserClient * client;
+@property (strong, nonatomic, readwrite, nonnull) TBDropboxQueue * tasksQueue;
+@property (strong, nonatomic, readwrite, nonnull) TBDropboxWatchdog * watchdog;
 @property (strong, nonatomic) CDBDelegateCollection * delegates;
 
 @end
@@ -38,8 +41,17 @@
         return _tasksQueue;
     }
     
-    _tasksQueue = [TBDropboxQueue queueUsingFilesRoutesSource: self];
+    _tasksQueue = [TBDropboxQueue queueUsingSource: self];
     return _tasksQueue;
+}
+
+- (TBDropboxWatchdog *)watchdog {
+    if (_watchdog != nil) {
+        return _watchdog;
+    }
+    
+    _watchdog = [TBDropboxWatchdog watchdogUsingSource: self];
+    return _watchdog;
 }
 
 - (CDBDelegateCollection *)delegates {
@@ -94,9 +106,11 @@
 - (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
          didChangeStateTo:(TBDropboxConnectionState)state {
     if (state == TBDropboxConnectionStateConnected) {
-        [self.tasksQueue run];
+        [self.tasksQueue resume];
+        [self.watchdog resume];
     } else {
-        [self.tasksQueue stop];
+        [self.tasksQueue pause];
+        [self.watchdog pause];
     }
     
     SEL selector = @selector(dropboxConnection:
@@ -120,6 +134,19 @@
         [delegate dropboxConnection: connection
                didChangeAuthStateTo: state
                           withError: error];
+    }];
+}
+
+/// MARK: TBDropboxWatchdogDelegate
+
+- (void)watchdog:(TBDropboxWatchdog *)watchdog
+didChangeStateTo:(TBDropboxWatchdogState)state {
+    SEL selector = @selector(watchdog:
+                             didChangeStateTo:);
+    [self.delegates enumerateDelegatesRespondToSelector: selector
+                                             usingBlock: ^(id<TBDropboxWatchdogDelegate> delegate, BOOL *stop) {
+        [delegate watchdog: watchdog
+          didChangeStateTo: state];
     }];
 }
 

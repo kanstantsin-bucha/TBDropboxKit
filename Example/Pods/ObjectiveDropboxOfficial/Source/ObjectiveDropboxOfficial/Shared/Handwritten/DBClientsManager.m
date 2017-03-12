@@ -15,6 +15,8 @@
 
 static DBTransportDefaultConfig *currentTransportConfig;
 
+static NSString *currentAppKey;
+
 /// An authorized client. This will be set to `nil` if unlinked.
 static DBUserClient *authorizedClient;
 
@@ -22,7 +24,11 @@ static DBUserClient *authorizedClient;
 static DBTeamClient *authorizedTeamClient;
 
 + (NSString *)appKey {
-  return currentTransportConfig.appKey;
+  return currentAppKey;
+}
+
++ (void)setAppKey:(NSString *)appKey {
+  currentAppKey = appKey;
 }
 
 + (DBTransportDefaultConfig *)transportConfig {
@@ -91,13 +97,16 @@ static DBTeamClient *authorizedTeamClient;
   [[self class] setupAuthorizedTeamClient:accessToken];
 }
 
-+ (void)setupHelperWithOAuthManager:oAuthManager transportConfig:transportConfig {
++ (void)setupHelperWithOAuthManager:(DBOAuthManager *)oAuthManager
+                    transportConfig:(DBTransportDefaultConfig *)transportConfig {
   [DBOAuthManager setSharedOAuthManager:oAuthManager];
   [[self class] setTransportConfig:transportConfig];
+  [[self class] setAppKey:transportConfig.appKey];
 }
 
 + (BOOL)reauthorizeClient:(NSString *)tokenUid {
-  NSAssert(![DBOAuthManager sharedOAuthManager], @"Only call `[DBClientsManager setupWith...]` once");
+  NSAssert([DBOAuthManager sharedOAuthManager],
+           @"Call the appropriate `[DBClientsManager setupWith...]` before calling this method");
 
   DBAccessToken *accessToken = [[DBOAuthManager sharedOAuthManager] getAccessToken:tokenUid];
   if (accessToken) {
@@ -109,7 +118,8 @@ static DBTeamClient *authorizedTeamClient;
 }
 
 + (BOOL)reauthorizeTeamClient:(NSString *)tokenUid {
-  NSAssert(![DBOAuthManager sharedOAuthManager], @"Only call `[DBClientsManager setupWith...]` once");
+  NSAssert([DBOAuthManager sharedOAuthManager],
+           @"Call the appropriate `[DBClientsManager setupWith...]` before calling this method");
 
   DBAccessToken *accessToken = [[DBOAuthManager sharedOAuthManager] getAccessToken:tokenUid];
   if (accessToken) {
@@ -153,6 +163,7 @@ static DBTeamClient *authorizedTeamClient;
           [[DBUserClient alloc] initWithAccessToken:accessToken transportConfig:[DBClientsManager transportConfig]];
       [DBClientsManager setAuthorizedClient:authorizedClient];
     }
+    [DBClientsManager setTransportConfig:nil];
   }
 
   return result;
@@ -173,6 +184,7 @@ static DBTeamClient *authorizedTeamClient;
           [[DBTeamClient alloc] initWithAccessToken:accessToken transportConfig:[DBClientsManager transportConfig]];
       [DBClientsManager setAuthorizedTeamClient:authorizedTeamClient];
     }
+    [DBClientsManager setTransportConfig:nil];
   }
 
   return result;

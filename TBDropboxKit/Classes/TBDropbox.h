@@ -16,13 +16,17 @@
 
 #define TBDropboxQueueRestoringTimeSec 3
 
+
 typedef NSNumber TBDropboxTaskID;
 typedef NSString TBDropboxEntryCursor;
+
 
 @class TBDropboxQueue;
 @class TBDropboxConnection;
 @class TBDropboxFileEntry;
 @class TBDropboxClient;
+@class TBDropboxWatchdog;
+
 
 typedef NS_ENUM(NSInteger, TBDropboxConnectionState) {
     TBDropboxConnectionStateUndefined = 0,
@@ -41,6 +45,10 @@ typedef NS_ENUM(NSInteger, TBDropboxAuthState) {
     TBDropboxAuthStateSucceed = 5
 };
 
+typedef NS_ENUM(NSInteger, TBDropboxWatchdogState) {
+    TBDropboxWatchdogStateUndefined = 0
+};
+
 typedef NS_ENUM(NSInteger, TBDropboxEntrySource) {
     TBDropboxEntrySourcePath = 0,
     TBDropboxEntrySourceMetadata = 1
@@ -56,6 +64,7 @@ typedef NS_ENUM(NSInteger, TBDropboxEntrySource) {
 
 #define sizeUsingMetadata(metadata) valueUsingMetadata(metadata, @"size")
 
+
 @protocol TBDropboxConnectionDelegate <NSObject>
 
 - (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
@@ -68,7 +77,24 @@ typedef NS_ENUM(NSInteger, TBDropboxEntrySource) {
 @end
 
 
-@protocol TBDropboxClientDelegate <TBDropboxConnectionDelegate>
+@protocol TBDropboxWatchdogDelegate <NSObject>
+
+- (void)watchdog:(TBDropboxWatchdog * _Nonnull)watchdog
+didChangeStateTo:(TBDropboxWatchdogState)state;
+
+
+- (void)watchdog:(TBDropboxWatchdog * _Nonnull)watchdog
+didNoticeChangeOfDocumentAtURL:(NSURL * _Nullable)URL;
+
+- (void)watchdog:(TBDropboxWatchdog * _Nonnull)watchdog
+didNoticeDeletionOfDocumentAtURL:(NSURL * _Nullable)URL;
+
+@end
+
+
+@protocol TBDropboxClientDelegate
+<TBDropboxConnectionDelegate,
+TBDropboxWatchdogDelegate>
 
 @end
 

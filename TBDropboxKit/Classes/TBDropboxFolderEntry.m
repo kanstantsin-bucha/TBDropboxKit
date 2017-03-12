@@ -49,8 +49,9 @@
 
 
 
-- (void)updateUsingMetadataEntries:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries {
+- (void)addIncomingMetadataEntries:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries {
     NSMutableArray * folderEntries = [NSMutableArray new];
+    [folderEntries addObjectsFromArray:self.folderEntries];
     
     for (DBFILESMetadata * metadata in metadataEntries) {
         id<TBDropboxEntry> entry = [TBDropboxEntryFactory entryUsingMetadata: metadata];
@@ -62,7 +63,7 @@
         [folderEntries addObject: entry];
     }
     
-    self.folderEntries = folderEntries;
+    self.folderEntries = [folderEntries copy];
 }
 
 - (void)updateCursor:(TBDropboxEntryCursor *)cursor {

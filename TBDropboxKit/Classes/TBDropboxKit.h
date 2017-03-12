@@ -11,6 +11,7 @@
 
 #import "TBDropbox.h"
 #import "TBDropboxConnection.h"
+#import "TBDropboxWatchdog.h"
 #import "TBDropboxClient.h"
 #import "TBDropboxQueue.h"
 
@@ -25,6 +26,7 @@
 #import "TBDropboxUploadFileTask.h"
 #import "TBDropboxDownloadFileTask.h"
 #import "TBDropboxDeleteEntryTask.h"
+#import "TBDropboxMoveEntryTask.h"
 
 
 #endif /* TBDropboxKit_h */

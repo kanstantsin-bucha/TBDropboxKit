@@ -32,6 +32,7 @@
     TBDropboxListFolderTask * result = [[[self class] alloc] initInstance];
     result.completion = completion;
     result.entry = entry;
+    result.state = TBDropboxTaskStateReady;
     return result;
 }
 
@@ -39,7 +40,12 @@
 
 - (void)performMainUsingRoutes:(DBFILESRoutes *)routes
                 withCompletion:(CDBErrorCompletion)completion {
-    self.dropboxTask = [routes listFolder: self.entry.dropboxPath];
+    if (self.entry.cursor == nil) {
+        self.dropboxTask = [routes listFolder: self.entry.dropboxPath];
+    } else {
+        self.dropboxTask = [routes listFolderContinue: self.entry.cursor];
+    }
+
     weakCDB(wself);
     [self.dropboxTask setResponseBlock: ^(DBFILESListFolderResult * _Nullable response,
                                           DBFILESListFolderError * _Nullable folderError,
@@ -48,12 +54,18 @@
         [wself handleResponseUsingRequestError: requestError
                               taskRelatedError: folderError
                                     completion: ^(NSError * _Nullable error) {
-            if (error == nil
-                && response.entries.count > 0) {
-                [wself.entry updateUsingMetadataEntries: response.entries];
+            if (error != nil) {
+                completion(error);
+                return;
             }
-            
-            completion(error);
+                
+            [wself.entry updateCursor: response.cursor];
+            [wself.entry addIncomingMetadataEntries: response.entries];
+                
+            if (response.hasMore) {
+                [wself performMainUsingRoutes: routes
+                               withCompletion: completion];
+            }
         }];
     }];
     

@@ -4,13 +4,12 @@
 
 #import "DBDelegate.h"
 #import "DBFILESRouteObjects.h"
+#import "DBSDKConstants.h"
 #import "DBStoneBase.h"
 #import "DBTasksImpl.h"
 #import "DBTransportBaseClient+Internal.h"
 #import "DBTransportDefaultClient.h"
 #import "DBTransportDefaultConfig.h"
-
-static NSString const *const kBackgroundSessionId = @"com.dropbox.dropbox_sdk_obj_c_background";
 
 @implementation DBTransportDefaultClient {
   /// The delegate used to manage execution of all response / error code. By default, this
@@ -34,11 +33,14 @@ static NSString const *const kBackgroundSessionId = @"com.dropbox.dropbox_sdk_ob
     sessionConfig.timeoutIntervalForRequest = 60.0;
 
     _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:_delegate delegateQueue:_delegateQueue];
-    NSString *backgroundId = [NSString stringWithFormat:@"%@.%@", kBackgroundSessionId, [NSUUID UUID].UUIDString];
-    NSURLSessionConfiguration *backgroundSessionConfig =
-        [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:backgroundId];
     _forceBackgroundSession = transportConfig.forceForegroundSession ? YES : NO;
     if (!_forceBackgroundSession) {
+      NSString *backgroundId = [NSString stringWithFormat:@"%@.%@", kBackgroundSessionId, [NSUUID UUID].UUIDString];
+      NSURLSessionConfiguration *backgroundSessionConfig =
+          [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:backgroundId];
+      if (transportConfig.sharedContainerIdentifier) {
+        backgroundSessionConfig.sharedContainerIdentifier = transportConfig.sharedContainerIdentifier;
+      }
       _secondarySession = [NSURLSession sessionWithConfiguration:backgroundSessionConfig
                                                         delegate:_delegate
                                                    delegateQueue:_delegateQueue];
