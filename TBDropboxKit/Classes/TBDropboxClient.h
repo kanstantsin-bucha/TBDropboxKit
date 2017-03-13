@@ -20,6 +20,17 @@
 @property (strong, nonatomic, readonly, nonnull) TBDropboxWatchdog * watchdog;
 
 /**
+ @brief: Use this option to enable synchronization
+ when task queue finished processing a batch of tasks
+ client will run watchdog to poll changes if any presents
+ than return to processing tasks from the queue;
+ if queue go to noLoad state client make watchdog create long poll task
+ to be notified when changes occured on server
+ **/
+
+@property (assign, nonatomic) BOOL watchdogEnabled;
+
+/**
  @brief: Use this option to enable verbose logging
  **/
 

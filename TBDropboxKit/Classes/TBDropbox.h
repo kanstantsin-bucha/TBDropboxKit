@@ -18,7 +18,7 @@
 
 
 typedef NSNumber TBDropboxTaskID;
-typedef NSString TBDropboxEntryCursor;
+typedef NSString TBDropboxCursor;
 
 
 @class TBDropboxQueue;
@@ -46,12 +46,32 @@ typedef NS_ENUM(NSInteger, TBDropboxAuthState) {
 };
 
 typedef NS_ENUM(NSInteger, TBDropboxWatchdogState) {
-    TBDropboxWatchdogStateUndefined = 0
+    TBDropboxWatchdogStateUndefined = 0,
+    TBDropboxWatchdogStatePaused = 1,
+    TBDropboxWatchdogStateResumedProcessingChanges = 2,
+    TBDropboxWatchdogStateResumedWideAwake = 3
+};
+
+typedef NS_ENUM(NSInteger, TBDropboxQueueState) {
+    TBDropboxQueueStateUndefined = 0,
+    TBDropboxQueueStatePaused = 1,
+    TBDropboxQueueStateResumedNoLoad = 2,
+    TBDropboxQueueStateResumedProcessing = 3
 };
 
 typedef NS_ENUM(NSInteger, TBDropboxEntrySource) {
     TBDropboxEntrySourcePath = 0,
     TBDropboxEntrySourceMetadata = 1
+};
+
+typedef NS_ENUM(NSInteger, TBDropboxTaskState) {
+    TBDropboxTaskStateUndefined = 0,
+    TBDropboxTaskStateReady = 1,
+    TBDropboxTaskStateScheduled = 2,
+    TBDropboxTaskStateRunning = 3,
+    TBDropboxTaskStateSuspended = 4,
+    TBDropboxTaskStateCompleted = 5,
+    TBDropboxTaskStateFailed = 6
 };
 
 #define StringFromDropboxEntrySource(enum) (([@[\
@@ -73,7 +93,6 @@ typedef NS_ENUM(NSInteger, TBDropboxEntrySource) {
 - (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
      didChangeAuthStateTo:(TBDropboxAuthState)state
                 withError:(NSError * _Nullable)error;
-
 @end
 
 
@@ -84,17 +103,27 @@ didChangeStateTo:(TBDropboxWatchdogState)state;
 
 
 - (void)watchdog:(TBDropboxWatchdog * _Nonnull)watchdog
-didNoticeChangeOfDocumentAtURL:(NSURL * _Nullable)URL;
+didCollectPendingChanges:(NSArray *)changes;
 
-- (void)watchdog:(TBDropboxWatchdog * _Nonnull)watchdog
-didNoticeDeletionOfDocumentAtURL:(NSURL * _Nullable)URL;
+- (BOOL)watchdogCouldBeWideAwake:(TBDropboxWatchdog * _Nonnull)watchdog;
+
+@end
+
+@protocol TBDropboxQueueDelegate <NSObject>
+
+- (void)queue:(TBDropboxQueue * _Nonnull)queue
+didChangeStateTo:(TBDropboxQueueState)state;
+
+- (void)queue:(TBDropboxQueue * _Nonnull)queue
+didFinishBatchOfTasks:(NSArray *)tasks;
 
 @end
 
 
 @protocol TBDropboxClientDelegate
 <TBDropboxConnectionDelegate,
-TBDropboxWatchdogDelegate>
+TBDropboxWatchdogDelegate,
+TBDropboxQueueDelegate>
 
 @end
 

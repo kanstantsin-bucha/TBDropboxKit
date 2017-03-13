@@ -96,24 +96,11 @@
                              completion:(CDBErrorCompletion _Nonnull)completion {
     self.dropboxTask = nil;
     
-    if (requestError != nil) {
-        NSError * error = [self errorUsingRequestError: requestError];
-        completion(error);
-        self.completion(self, error);
-        
-        return;
-    }
-    
-    if (relatedError != nil) {
-        NSError * error = [self errorUsingRelatedError: relatedError];
-        completion(error);
-        self.completion(self, error);
-        
-        return;
-    }
-    
-    completion(nil);
-    self.completion(self, nil);
+    NSError * error = [[self class] errorUsingRequestError: requestError
+                                          taskRelatedError: relatedError];
+                                          
+    completion(error);
+    self.completion(self, error);
 }
 
 /// MARK: dropbox errors
@@ -121,7 +108,22 @@
 /// TODO: improve errors based on extended description
 /// https://github.com/dropbox/dropbox-sdk-obj-c
 
-- (NSError *)errorUsingRelatedError:(id _Nonnull)relatedError {
++ (NSError *)errorUsingRequestError:(DBRequestError * _Nullable)requestError
+                   taskRelatedError:(id _Nullable)relatedError {
+    if (requestError != nil) {
+        NSError * error = [self errorUsingRequestError: requestError];
+        return error;
+    }
+    
+    if (relatedError != nil) {
+        NSError * error = [self errorUsingRelatedError: relatedError];
+        return error;
+    }
+    
+    return nil;
+}
+
++ (NSError *)errorUsingRelatedError:(id _Nonnull)relatedError {
     NSError * result = nil;
     if ([relatedError isKindOfClass:[DBFILESListFolderError class]]) {
         result = [self errorUsingFolderError: relatedError];
@@ -139,7 +141,20 @@
     return result;
 }
 
-- (NSError *)errorUsingFolderError:(DBFILESListFolderError *)error {
++ (NSError *)errorUsingRequestError:(DBRequestError *)error {
+    NSString * message =
+    [NSString stringWithFormat: @"Generic request error %@. %@",
+     [error tagName],
+     error.description];
+    
+    NSDictionary * userInfo = @{ NSLocalizedDescriptionKey: message };
+    NSError * result = [NSError errorWithDomain: TBDropboxErrorDomain
+                                           code: 301
+                                       userInfo: userInfo];
+    return result;
+}
+
++ (NSError *)errorUsingFolderError:(DBFILESListFolderError *)error {
     NSString * message =
         [NSString stringWithFormat: @"Route-specific error %@.",
                                     [error tagName]];
@@ -160,18 +175,7 @@
     return result;
 }
 
-- (NSError *)errorUsingRequestError:(DBRequestError *)error {
-    NSString * message =
-        [NSString stringWithFormat: @"Generic request error %@. %@",
-                                    [error tagName],
-                                    error.description];
-    
-    NSDictionary * userInfo = @{ NSLocalizedDescriptionKey: message };
-    NSError * result = [NSError errorWithDomain: TBDropboxErrorDomain
-                                           code: 301
-                                       userInfo: userInfo];
-    return result;
-}
+
 
 - (NSError *)errorFileNotExistsAtURL:(NSURL *)URL
                          description:(NSString *)description {

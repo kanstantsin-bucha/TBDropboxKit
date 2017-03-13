@@ -11,17 +11,18 @@
 #import "TBDropboxTask+Private.h"
 #import "TBDropboxClient.h"
 
+#define TBDropboxQueue_Batch_Size_Default 20
+
 
 @interface TBDropboxQueue ()
 
 @property (weak, nonatomic, readwrite, nullable) id<TBDropboxFileRoutesSource> routesSource;
 
 @property (strong, nonatomic) NSMutableArray<TBDropboxTask *> * scheduledTasksHolder;
+@property (strong, nonatomic) NSMutableArray<TBDropboxTask *> * processedTasksBatchHolder;
 @property (assign, nonatomic, readonly) TBDropboxTaskID * nextTaskID;
 @property (assign, nonatomic) NSUInteger taskID;
-
-@property (assign, nonatomic, readwrite) BOOL runningTasksQueue;
-@property (assign, nonatomic, readwrite) BOOL processingTasks;
+@property (assign, nonatomic, readwrite) TBDropboxQueueState state;
 @property (strong, nonatomic, readwrite) TBDropboxTask * currentTask;
 
 @end
@@ -51,10 +52,26 @@
     return _scheduledTasksHolder;
 }
 
+- (NSMutableArray<TBDropboxTask *> *)processedTasksBatchHolder {
+    if (_processedTasksBatchHolder != nil) {
+        return _processedTasksBatchHolder;
+    }
+    
+    _processedTasksBatchHolder = [NSMutableArray array];
+    return _processedTasksBatchHolder;
+}
+
+- (BOOL)hasPendingTasks {
+    BOOL result = self.scheduledTasksHolder.count > 0
+                  || self.currentTask != nil;
+    return result;
+}
+
 /// MARK: life cycle
 
 - (instancetype)initInstance {
     if (self = [super init]) {
+        _batchSize = TBDropboxQueue_Batch_Size_Default;
     }
     return self;
 }
@@ -73,22 +90,22 @@
 /// MARK: public
 
 - (void)resume {
-    if (self.runningTasksQueue) {
+    if (self.state != TBDropboxQueueStatePaused) {
         return;
     }
     
-    self.runningTasksQueue = YES;
+    self.state = TBDropboxQueueStateResumedNoLoad;
     
-    [self resumeQueue];
+    if (self.hasPendingTasks) {
+        [self startProcessing];
+    }
 }
 
 - (void)pause {
-    self.runningTasksQueue = NO;
-    
     [self.currentTask suspend];
     self.currentTask.state = TBDropboxTaskStateSuspended;
     
-    self.processingTasks = NO;
+    self.state = TBDropboxQueueStatePaused;
 }
 
 - (NSNumber *)addTask:(TBDropboxTask *)task {
@@ -100,9 +117,6 @@
         return nil;
     }
     
-    BOOL emptyQueue = self.scheduledTasksHolder.count == 0
-                      && self.currentTask == nil;
-    
     task.state = TBDropboxTaskStateScheduled;
     task.ID = self.nextTaskID;
     task.scheduledInQueue = self;
@@ -110,9 +124,8 @@
     [self.scheduledTasksHolder addObject:task];
     
     
-    if (self.runningTasksQueue
-        && emptyQueue) {
-        [self resumeQueue];
+    if (self.state != TBDropboxQueueStateResumedProcessing) {
+        [self startProcessing];
     }
     
     return task.ID;
@@ -146,19 +159,12 @@
 
 /// MARK: queue
 
-- (void)resumeQueue {
-    if (self.runningTasksQueue == NO) {
-        return;
-    }
-
+- (void)startProcessing {
+    
+    self.state = TBDropboxQueueStateResumedProcessing;
+    
     BOOL shouldRestoreCurrent = self.currentTask != nil
                                 && self.currentTask.state != TBDropboxTaskStateCompleted;
-
-    if (self.processingTasks) {
-        return;
-    }
-    
-    self.processingTasks = YES;
     
     if (shouldRestoreCurrent) {
         BOOL resumed = [self.currentTask resume];
@@ -173,7 +179,7 @@
 }
 
 - (void)runNextTask {
-    if (self.runningTasksQueue == NO) {
+    if (self.state == TBDropboxQueueStatePaused) {
         return;
     }
     
@@ -182,13 +188,33 @@
     [self runTask: self.currentTask];
 }
 
+- (void)finishCurrentTask {
+    [self.processedTasksBatchHolder addObject: self.currentTask];
+    self.currentTask = nil;
+    
+    if (self.processedTasksBatchHolder.count > 20) {
+        [self finishBatchOfTasks];
+    }
+    
+    [self runNextTask];
+}
+
+- (void)finishBatchOfTasks {
+    SEL selector = @selector(queue:didFinishBatchOfTasks:);
+    if ([self.delegate respondsToSelector:selector]) {
+        [self.delegate queue: self
+       didFinishBatchOfTasks: [self.processedTasksBatchHolder copy]];
+    }
+    self.processedTasksBatchHolder = nil;
+}
+
 - (void)runTask:(TBDropboxTask *)runningTask {
-    if (runningTask == nil) {
-        self.processingTasks = NO;
+    if (self.state == TBDropboxQueueStatePaused) {
         return;
     }
     
-    if (self.runningTasksQueue == NO) {
+    if (runningTask == nil) {
+        self.state = TBDropboxQueueStateResumedNoLoad;
         return;
     }
     
@@ -208,7 +234,7 @@
             runningTask.state = TBDropboxTaskStateCompleted;
         }
         
-        [wself runNextTask];
+        [wself finishCurrentTask];
     }];
 }
 

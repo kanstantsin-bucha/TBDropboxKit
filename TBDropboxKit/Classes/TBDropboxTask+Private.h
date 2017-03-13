@@ -39,8 +39,6 @@
                        taskRelatedError:(id _Nullable)relatedError
                              completion:(CDBErrorCompletion _Nonnull)completion;
 
-- (NSError * _Nonnull)errorUsingFolderError:(DBFILESListFolderError * _Nonnull)error;
-- (NSError * _Nonnull)errorUsingRequestError:(DBRequestError * _Nonnull)error;
 - (NSError *)errorFileNotExistsAtURL:(NSURL * _Nonnull)URL
                          description:(NSString * _Nonnull)description;
 

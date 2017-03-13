@@ -15,9 +15,14 @@
 @interface TBDropboxQueue : NSObject
 
 @property (strong, nonatomic, readonly, nonnull) NSArray<TBDropboxTask *> * scheduledTasks;
-@property (assign, nonatomic, readonly) BOOL runningTasksQueue;
-@property (assign, nonatomic, readonly) BOOL processingTasks;
 @property (strong, nonatomic, readonly, nullable) TBDropboxTask * currentTask;
+@property (assign, nonatomic) BOOL hasPendingTasks;
+
+@property (assign, nonatomic, readonly) TBDropboxQueueState state;
+@property (assign, nonatomic) NSUInteger batchSize;
+
+@property (weak, nonatomic, nullable) id<TBDropboxQueueDelegate> delegate;
+
 @property (assign, nonatomic) BOOL verboseLogging;
 
 + (instancetype)queueUsingSource:(id<TBDropboxFileRoutesSource> _Nonnull)source;

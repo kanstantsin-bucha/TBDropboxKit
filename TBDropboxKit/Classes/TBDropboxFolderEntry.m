@@ -14,7 +14,7 @@
 
 @interface TBDropboxFolderEntry ()
 
-@property (copy, nonatomic, readwrite, nullable) TBDropboxEntryCursor * cursor;
+@property (copy, nonatomic, readwrite, nullable) TBDropboxCursor * cursor;
 @property (strong, nonatomic, readwrite, nullable) NSArray<id<TBDropboxEntry>> * folderEntries;
 
 @end
@@ -66,7 +66,7 @@
     self.folderEntries = [folderEntries copy];
 }
 
-- (void)updateCursor:(TBDropboxEntryCursor *)cursor {
+- (void)updateCursor:(TBDropboxCursor *)cursor {
     self.cursor = cursor;
 }
 

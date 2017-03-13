@@ -15,7 +15,8 @@
 <
     TBDropboxConnectionDelegate,
     TBDropboxFileRoutesSource,
-    TBDropboxWatchdogDelegate
+    TBDropboxWatchdogDelegate,
+    TBDropboxQueueDelegate
 >
 
 @property (weak, nonatomic, readwrite) TBDropboxConnection * connection;
@@ -42,6 +43,7 @@
     }
     
     _tasksQueue = [TBDropboxQueue queueUsingSource: self];
+    _tasksQueue.delegate = self;
     return _tasksQueue;
 }
 
@@ -51,6 +53,7 @@
     }
     
     _watchdog = [TBDropboxWatchdog watchdogUsingSource: self];
+    _watchdog.delegate = self;
     return _watchdog;
 }
 
@@ -62,6 +65,21 @@
     _delegates =
         [[CDBDelegateCollection alloc] initWithProtocol:@protocol(TBDropboxClientDelegate)];
     return _delegates;
+}
+
+- (void)setWatchdogEnabled:(BOOL)watchdogEnabled {
+    if (_watchdogEnabled == watchdogEnabled) {
+        return;
+    }
+    _watchdogEnabled = watchdogEnabled;
+    if (_watchdogEnabled) {
+        if (self.connection.state == TBDropboxConnectionStateConnected
+            && self.tasksQueue.state == TBDropboxQueueStateResumedNoLoad) {
+            [self.watchdog resume];
+        }
+    } else {
+        [self.watchdog pause];
+    }
 }
 
 /// MARK: life cycle
@@ -107,10 +125,8 @@
          didChangeStateTo:(TBDropboxConnectionState)state {
     if (state == TBDropboxConnectionStateConnected) {
         [self.tasksQueue resume];
-        [self.watchdog resume];
     } else {
         [self.tasksQueue pause];
-        [self.watchdog pause];
     }
     
     SEL selector = @selector(dropboxConnection:
@@ -148,6 +164,44 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
         [delegate watchdog: watchdog
           didChangeStateTo: state];
     }];
+}
+
+- (void)watchdog:(TBDropboxWatchdog *)watchdog
+    didCollectPendingChanges:(NSArray *)changes {
+    if (self.connection.state == TBDropboxConnectionStateConnected) {
+        [self.tasksQueue resume];
+    }
+    /// TODO: provide pending changes
+}
+
+- (BOOL)watchdogCouldBeWideAwake:(TBDropboxWatchdog *)watchdog {
+    BOOL result = self.tasksQueue.hasPendingTasks == NO;
+    return result;
+}
+
+
+/// MARK: TBDropboxQueueDelegate
+
+- (void)queue:(TBDropboxQueue *)queue
+    didChangeStateTo:(TBDropboxQueueState)state {
+    if (state == TBDropboxQueueStateResumedProcessing) {
+        [self.watchdog pause];
+    }
+    
+//    BOOL couldResumeWatchdog = self.watchdogEnabled
+//                               && self.connection.state == TBDropboxConnectionStateConnected;
+//    if (state == TBDropboxQueueStateResumedNoLoad
+//        && couldResumeWatchdog) {
+//        [self.watchdog resume];
+//    }
+}
+
+- (void)queue:(TBDropboxQueue *)queue
+    didFinishBatchOfTasks:(NSArray *)tasks {
+    if (self.watchdogEnabled) {
+        [self.tasksQueue pause];
+        [self.watchdog resume];
+    }
 }
 
 /// MARK: TBDropboxFileRoutesSource

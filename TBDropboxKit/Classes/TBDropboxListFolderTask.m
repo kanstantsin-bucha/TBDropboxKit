@@ -62,10 +62,11 @@
             [wself.entry updateCursor: response.cursor];
             [wself.entry addIncomingMetadataEntries: response.entries];
                 
-            if (response.hasMore) {
+            if (response.hasMore.boolValue) {
                 [wself performMainUsingRoutes: routes
                                withCompletion: completion];
             }
+            completion(error);
         }];
     }];
     

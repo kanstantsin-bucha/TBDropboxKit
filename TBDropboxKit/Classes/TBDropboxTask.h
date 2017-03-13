@@ -11,23 +11,6 @@
 #import "TBDropbox.h"
 #import "TBDropboxEntry.h"
 
-typedef NS_ENUM(NSInteger, TBDropboxTaskType) {
-    TBDropboxTaskTypePoll = 0,
-    TBDropboxTaskTypeLongPoll = 1,
-};
-
-
-typedef NS_ENUM(NSInteger, TBDropboxTaskState) {
-    TBDropboxTaskStateUndefined = 0,
-    TBDropboxTaskStateReady = 1,
-    TBDropboxTaskStateScheduled = 2,
-    TBDropboxTaskStateRunning = 3,
-    TBDropboxTaskStateSuspended = 4,
-    TBDropboxTaskStateCompleted = 5,
-    TBDropboxTaskStateFailed = 6
-    //TBDropboxTaskTypeUpdat
-};
-
 
 @interface TBDropboxTask : NSObject
 
