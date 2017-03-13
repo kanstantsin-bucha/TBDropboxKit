@@ -131,8 +131,9 @@
     
     if (result == nil) {
         NSString * message =
-        [NSString stringWithFormat:@"Related error %@", relatedError];
-        NSDictionary * info = @{NSLocalizedDescriptionKey: message};
+            [NSString stringWithFormat:@"Related error %@", relatedError];
+        NSDictionary * info = @{NSLocalizedDescriptionKey: message,
+                                TBDropboxUnderlyingErrorKey: relatedError};
         result = [NSError errorWithDomain: TBDropboxErrorDomain
                                      code: 200
                                  userInfo: info];
@@ -147,7 +148,8 @@
      [error tagName],
      error.description];
     
-    NSDictionary * userInfo = @{ NSLocalizedDescriptionKey: message };
+    NSDictionary * userInfo = @{ NSLocalizedDescriptionKey: message,
+                                 TBDropboxUnderlyingErrorKey: error };
     NSError * result = [NSError errorWithDomain: TBDropboxErrorDomain
                                            code: 301
                                        userInfo: userInfo];
@@ -191,5 +193,18 @@
     return result;
 }
 
+/// MARK: description
+
+- (NSString *)description {
+    NSString * result =
+        [NSString stringWithFormat:@"%@ <%@>\
+                                   \r %@\
+                                   \r Path: %@",
+                         NSStringFromClass([self class]),
+                         @(self.hash),
+                         StringFromDropboxTaskState(self.state),
+                         self.entry.readablePath];
+    return result;
+}
 
 @end

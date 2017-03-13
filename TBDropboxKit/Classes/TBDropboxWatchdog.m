@@ -7,6 +7,9 @@
 //
 
 #import "TBDropboxWatchdog.h"
+#import "TBDropboxFolderEntry.h"
+
+#define TBDropboxWatchdog_Cursor_Key @"TBDropboxWatchdog_Cursor_Key=TBDropboxCursor.NSString"
 
 typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
                                             TBDropboxCursor * _Nullable cursor,
@@ -33,6 +36,23 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
 - (DBFILESRoutes *)fileRoutes {
     DBFILESRoutes * result = [self.routesSource filesRoutes];
     return result;
+}
+
+- (TBDropboxCursor *)cursor {
+    if (_cursor != nil) {
+        return _cursor;
+    }
+    _cursor = [self loadCursor];
+    return _cursor;
+}
+
+- (void)setCursor:(TBDropboxCursor *)cursor {
+    if ([_cursor isEqualToString:cursor]) {
+        return;
+    }
+    
+    _cursor = cursor;
+    [self saveCursor: cursor];
 }
 
 /// MARK: - life cycle -
@@ -134,9 +154,9 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
         self.pendingChangesTask = [self.fileRoutes listFolderContinue: cursor];
     } else {
         self.pendingChangesTask =
-            [self.fileRoutes listFolder: @""
+            [self.fileRoutes listFolder: TBDropboxFolderEntry_Root_Folder_Path
                               recursive: @(YES)
-                       includeMediaInfo: @(NO)
+                       includeMediaInfo: @(YES)
                          includeDeleted: @(YES)
         includeHasExplicitSharedMembers: @(NO)];
     }
@@ -156,7 +176,7 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
             [gatheredChanges addObjectsFromArray: changes];
         }
         if (response.entries != nil) {
-            [gatheredChanges addObject:response.entries];
+            [gatheredChanges addObjectsFromArray: response.entries];
         }
         
         if (response.hasMore.boolValue == NO) {
@@ -165,7 +185,7 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
             return;
         }
         
-        [wself processPendingChangesPreviosChanges: response.entries
+        [wself processPendingChangesPreviosChanges: gatheredChanges
                                             cursor: response.cursor
                                         completion: completion];
     }];
@@ -215,4 +235,15 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
     }
 }
 
+- (TBDropboxCursor *)loadCursor {
+    TBDropboxCursor * result =
+        [[NSUserDefaults standardUserDefaults] objectForKey:TBDropboxWatchdog_Cursor_Key];
+    return result;
+}
+
+- (void)saveCursor:(TBDropboxCursor *)cursor {
+    [[NSUserDefaults standardUserDefaults] setObject: cursor
+                                              forKey: TBDropboxWatchdog_Cursor_Key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 @end

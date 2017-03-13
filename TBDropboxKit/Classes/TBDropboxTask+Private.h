@@ -15,6 +15,7 @@
 @interface TBDropboxTask ()
 
 @property (assign, nonatomic, readwrite) TBDropboxTaskState state;
+@property (assign, nonatomic, readwrite) TBDropboxTaskType type;
 @property (strong, nonatomic, readwrite, nonnull) id<TBDropboxEntry> entry;
 
 @property (copy, nonatomic, readwrite, nullable) TBDropboxTaskID * ID;

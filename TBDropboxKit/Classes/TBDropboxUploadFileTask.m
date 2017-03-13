@@ -8,6 +8,7 @@
 
 #import "TBDropboxUploadFileTask.h"
 #import "TBDropboxTask+Private.h"
+#import "TBDropboxEntryFactory.h"
 
 
 @interface TBDropboxUploadFileTask ()
@@ -33,6 +34,7 @@
     result.entry = entry;
     result.fileURL = fileURL;
     result.state = TBDropboxTaskStateReady;
+    result.type = TBDropboxTaskTypeUploadChanges;
     return result;
 }
 
@@ -53,12 +55,21 @@
     self.dropboxTask = [routes uploadUrl: self.entry.dropboxPath
                                 inputUrl: self.fileURL];
     weakCDB(wself);
-    [(DBUploadTask *)self.dropboxTask setResponseBlock:^(id  _Nullable response,
+    [(DBUploadTask *)self.dropboxTask setResponseBlock:^(DBFILESFileMetadata * response,
                                                          id  _Nullable routeError,
                                                          DBRequestError * _Nullable requestError) {
         [wself handleResponseUsingRequestError: requestError
                               taskRelatedError: routeError
-                                    completion: completion];
+                                    completion:^(NSError * _Nullable error) {
+            id<TBDropboxEntry> metadataEntry =
+                [TBDropboxEntryFactory entryUsingMetadata: response];
+            if (metadataEntry != nil) {
+                self.entry = metadataEntry;
+            }
+
+            completion(error);
+        }];
+        
     }];
     
     [self.dropboxTask start];

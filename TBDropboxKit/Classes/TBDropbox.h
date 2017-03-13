@@ -64,20 +64,35 @@ typedef NS_ENUM(NSInteger, TBDropboxEntrySource) {
     TBDropboxEntrySourceMetadata = 1
 };
 
+#define StringFromDropboxEntrySource(enum) (([@[\
+    @"Source: Path",\
+    @"Source: Metadata",\
+] objectAtIndex:(enum)]))
+
 typedef NS_ENUM(NSInteger, TBDropboxTaskState) {
     TBDropboxTaskStateUndefined = 0,
     TBDropboxTaskStateReady = 1,
     TBDropboxTaskStateScheduled = 2,
     TBDropboxTaskStateRunning = 3,
     TBDropboxTaskStateSuspended = 4,
-    TBDropboxTaskStateCompleted = 5,
+    TBDropboxTaskStateSucceed = 5,
     TBDropboxTaskStateFailed = 6
 };
 
-#define StringFromDropboxEntrySource(enum) (([@[\
-    @"TBDropboxEntrySourcePath",\
-    @"TBDropboxEntrySourceMetadata",\
+#define StringFromDropboxTaskState(enum) (([@[\
+@"State: Undefined",\
+@"State: Ready",\
+@"State: Scheduled",\
+@"State: Running",\
+@"State: Suspended",\
+@"State: Succeed",\
+@"State: Failed",\
 ] objectAtIndex:(enum)]))
+
+typedef NS_ENUM(NSInteger, TBDropboxTaskType) {
+    TBDropboxTaskTypeUploadChanges = 0,
+    TBDropboxTaskTypeRequestInfo = 1
+};
 
 #define hasPropertyWithName(object, propertyName) [object respondsToSelector:NSSelectorFromString(propertyName)]
 #define valueUsingMetadata(metadata, key) hasPropertyWithName(metadata, key) ? [metadata valueForKey: key] : nil;
@@ -116,6 +131,9 @@ didChangeStateTo:(TBDropboxQueueState)state;
 
 - (void)queue:(TBDropboxQueue * _Nonnull)queue
 didFinishBatchOfTasks:(NSArray *)tasks;
+
+- (void)queue:(TBDropboxQueue * _Nonnull)queue
+didReceiveAuthError:(NSError *)error;
 
 @end
 

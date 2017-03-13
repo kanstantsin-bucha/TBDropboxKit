@@ -33,6 +33,7 @@
     result.completion = completion;
     result.entry = entry;
     result.state = TBDropboxTaskStateReady;
+    result.type = TBDropboxTaskTypeRequestInfo;
     return result;
 }
 

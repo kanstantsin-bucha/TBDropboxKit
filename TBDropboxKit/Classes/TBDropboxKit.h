@@ -19,6 +19,7 @@
 #import "TBDropboxEntryFactory.h"
 #import "TBDropboxFileEntry.h"
 #import "TBDropboxFolderEntry.h"
+#import "TBDropboxDeletedEntry.h"
 
 #import "TBDropboxTask.h"
 #import "TBDropboxListFolderTask.h"
@@ -27,6 +28,8 @@
 #import "TBDropboxDownloadFileTask.h"
 #import "TBDropboxDeleteEntryTask.h"
 #import "TBDropboxMoveEntryTask.h"
+
+#import "TBDropboxChange.h"
 
 
 #endif /* TBDropboxKit_h */

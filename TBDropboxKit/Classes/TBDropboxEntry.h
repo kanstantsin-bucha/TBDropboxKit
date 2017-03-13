@@ -17,6 +17,7 @@
 
 @property (copy, nonatomic, readonly, nonnull) NSString * fileName;
 @property (copy, nonatomic, readonly, nonnull) NSString * dropboxPath;
+@property (copy, nonatomic, readonly, nonnull) NSString * readablePath;
 @property (copy, nonatomic, readonly, nullable) NSNumber * size;
 
 @property (strong, nonatomic, readonly, nullable) DBFILESMetadata * metadata;

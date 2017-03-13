@@ -164,7 +164,7 @@
     self.state = TBDropboxQueueStateResumedProcessing;
     
     BOOL shouldRestoreCurrent = self.currentTask != nil
-                                && self.currentTask.state != TBDropboxTaskStateCompleted;
+                                && self.currentTask.state != TBDropboxTaskStateSucceed;
     
     if (shouldRestoreCurrent) {
         BOOL resumed = [self.currentTask resume];
@@ -192,7 +192,7 @@
     [self.processedTasksBatchHolder addObject: self.currentTask];
     self.currentTask = nil;
     
-    if (self.processedTasksBatchHolder.count > 20) {
+    if (self.processedTasksBatchHolder.count >= self.batchSize) {
         [self finishBatchOfTasks];
     }
     
@@ -215,6 +215,7 @@
     
     if (runningTask == nil) {
         self.state = TBDropboxQueueStateResumedNoLoad;
+        [self finishBatchOfTasks];
         return;
     }
     
@@ -230,12 +231,35 @@
                        withCompletion: ^(NSError * _Nullable error) {
         if (error != nil) {
             runningTask.state = TBDropboxTaskStateFailed;
+            [self checkUnderlingErrorOf: error];
         } else {
-            runningTask.state = TBDropboxTaskStateCompleted;
+            runningTask.state = TBDropboxTaskStateSucceed;
         }
         
         [wself finishCurrentTask];
     }];
+}
+
+- (void)checkUnderlingErrorOf:(NSError *)mainError {
+    id error = mainError.userInfo[TBDropboxUnderlyingErrorKey];
+    
+    if ([error isKindOfClass:[DBRequestError class]] == NO) {
+        return;
+    }
+    
+    DBRequestErrorTag tag = [(DBRequestError *)error tag];
+    
+    BOOL receivedAuthError = tag == DBRequestErrorAuth
+                             || tag == DBRequestErrorClient;
+    if (receivedAuthError == NO) {
+        return;
+    }
+    
+    SEL selector = @selector(queue: didReceiveAuthError:);
+    if ([self.delegate respondsToSelector:selector]) {
+        [self.delegate queue: self
+         didReceiveAuthError: mainError];
+    }
 }
 
 /// MARK: logging

@@ -9,6 +9,7 @@
 #import "TBDropboxCreateFolderTask.h"
 #import "TBDropboxTask+Private.h"
 #import "TBDropboxFolderEntry+Private.h"
+#import "TBDropboxEntryFactory.h"
 
 @interface TBDropboxCreateFolderTask ()
 
@@ -32,6 +33,7 @@
     result.completion = completion;
     result.entry = entry;
     result.state = TBDropboxTaskStateReady;
+    result.type = TBDropboxTaskTypeUploadChanges;
     return result;
 }
 
@@ -42,12 +44,20 @@
     self.dropboxTask = [routes createFolder:self.entry.dropboxPath];
     
     weakCDB(wself);
-    [self.dropboxTask setResponseBlock:^(id  _Nullable response,
+    [self.dropboxTask setResponseBlock:^(DBFILESFolderMetadata * response,
                                          id  _Nullable routeError,
                                          DBRequestError * _Nullable requestError) {
         [wself handleResponseUsingRequestError: requestError
                               taskRelatedError: routeError
-                                    completion: completion];
+                                    completion:^(NSError * _Nullable error) {
+            id<TBDropboxEntry> metadataEntry =
+                [TBDropboxEntryFactory entryUsingMetadata: response];
+            if (metadataEntry != nil) {
+                self.entry = metadataEntry;
+            }
+            
+            completion(error);
+        }];
     }];
     
     [self.dropboxTask start];

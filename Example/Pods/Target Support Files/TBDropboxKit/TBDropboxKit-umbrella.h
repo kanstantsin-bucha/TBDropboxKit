@@ -11,10 +11,13 @@
 #endif
 
 #import "TBDropbox.h"
+#import "TBDropboxChange.h"
 #import "TBDropboxClient.h"
 #import "TBDropboxConnection+Private.h"
 #import "TBDropboxConnection.h"
 #import "TBDropboxCreateFolderTask.h"
+#import "TBDropboxDeletedEntry+Private.h"
+#import "TBDropboxDeletedEntry.h"
 #import "TBDropboxDeleteEntryTask.h"
 #import "TBDropboxDownloadFileTask.h"
 #import "TBDropboxEntry.h"

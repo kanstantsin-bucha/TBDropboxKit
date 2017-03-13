@@ -10,69 +10,96 @@
 #import "TBDropboxEntry.h"
 #import "TBDropboxFileEntry+Private.h"
 #import "TBDropboxFolderEntry+Private.h"
+#import "TBDropboxDeletedEntry+Private.h"
 
 
 @implementation TBDropboxEntryFactory
 
 + (TBDropboxFileEntry *)fileEntryUsingDropboxPath:(NSString *)path {
-    TBDropboxFileEntry * result = [self fileEntryUsingDropboxPath: path
-                                                             size: nil
-                                                         metadata: nil];
+    if (path.length == 0) {
+        return nil;
+    }
+    
+    TBDropboxFileEntry * result = [[TBDropboxFileEntry alloc] initInstance];
+    result.source = TBDropboxEntrySourcePath;
+    result.dropboxPath = path;
     return result;
 }
 
-+ (TBDropboxFileEntry *)fileEntryUsingDropboxPath:(NSString *)path
-                                             size:(NSNumber *)size
-                                         metadata:(DBFILESMetadata *)metadata {
-
-    if (path.length == 0) {
++ (TBDropboxFileEntry *)fileEntryUsingMetadata:(DBFILESFileMetadata *)metadata {
+    if (metadata == nil) {
         return nil;
     }
 
     TBDropboxFileEntry * result = [[TBDropboxFileEntry alloc] initInstance];
     
-    result.source = metadata == nil ? TBDropboxEntrySourcePath
-                                    : TBDropboxEntrySourceMetadata;
-    result.dropboxPath = path;
-    result.size = size;
+    result.source = TBDropboxEntrySourceMetadata;
+    result.dropboxPath = metadata.pathDisplay;
+    result.size = metadata.size;
     result.metadata = metadata;
     
     return result;
 }
 
 + (TBDropboxFolderEntry *)folderEntryUsingDropboxPath:(NSString *)path {
-    TBDropboxFolderEntry * result = [self folderEntryUsingDropboxPath: path
-                                                             metadata: nil];
+    NSString * dropboxPath = [self folderPathUsingProvidedPath: path];
+    if (dropboxPath == nil) {
+        return nil;
+    }
+    
+    TBDropboxFolderEntry * result = [[TBDropboxFolderEntry alloc] initInstance];
+    result.source = TBDropboxEntrySourcePath;
+    result.dropboxPath = dropboxPath;
     return result;
 }
 
-+ (TBDropboxFolderEntry *)folderEntryUsingDropboxPath:(NSString *)path
-                                             metadata:(DBFILESMetadata *)metadata {
+
++ (TBDropboxFolderEntry *)folderEntryUsingMetadata:(DBFILESFolderMetadata *)metadata {
+    if (metadata == nil) {
+        return nil;
+    }
+    
     TBDropboxFolderEntry * result = [[TBDropboxFolderEntry alloc] initInstance];
 
-    result.source = metadata == nil ? TBDropboxEntrySourcePath
-                                    : TBDropboxEntrySourceMetadata;
-    result.dropboxPath = path != nil ? path
-                                     : @"";
+    result.source = TBDropboxEntrySourceMetadata;
+    result.dropboxPath = metadata.pathDisplay;
+    result.metadata = metadata;
+    
+    return result;
+}
+
++ (TBDropboxDeletedEntry *)deletedEntryUsingMetadata:(DBFILESDeletedMetadata *)metadata {
+    if (metadata == nil) {
+        return nil;
+    }
+    
+    TBDropboxDeletedEntry * result = [[TBDropboxDeletedEntry alloc] initInstance];
+    
+    result.source = TBDropboxEntrySourceMetadata;
+    result.dropboxPath = metadata.pathDisplay;
     result.metadata = metadata;
     
     return result;
 }
 
 + (id<TBDropboxEntry>)entryUsingMetadata:(DBFILESMetadata *)metadata {
+    id<TBDropboxEntry> result = nil;
     
-    NSNumber * size = sizeUsingMetadata(metadata);
+    if ([metadata isKindOfClass:[DBFILESDeletedMetadata class]]) {
+        result = [self deletedEntryUsingMetadata: metadata];
+    }
+    if ([metadata isKindOfClass:[DBFILESFileMetadata class]]) {
+        result = [self fileEntryUsingMetadata: metadata];
+    }
     
-    BOOL isFolder = size == nil;
-    
-    id<TBDropboxEntry> result =  isFolder ? [self folderEntryUsingDropboxPath: metadata.pathLower
-                                                                     metadata: metadata]
-                                          : [self fileEntryUsingDropboxPath: metadata.pathLower
-                                                                       size: size
-                                                                   metadata: metadata];
+    if ([metadata isKindOfClass:[DBFILESFolderMetadata class]]) {
+        result = [self folderEntryUsingMetadata: metadata];
+    }
     
     return result;
 }
+
+/// MARK: - private -
 
 + (TBDropboxFileEntry *)fileEntryByMirroringLocalURL:(NSURL *)fileURL
                                         usingBaseURL:(NSURL *)baseURL {
@@ -102,6 +129,22 @@
     
     NSString * result = [URL.path substringFromIndex:relativeURLstartIndex];
     return result;
+}
+
++ (NSString *)folderPathUsingProvidedPath:(NSString *)path {
+    if (path == nil) {
+        return TBDropboxFolderEntry_Root_Folder_Path;
+    }
+    
+    if (path.length == 0) {
+        return nil;
+    }
+    
+    if ([path hasPrefix:@"/"] == NO) {
+        return nil;
+    }
+    
+    return path;
 }
 
 @end

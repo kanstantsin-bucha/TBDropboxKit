@@ -11,10 +11,13 @@
 #import "TBDropbox.h"
 #import "TBDropboxEntry.h"
 
+#define TBDropboxUnderlyingErrorKey @"TBDropboxUnderlyingErrorKey"
+
 
 @interface TBDropboxTask : NSObject
 
 @property (assign, nonatomic, readonly) TBDropboxTaskState state;
+@property (assign, nonatomic, readonly) TBDropboxTaskType type;
 @property (strong, nonatomic, readonly, nonnull) id<TBDropboxEntry> entry;
 
 @property (copy, nonatomic, readonly, nullable) TBDropboxTaskID * ID;

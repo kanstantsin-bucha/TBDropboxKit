@@ -13,6 +13,8 @@
 
 @property (weak, nonatomic, nullable) id<TBDropboxConnectionDelegate> delegate;
 
+- (void)reauthorizeClient;
+
 + (instancetype _Nullable)connectionDesired:(BOOL)desired
                                 usingAppKey:(NSString * _Nonnull)key
                                    delegate:(id<TBDropboxConnectionDelegate> _Nonnull)delegate;

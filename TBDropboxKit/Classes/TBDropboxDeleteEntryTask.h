@@ -6,9 +6,9 @@
 //
 //
 
-#import <TBDropboxKit/TBDropboxKit.h>
 #import "TBDropboxEntry.h"
-
+#import "TBDropboxTask.h"
+#import "TBDropbox.h"
 
 @interface TBDropboxDeleteEntryTask : TBDropboxTask
 

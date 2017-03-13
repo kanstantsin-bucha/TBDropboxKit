@@ -186,6 +186,20 @@
     self.state = TBDropboxConnectionStatePaused;
 }
 
+- (void)reauthorizeClient {
+    
+    DBOAuthManager * manager = [DBOAuthManager sharedOAuthManager];
+    DBAccessToken * token = [manager getAccessToken: self.accessTokenUID];
+    if (token != nil) {
+        [[DBOAuthManager sharedOAuthManager] clearStoredAccessToken: token];
+    }
+    self.accessTokenUID = nil;
+    [DBClientsManager setAuthorizedClient: nil];
+    NSLog(@"Clear authorized user token during Auth error. Make user authorize again");
+    
+    [self authorize];
+}
+
 - (void)appBecomeActive:(NSNotification *)notification {
     if (self.state != TBDropboxConnectionStateAuthorization) {
         return;

@@ -23,6 +23,11 @@
     return result;
 }
 
+- (NSString *)readablePath {
+   NSString * result = self.dropboxPath;
+   return result;
+}
+
 /// MARK: life cycle
 
 - (instancetype)initInstance {

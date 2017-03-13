@@ -15,7 +15,7 @@
 @interface TBDropboxFolderEntry ()
 
 @property (copy, nonatomic, readwrite, nullable) TBDropboxCursor * cursor;
-@property (strong, nonatomic, readwrite, nullable) NSArray<id<TBDropboxEntry>> * folderEntries;
+@property (strong, nonatomic, readwrite, nullable) NSArray<id<TBDropboxEntry>> * childEntries;
 
 @end
 
@@ -29,6 +29,14 @@
     return result;
 }
 
+- (NSString *)readablePath {
+    BOOL isRoot =
+        [self.dropboxPath isEqualToString: TBDropboxFolderEntry_Root_Folder_Path];
+    NSString * result = isRoot ? @"ROOT"
+                               : self.dropboxPath;
+    return result;
+}
+
 /// MARK: life cycle
 
 - (instancetype)initInstance {
@@ -39,19 +47,20 @@
 }
 
 - (NSString *)description {
-    NSString * result = [NSString stringWithFormat:@"%@ %@\r path: %@,\r%@",
+    NSString * result =
+        [NSString stringWithFormat:@"%@ %@\
+                                    \r Path: %@,\
+                                    \r %@",
                          NSStringFromClass([self class]),
                          StringFromDropboxEntrySource(self.source),
-                         self.dropboxPath,
+                         self.readablePath,
                          self.metadata.description];
     return result;
 }
 
-
-
 - (void)addIncomingMetadataEntries:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries {
-    NSMutableArray * folderEntries = [NSMutableArray new];
-    [folderEntries addObjectsFromArray:self.folderEntries];
+    NSMutableArray * childEntries = [NSMutableArray new];
+    [childEntries addObjectsFromArray: self.childEntries];
     
     for (DBFILESMetadata * metadata in metadataEntries) {
         id<TBDropboxEntry> entry = [TBDropboxEntryFactory entryUsingMetadata: metadata];
@@ -60,10 +69,10 @@
             continue;
         }
         
-        [folderEntries addObject: entry];
+        [childEntries addObject: entry];
     }
     
-    self.folderEntries = [folderEntries copy];
+    self.childEntries = [childEntries copy];
 }
 
 - (void)updateCursor:(TBDropboxCursor *)cursor {

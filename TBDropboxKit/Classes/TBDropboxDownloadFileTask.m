@@ -34,6 +34,7 @@
     result.entry = entry;
     result.fileURL = fileURL;
     result.state = TBDropboxTaskStateReady;
+    result.type = TBDropboxTaskTypeRequestInfo;
     return result;
 }
 

@@ -9,6 +9,7 @@
 #import "TBDropboxClient.h"
 #import "TBDropboxConnection+Private.h"
 #import <CDBDelegateCollection/CDBDelegateCollection.h>
+#import "TBDropboxChange.h"
 
 
 @interface TBDropboxClient ()
@@ -24,6 +25,8 @@
 @property (strong, nonatomic, readwrite, nonnull) TBDropboxQueue * tasksQueue;
 @property (strong, nonatomic, readwrite, nonnull) TBDropboxWatchdog * watchdog;
 @property (strong, nonatomic) CDBDelegateCollection * delegates;
+
+@property (strong, nonatomic) NSDictionary * outgoingChanges;
 
 @end
 
@@ -171,7 +174,20 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
     if (self.connection.state == TBDropboxConnectionStateConnected) {
         [self.tasksQueue resume];
     }
-    /// TODO: provide pending changes
+    
+    if (changes.count == 0) {
+        return;
+    }
+    
+    NSArray * incomingChanges = nil;
+    if (self.outgoingChanges.count == 0) {
+        incomingChanges = changes;
+    } else {
+        incomingChanges = [TBDropboxChange processChanges: changes
+                                      byExcludingOutgoing: self.outgoingChanges];
+    }
+    
+    [self provideIncomingChanges: incomingChanges];
 }
 
 - (BOOL)watchdogCouldBeWideAwake:(TBDropboxWatchdog *)watchdog {
@@ -187,21 +203,27 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
     if (state == TBDropboxQueueStateResumedProcessing) {
         [self.watchdog pause];
     }
-    
-//    BOOL couldResumeWatchdog = self.watchdogEnabled
-//                               && self.connection.state == TBDropboxConnectionStateConnected;
-//    if (state == TBDropboxQueueStateResumedNoLoad
-//        && couldResumeWatchdog) {
-//        [self.watchdog resume];
-//    }
 }
 
 - (void)queue:(TBDropboxQueue *)queue
     didFinishBatchOfTasks:(NSArray *)tasks {
     if (self.watchdogEnabled) {
         [self.tasksQueue pause];
-        [self.watchdog resume];
+        
+        self.outgoingChanges =
+            [TBDropboxChange outgoingChangesUsingTasks: tasks];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.watchdog resume];
+        });
+        
     }
+}
+
+- (void)queue:(TBDropboxQueue *)queue
+    didReceiveAuthError:(NSError *)error {
+    [self.tasksQueue pause];
+    [self.watchdog pause];
+    [self.connection reauthorizeClient];
 }
 
 /// MARK: TBDropboxFileRoutesSource
@@ -222,5 +244,9 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
 }
 
 /// MARK: private
+
+- (void)provideIncomingChanges:(NSArray *)changes {
+    
+}
 
 @end
