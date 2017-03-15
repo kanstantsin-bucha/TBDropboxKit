@@ -51,8 +51,13 @@
         completion(error);
         return;
     }
+    /// TODO: enable this arguments in task properties
     
     self.dropboxTask = [routes uploadUrl: self.entry.dropboxPath
+                                    mode: [[DBFILESWriteMode alloc] initWithOverwrite]
+                              autorename: @(NO)
+                          clientModified: [NSDate date]
+                                    mute: @(NO)
                                 inputUrl: self.fileURL];
     weakCDB(wself);
     [(DBUploadTask *)self.dropboxTask setResponseBlock:^(DBFILESFileMetadata * response,

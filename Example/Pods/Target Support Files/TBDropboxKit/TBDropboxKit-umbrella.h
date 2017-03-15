@@ -12,6 +12,7 @@
 
 #import "TBDropbox.h"
 #import "TBDropboxChange.h"
+#import "TBDropboxChangesProcessor.h"
 #import "TBDropboxClient.h"
 #import "TBDropboxConnection+Private.h"
 #import "TBDropboxConnection.h"
@@ -28,6 +29,7 @@
 #import "TBDropboxFolderEntry.h"
 #import "TBDropboxKit.h"
 #import "TBDropboxListFolderTask.h"
+#import "TBDropboxLocalChange.h"
 #import "TBDropboxMoveEntryTask.h"
 #import "TBDropboxQueue.h"
 #import "TBDropboxTask+Private.h"
