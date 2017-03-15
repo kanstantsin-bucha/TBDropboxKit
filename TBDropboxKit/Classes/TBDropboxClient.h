@@ -20,6 +20,15 @@
 @property (strong, nonatomic, readonly, nonnull) TBDropboxWatchdog * watchdog;
 
 /**
+ @brief: as I could figure out the sessionID is same for pair App - User
+         but I could be wrong with it
+**/
+
+@property (strong, nonatomic, readonly, nullable) NSString * sessionID;
+
+@property (assign, nonatomic) BOOL connectionDesired;
+
+/**
  @brief: Use this option to enable synchronization
  when task queue finished processing a batch of tasks
  client will run watchdog to poll changes if any presents

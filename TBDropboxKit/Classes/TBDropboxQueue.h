@@ -22,10 +22,11 @@
 @property (assign, nonatomic) NSUInteger batchSize;
 
 @property (weak, nonatomic, nullable) id<TBDropboxQueueDelegate> delegate;
+@property (strong, nonatomic, readonly, nullable) NSString * sessionID;
 
 @property (assign, nonatomic) BOOL verboseLogging;
 
-+ (instancetype)queueUsingSource:(id<TBDropboxFileRoutesSource> _Nonnull)source;
++ (instancetype)queueUsingSource:(id<TBDropboxClientSource> _Nonnull)source;
 
 + (instancetype)new __unavailable;
 - (id) init __unavailable;

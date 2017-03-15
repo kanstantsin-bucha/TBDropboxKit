@@ -2,22 +2,24 @@
 //  TBDropboxChange.h
 //  Pods
 //
-//  Created by Bucha Kanstantsin on 3/13/17.
+//  Created by Bucha Kanstantsin on 3/15/17.
 //
 //
 
 #import <Foundation/Foundation.h>
 #import "TBDropbox.h"
-#import "TBDropboxTask.h"
 
 
 @interface TBDropboxChange : NSObject
 
-@property (strong, nonatomic) DBFILESMetadata * metadata;
+@property (strong, nonatomic, readonly, nonnull) NSString * dropboxPath;
+@property (assign, nonatomic, readonly) TBDropboxChangeAction action;
+@property (strong, nonatomic, readonly, nonnull) DBFILESMetadata * metadata;
 
-+ (NSArray *)processChanges:(NSArray *)changes
-        byExcludingOutgoing:(NSDictionary *)outgoingChanges;
++ (instancetype _Nullable)changeUsingMetadata:(DBFILESMetadata * _Nonnull)metadata;
+- (NSURL * _Nullable)localURLUsingBaseURL:(NSURL *)baseURL;
 
-+ (NSDictionary *)outgoingChangesUsingTasks:(NSArray<TBDropboxTask *> *)tasks;
++ (instancetype)new __unavailable;
+- (id) init __unavailable;
 
 @end

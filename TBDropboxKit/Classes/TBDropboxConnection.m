@@ -6,7 +6,6 @@
 //
 //
 
-#import "TBDropboxConnection.h"
 #import "TBDropboxConnection+Private.h"
 
 
@@ -16,29 +15,16 @@
 @interface TBDropboxConnection ()
 
 @property (assign, nonatomic, readwrite) TBDropboxConnectionState state;
-@property (copy, nonatomic) NSString * accessTokenUID;
+@property (copy, nonatomic, readwrite) NSString * accessTokenUID;
 
 @end
 
 
 @implementation TBDropboxConnection
 
-/// MARK: property
+@synthesize accessTokenUID = _accessTokenUID;
 
-- (void)setDesired:(BOOL)desired {
-    if (_desired == desired) {
-        return;
-    }
-    
-    _desired = desired;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (_desired) {
-            [self openConnection];
-        } else {
-            [self pauseConnection];
-        }
-    });
-}
+/// MARK: property
 
 - (void)setState:(TBDropboxConnectionState)state {
     if (_state == state) {
@@ -46,16 +32,30 @@
     }
     
     _state = state;
+    
+    if (state == TBDropboxConnectionStateConnected) {
+        [self noteChangedSessionID: self.accessTokenUID];
+    }
+    
     [self noteConnectionStateChanged];
 }
 
 - (void)setAccessTokenUID:(NSString *)tokenUID {
+    if (_accessTokenUID == tokenUID) {
+        return;
+    }
+    _accessTokenUID = tokenUID;
+    
     [self saveAccessTokenUID: tokenUID];
 }
 
 - (NSString *)accessTokenUID {
-    NSString * reusult = [self loadPreviousAccessTokenUID];
-    return reusult;
+    if (_accessTokenUID != nil) {
+        return _accessTokenUID;
+    }
+    
+    _accessTokenUID = [self loadPreviousAccessTokenUID];
+    return _accessTokenUID;
 }
 
 /// MARK: life cycle
@@ -66,9 +66,8 @@
     return self;
 }
 
-+ (instancetype _Nullable)connectionDesired:(BOOL)desired
-                                usingAppKey:(NSString * _Nonnull)key
-                                   delegate:(id<TBDropboxConnectionDelegate> _Nonnull)delegate {
++ (instancetype _Nullable)connectionUsingAppKey:(NSString * _Nonnull)key
+                                       delegate:(id<TBDropboxConnectionDelegate> _Nonnull)delegate {
     if (key == nil
         || delegate == nil) {
         return nil;
@@ -78,8 +77,7 @@
     [result subscribeToNotifications];
     [DBClientsManager setupWithAppKey: key];
     result.delegate = delegate;
-    result.state = TBDropboxConnectionStateDisconnected;    
-    result.desired = desired;
+    result.state = TBDropboxConnectionStateDisconnected;
     
     return result;
 }
@@ -113,34 +111,7 @@
     return result;
 }
 
-/// MARK: notifications
-
-- (void)subscribeToNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(appBecomeActive:)
-                                                 name: UIApplicationDidBecomeActiveNotification
-                                               object: nil];
-}
-
-/// MARK: private
-
-- (void)authorize {
-    if (self.state == TBDropboxConnectionStateUndefined) {
-        return;
-    }
-    
-    self.state = TBDropboxConnectionStateAuthorization;
-    [self noteAuthStateChanged: TBDropboxAuthStateInitiated];
-    [DBClientsManager authorizeFromController: [UIApplication sharedApplication]
-                                   controller: [UIViewController new]
-                                      openURL: ^(NSURL *url) {
-        [self noteAuthStateChanged: TBDropboxAuthStateAuthorization];
-        [[UIApplication sharedApplication] openURL: url];
-    }
-                                       browserAuth: YES];
-}
-
-/// MARK: connection logic
+/// MARK - protected -
 
 - (void)openConnection {
     if (self.state == TBDropboxConnectionStateAuthorization ||
@@ -148,15 +119,9 @@
         return;
     }
     
-    if ([DBClientsManager authorizedClient] != nil) {
-        self.state = TBDropboxConnectionStateConnected;
-        return;
-    }
-    
-    if (self.state == TBDropboxConnectionStatePaused
-        && self.accessTokenUID != nil) {
+    if (self.accessTokenUID != nil) {
         DBUserClient * client =
-            [self authorizedClientUsingTokenUID: self.accessTokenUID];
+        [self authorizedClientUsingTokenUID: self.accessTokenUID];
         if (client != nil) {
             [DBClientsManager setAuthorizedClient:client];
             self.state = TBDropboxConnectionStateConnected;
@@ -199,6 +164,35 @@
     
     [self authorize];
 }
+
+/// MARK: notifications
+
+- (void)subscribeToNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(appBecomeActive:)
+                                                 name: UIApplicationDidBecomeActiveNotification
+                                               object: nil];
+}
+
+/// MARK: private
+
+- (void)authorize {
+    if (self.state == TBDropboxConnectionStateUndefined) {
+        return;
+    }
+    
+    self.state = TBDropboxConnectionStateAuthorization;
+    [self noteAuthStateChanged: TBDropboxAuthStateInitiated];
+    [DBClientsManager authorizeFromController: [UIApplication sharedApplication]
+                                   controller: [UIViewController new]
+                                      openURL: ^(NSURL *url) {
+        [self noteAuthStateChanged: TBDropboxAuthStateAuthorization];
+        [[UIApplication sharedApplication] openURL: url];
+    }
+                                       browserAuth: YES];
+}
+
+/// MARK: connection logic
 
 - (void)appBecomeActive:(NSNotification *)notification {
     if (self.state != TBDropboxConnectionStateAuthorization) {
@@ -321,6 +315,16 @@
     }
     
     return result;
+}
+
+/// MARK provide session ID
+
+- (void)noteChangedSessionID:(NSString *)sessionID {
+    SEL selector = @selector(dropboxConnection:didChangeSessionID:);
+    if ([self.delegate respondsToSelector: selector]) {
+        [self.delegate dropboxConnection: self
+                      didChangeSessionID: sessionID];
+    }
 }
 
 /// MARK convert auth result to NSError

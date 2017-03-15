@@ -26,6 +26,7 @@ typedef NSString TBDropboxCursor;
 @class TBDropboxFileEntry;
 @class TBDropboxClient;
 @class TBDropboxWatchdog;
+@class TBDropboxChange;
 
 
 typedef NS_ENUM(NSInteger, TBDropboxConnectionState) {
@@ -94,6 +95,20 @@ typedef NS_ENUM(NSInteger, TBDropboxTaskType) {
     TBDropboxTaskTypeRequestInfo = 1
 };
 
+typedef NS_ENUM(NSInteger, TBDropboxChangeAction) {
+    TBDropboxChangeActionUndefined = 0,
+    TBDropboxChangeActionDelete = 1,
+    TBDropboxChangeActionUpdateFile = 2,
+    TBDropboxChangeActionUpdateFolder = 3
+};
+
+#define StringFromDropboxChangeAction(enum) (([@[\
+@"Forbidden: Ufndefined",\
+@"Action: Delete",\
+@"Action: Update File",\
+@"Action: Update Folder",\
+] objectAtIndex:(enum)]))
+
 #define hasPropertyWithName(object, propertyName) [object respondsToSelector:NSSelectorFromString(propertyName)]
 #define valueUsingMetadata(metadata, key) hasPropertyWithName(metadata, key) ? [metadata valueForKey: key] : nil;
 
@@ -108,6 +123,9 @@ typedef NS_ENUM(NSInteger, TBDropboxTaskType) {
 - (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
      didChangeAuthStateTo:(TBDropboxAuthState)state
                 withError:(NSError * _Nullable)error;
+
+- (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
+       didChangeSessionID:(NSString *)sessionID;
 @end
 
 
@@ -143,11 +161,15 @@ didReceiveAuthError:(NSError *)error;
 TBDropboxWatchdogDelegate,
 TBDropboxQueueDelegate>
 
+- (void)client:(TBDropboxClient *)client
+didReceiveIncomingChanges:(NSArray <TBDropboxChange *> *)changes;
+
 @end
 
-@protocol TBDropboxFileRoutesSource <NSObject>
+@protocol TBDropboxClientSource <NSObject>
 
 @property (strong, nonatomic, readonly, nonnull) DBFILESRoutes * filesRoutes;
+@property (strong, nonatomic, readonly, nonnull) NSString * sessionID;
 
 @end
 

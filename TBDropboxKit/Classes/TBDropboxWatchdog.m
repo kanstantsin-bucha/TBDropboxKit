@@ -17,12 +17,13 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
 
 @interface TBDropboxWatchdog ()
 
-@property (weak, nonatomic, readwrite, nullable) id<TBDropboxFileRoutesSource> routesSource;
+@property (weak, nonatomic, readwrite, nullable) id<TBDropboxClientSource> routesSource;
 @property (strong, nonatomic, nullable) DBRpcTask * pendingChangesTask;
 @property (strong, nonatomic, nullable) DBRpcTask * wideAwakeTask;
 @property (strong, nonatomic, readonly, nullable) DBFILESRoutes * fileRoutes;
 @property (strong, nonatomic, readwrite) TBDropboxCursor * cursor;
 @property (assign, nonatomic, readwrite) TBDropboxWatchdogState state;
+@property (strong, nonatomic) NSString * sessionID;
 
 @end
 
@@ -42,7 +43,7 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
     if (_cursor != nil) {
         return _cursor;
     }
-    _cursor = [self loadCursor];
+    _cursor = [self loadCursorUsingSessionID: self.sessionID];
     return _cursor;
 }
 
@@ -52,7 +53,8 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
     }
     
     _cursor = cursor;
-    [self saveCursor: cursor];
+    [self saveCursor:cursor
+      usingSessionID:self.sessionID];
 }
 
 /// MARK: - life cycle -
@@ -63,13 +65,14 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
     return self;
 }
 
-+ (instancetype)watchdogUsingSource:(id<TBDropboxFileRoutesSource>)source {
++ (instancetype)watchdogUsingSource:(id<TBDropboxClientSource>)source {
     if (source == nil) {
         return nil;
     }
     
     TBDropboxWatchdog * result = [[[self class] alloc] initInstance];
     result.routesSource = source;
+    result.sessionID = source.sessionID;
     
     return result;
 }
@@ -235,15 +238,27 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
     }
 }
 
-- (TBDropboxCursor *)loadCursor {
+- (TBDropboxCursor *)loadCursorUsingSessionID:(NSString *)tokenUID {
+    NSString * cursorKey =
+        [self cursorStoringKeyUsingSessionID: tokenUID];
     TBDropboxCursor * result =
-        [[NSUserDefaults standardUserDefaults] objectForKey:TBDropboxWatchdog_Cursor_Key];
+        [[NSUserDefaults standardUserDefaults] objectForKey: cursorKey];
     return result;
 }
 
-- (void)saveCursor:(TBDropboxCursor *)cursor {
+- (void)saveCursor:(TBDropboxCursor *)cursor
+    usingSessionID:(NSString *)sessionID {
+    NSString * cursorKey =
+        [self cursorStoringKeyUsingSessionID: sessionID];
     [[NSUserDefaults standardUserDefaults] setObject: cursor
-                                              forKey: TBDropboxWatchdog_Cursor_Key];
+                                              forKey: cursorKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)cursorStoringKeyUsingSessionID:(NSString *)sessionID {
+    NSString * result = [NSString stringWithFormat:@"%@+%@",
+                         TBDropboxWatchdog_Cursor_Key,
+                         sessionID];
+    return result;
 }
 @end

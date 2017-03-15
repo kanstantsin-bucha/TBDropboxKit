@@ -15,10 +15,9 @@
 
 @property (assign, nonatomic, readonly) TBDropboxConnectionState state;
 
-@property (strong, nonatomic, readonly, nullable) id appIdentityToken;
+@property (copy, nonatomic, readonly) NSString * accessTokenUID;
 
 @property (assign, nonatomic, readonly) BOOL connected;
-@property (assign, nonatomic) BOOL desired;
 
 + (instancetype)new __unavailable;
 - (id) init __unavailable;

@@ -13,7 +13,6 @@
 
 @interface TBDropboxFolderEntry : NSObject<TBDropboxEntry>
 
-@property (copy, nonatomic, readonly, nullable) TBDropboxCursor * cursor;
 @property (strong, nonatomic, readonly, nullable) NSArray<id<TBDropboxEntry>> * childEntries;
 
 + (instancetype)new __unavailable;

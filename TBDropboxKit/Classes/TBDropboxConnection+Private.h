@@ -9,15 +9,19 @@
 #ifndef TBDropboxConnection_Private_h
 #define TBDropboxConnection_Private_h
 
+#import "TBDropboxConnection.h"
+
 @interface TBDropboxConnection ()
 
 @property (weak, nonatomic, nullable) id<TBDropboxConnectionDelegate> delegate;
 
+- (void)openConnection;
+- (void)closeConnection;
+- (void)pauseConnection;
 - (void)reauthorizeClient;
 
-+ (instancetype _Nullable)connectionDesired:(BOOL)desired
-                                usingAppKey:(NSString * _Nonnull)key
-                                   delegate:(id<TBDropboxConnectionDelegate> _Nonnull)delegate;
++ (instancetype _Nullable)connectionUsingAppKey:(NSString * _Nonnull)key
+                                       delegate:(id<TBDropboxConnectionDelegate> _Nonnull)delegate;
 
 @end
 

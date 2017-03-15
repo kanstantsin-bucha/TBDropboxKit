@@ -10,12 +10,12 @@
 #import "TBDropboxConnection+Private.h"
 #import <CDBDelegateCollection/CDBDelegateCollection.h>
 #import "TBDropboxChange.h"
-
+#import "TBDropboxChangesProcessor.h"
 
 @interface TBDropboxClient ()
 <
     TBDropboxConnectionDelegate,
-    TBDropboxFileRoutesSource,
+    TBDropboxClientSource,
     TBDropboxWatchdogDelegate,
     TBDropboxQueueDelegate
 >
@@ -25,6 +25,7 @@
 @property (strong, nonatomic, readwrite, nonnull) TBDropboxQueue * tasksQueue;
 @property (strong, nonatomic, readwrite, nonnull) TBDropboxWatchdog * watchdog;
 @property (strong, nonatomic) CDBDelegateCollection * delegates;
+@property (strong, nonatomic, readwrite) NSString * sessionID;
 
 @property (strong, nonatomic) NSDictionary * outgoingChanges;
 
@@ -34,6 +35,23 @@
 @implementation TBDropboxClient
 
 /// MARK: property
+
+- (void)setConnectionDesired:(BOOL)connectionDesired {
+    if (_connectionDesired == connectionDesired) {
+        return;
+    }
+    
+    _connectionDesired = connectionDesired;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (_connectionDesired) {
+            [self.connection openConnection];
+        } else {
+            [self.connection pauseConnection];
+            self.watchdog = nil;
+            self.tasksQueue = nil;
+        }
+    });
+}
 
 - (DBUserClient *)client {
     DBUserClient * result = [DBClientsManager authorizedClient];
@@ -114,10 +132,11 @@
 
 - (void)initiateWithConnectionDesired:(BOOL)desired
                           usingAppKey:(NSString *)key {
-    TBDropboxConnection * connection = [TBDropboxConnection connectionDesired: desired
-                                                                  usingAppKey: key
-                                                                     delegate: self];
+    TBDropboxConnection * connection = [TBDropboxConnection connectionUsingAppKey: key
+                                                                         delegate: self];
     self.connection = connection;
+    self.connectionDesired = desired;
+    self.sessionID = self.connection.accessTokenUID;
 }
 
 /// MARK: protocols
@@ -156,6 +175,15 @@
     }];
 }
 
+- (void)dropboxConnection:(TBDropboxConnection *)connection
+       didChangeSessionID:(NSString *)sessionID {
+    if (sessionID == nil) {
+        return;
+    }
+    
+    [self switchToDifferentSession: sessionID];
+}
+
 /// MARK: TBDropboxWatchdogDelegate
 
 - (void)watchdog:(TBDropboxWatchdog *)watchdog
@@ -183,11 +211,12 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
     if (self.outgoingChanges.count == 0) {
         incomingChanges = changes;
     } else {
-        incomingChanges = [TBDropboxChange processChanges: changes
-                                      byExcludingOutgoing: self.outgoingChanges];
+        incomingChanges =
+            [TBDropboxChangesProcessor processMetadataChanges: changes
+                                          byExcludingOutgoing: self.outgoingChanges];
     }
     
-    [self provideIncomingChanges: incomingChanges];
+    [self provideIncomingMetadataChanges: incomingChanges];
 }
 
 - (BOOL)watchdogCouldBeWideAwake:(TBDropboxWatchdog *)watchdog {
@@ -211,7 +240,7 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
         [self.tasksQueue pause];
         
         self.outgoingChanges =
-            [TBDropboxChange outgoingChangesUsingTasks: tasks];
+            [TBDropboxChangesProcessor outgoingMetadataChangesUsingTasks: tasks];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.watchdog resume];
         });
@@ -226,7 +255,7 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
     [self.connection reauthorizeClient];
 }
 
-/// MARK: TBDropboxFileRoutesSource
+/// MARK: TBDropboxClientSource
 
 - (DBFILESRoutes *)filesRoutes {
     DBFILESRoutes * result = self.client.filesRoutes;
@@ -245,8 +274,28 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
 
 /// MARK: private
 
-- (void)provideIncomingChanges:(NSArray *)changes {
+- (void)provideIncomingMetadataChanges:(NSArray *)metadataChanges {
+    if (metadataChanges.count == 0) {
+        return;
+    }
     
+    NSArray * changes =
+        [TBDropboxChangesProcessor changesUsingMetadataCahnges:metadataChanges];
+    SEL selector = @selector(client:didReceiveIncomingChanges:);
+    [self.delegates enumerateDelegatesRespondToSelector: selector
+                                             usingBlock:^(id<TBDropboxClientDelegate> delegate, BOOL *stop) {
+        [delegate client: self
+didReceiveIncomingChanges: changes];
+    }];
+}
+
+- (void)switchToDifferentSession:(NSString *)sessionID {
+    if ([self.sessionID isEqualToString: sessionID]) {
+        return;
+    }
+    
+    self.watchdog = nil;
+    self.tasksQueue = nil;
 }
 
 @end

@@ -16,9 +16,7 @@
 @property (strong, nonatomic, readonly) TBDropboxCursor * cursor;
 @property (assign, nonatomic, readonly) TBDropboxWatchdogState state;
 
-+ (instancetype _Nullable)watchdogUsingSource:(id<TBDropboxFileRoutesSource> _Nonnull)source;
-
-- (void)resetCursor;
++ (instancetype _Nullable)watchdogUsingSource:(id<TBDropboxClientSource> _Nonnull)source;
 
 + (instancetype)new __unavailable;
 - (id) init __unavailable;

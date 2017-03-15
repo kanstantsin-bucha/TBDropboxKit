@@ -14,6 +14,7 @@
 @interface TBDropboxListFolderTask ()
 
 @property (strong, nonatomic, readwrite, nonnull) TBDropboxFolderEntry * entry;
+@property (strong, nonatomic, readwrite, nonnull) TBDropboxCursor * cursor;
 
 @end
 
@@ -23,6 +24,16 @@
 /// MARK: life cycle
 
 + (instancetype)taskUsingEntry:(TBDropboxFolderEntry *)entry
+                    completion:(TBDropboxTaskCompletion)completion {
+    TBDropboxListFolderTask * result =
+        [[self class] taskUsingEntry: entry
+                              cursor: nil
+                          completion: completion];
+    return result;
+}
+
++ (instancetype)taskUsingEntry:(TBDropboxFolderEntry *)entry
+                        cursor:(NSString *)cursor
                     completion:(TBDropboxTaskCompletion)completion {
     if (entry == nil
         || completion == nil) {
@@ -34,6 +45,7 @@
     result.entry = entry;
     result.state = TBDropboxTaskStateReady;
     result.type = TBDropboxTaskTypeRequestInfo;
+    result.cursor = cursor;
     return result;
 }
 
@@ -41,10 +53,14 @@
 
 - (void)performMainUsingRoutes:(DBFILESRoutes *)routes
                 withCompletion:(CDBErrorCompletion)completion {
-    if (self.entry.cursor == nil) {
-        self.dropboxTask = [routes listFolder: self.entry.dropboxPath];
+    if (self.cursor == nil) {
+        self.dropboxTask = [routes listFolder: self.entry.dropboxPath
+                                    recursive: @(self.recursive)
+                             includeMediaInfo: @(self.includeMediaInfo)
+                               includeDeleted: @(self.includeDeleted)
+              includeHasExplicitSharedMembers: @(self.includeHasExplicitSharedMembers)];
     } else {
-        self.dropboxTask = [routes listFolderContinue: self.entry.cursor];
+        self.dropboxTask = [routes listFolderContinue: self.cursor];
     }
 
     weakCDB(wself);
@@ -60,7 +76,7 @@
                 return;
             }
                 
-            [wself.entry updateCursor: response.cursor];
+            wself.cursor = response.cursor;
             [wself.entry addIncomingMetadataEntries: response.entries];
                 
             if (response.hasMore.boolValue) {

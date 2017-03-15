@@ -28,7 +28,7 @@
 
 - (instancetype)initInstance;
 
-- (void)runUsingRoutesSource:(id<TBDropboxFileRoutesSource> _Nonnull)routesSource
+- (void)runUsingRoutesSource:(id<TBDropboxClientSource> _Nonnull)routesSource
               withCompletion:(CDBErrorCompletion _Nonnull)completion;
 - (void)performMainUsingRoutes:(DBFILESRoutes * _Nonnull)routes
                 withCompletion:(CDBErrorCompletion _Nonnull)completion;

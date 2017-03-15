@@ -30,6 +30,7 @@
 #import "TBDropboxMoveEntryTask.h"
 
 #import "TBDropboxChange.h"
+#import "TBDropboxLocalChange.h"
 
 
 #endif /* TBDropboxKit_h */

@@ -16,7 +16,7 @@
 
 @interface TBDropboxQueue ()
 
-@property (weak, nonatomic, readwrite, nullable) id<TBDropboxFileRoutesSource> routesSource;
+@property (weak, nonatomic, readwrite, nullable) id<TBDropboxClientSource> routesSource;
 
 @property (strong, nonatomic) NSMutableArray<TBDropboxTask *> * scheduledTasksHolder;
 @property (strong, nonatomic) NSMutableArray<TBDropboxTask *> * processedTasksBatchHolder;
@@ -24,6 +24,7 @@
 @property (assign, nonatomic) NSUInteger taskID;
 @property (assign, nonatomic, readwrite) TBDropboxQueueState state;
 @property (strong, nonatomic, readwrite) TBDropboxTask * currentTask;
+@property (strong, nonatomic, readwrite) NSString * sessionID;
 
 @end
 
@@ -76,13 +77,14 @@
     return self;
 }
 
-+ (instancetype)queueUsingSource:(id<TBDropboxFileRoutesSource>)source {
++ (instancetype)queueUsingSource:(id<TBDropboxClientSource>)source {
     if (source == nil) {
         return nil;
     }
     
     TBDropboxQueue * result = [[[self class] alloc] initInstance];
     result.routesSource = source;
+    result.sessionID = source.sessionID;
     
     return result;
 }
