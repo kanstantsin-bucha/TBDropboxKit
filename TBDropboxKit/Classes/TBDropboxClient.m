@@ -204,10 +204,6 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
         [self.tasksQueue resume];
     }
     
-    if (changes.count == 0) {
-        return;
-    }
-    
     NSArray * incomingChanges = nil;
     if (self.outgoingChanges.count == 0) {
         incomingChanges = changes;
@@ -279,10 +275,6 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
 /// MARK: private
 
 - (void)provideIncomingMetadataChanges:(NSArray *)metadataChanges {
-    if (metadataChanges.count == 0) {
-        return;
-    }
-    
     NSArray * changes =
         [TBDropboxChangesProcessor changesUsingMetadataCahnges:metadataChanges];
     SEL selector = @selector(client:didReceiveIncomingChanges:);
