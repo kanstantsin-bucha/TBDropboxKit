@@ -121,7 +121,7 @@
     
     if (self.accessTokenUID != nil) {
         DBUserClient * client =
-        [self authorizedClientUsingTokenUID: self.accessTokenUID];
+            [self authorizedClientUsingTokenUID: self.accessTokenUID];
         if (client != nil) {
             [DBClientsManager setAuthorizedClient:client];
             self.state = TBDropboxConnectionStateConnected;

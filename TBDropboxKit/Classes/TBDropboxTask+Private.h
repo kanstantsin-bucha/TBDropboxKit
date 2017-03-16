@@ -36,9 +36,8 @@
 - (void)suspend;
 - (BOOL)resume;
 
-- (void)handleResponseUsingRequestError:(DBRequestError * _Nullable)requestError
-                       taskRelatedError:(id _Nullable)relatedError
-                             completion:(CDBErrorCompletion _Nonnull)completion;
+- (NSError *)composeErrorUsingRequestError:(DBRequestError * _Nullable)requestError
+                          taskRelatedError:(id _Nullable)relatedError;
 
 - (NSError *)errorFileNotExistsAtURL:(NSURL * _Nonnull)URL
                          description:(NSString * _Nonnull)description;

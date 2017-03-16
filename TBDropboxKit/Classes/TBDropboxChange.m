@@ -36,6 +36,8 @@
     
     TBDropboxChange * result = [[[self class] alloc] initInstance];
     result.dropboxPath = metadata.pathDisplay;
+    result.metadata = metadata;
+    
     Class metadataClass = [metadata class];
     if ([DBFILESFileMetadata class] == metadataClass) {
         result.action = TBDropboxChangeActionUpdateFile;

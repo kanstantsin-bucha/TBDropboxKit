@@ -67,24 +67,23 @@
     [self.dropboxTask setResponseBlock: ^(DBFILESListFolderResult * _Nullable response,
                                           DBFILESListFolderError * _Nullable folderError,
                                           DBRequestError * _Nullable requestError) {
-        
-        [wself handleResponseUsingRequestError: requestError
-                              taskRelatedError: folderError
-                                    completion: ^(NSError * _Nullable error) {
-            if (error != nil) {
-                completion(error);
-                return;
-            }
-                
-            wself.cursor = response.cursor;
-            [wself.entry addIncomingMetadataEntries: response.entries];
-                
-            if (response.hasMore.boolValue) {
-                [wself performMainUsingRoutes: routes
-                               withCompletion: completion];
-            }
+        NSError * error = [wself composeErrorUsingRequestError: requestError
+                                              taskRelatedError: folderError];
+
+        if (error != nil) {
             completion(error);
-        }];
+            return;
+        }
+            
+        wself.cursor = response.cursor;
+        [wself.entry addIncomingMetadataEntries: response.entries];
+            
+        if (response.hasMore.boolValue) {
+            [wself performMainUsingRoutes: routes
+                           withCompletion: completion];
+        }
+        
+        completion(error);
     }];
     
     [self.dropboxTask start];

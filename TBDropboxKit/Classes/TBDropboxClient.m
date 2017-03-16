@@ -55,6 +55,7 @@
 
 - (DBUserClient *)client {
     DBUserClient * result = [DBClientsManager authorizedClient];
+    NSAssert(result != nil, @"[ERROR] Dropbox Client should never be nil!");
     return result;
 }
 

@@ -49,9 +49,9 @@
     [(DBUploadTask *)self.dropboxTask setResponseBlock:^(id  _Nullable response,
                                                          id  _Nullable routeError,
                                                          DBRequestError * _Nullable requestError) {
-        [wself handleResponseUsingRequestError: requestError
-                              taskRelatedError: routeError
-                                    completion: completion];
+        NSError * error = [wself composeErrorUsingRequestError: requestError
+                                              taskRelatedError: routeError];
+        completion(error);
     }];
     
     [self.dropboxTask start];

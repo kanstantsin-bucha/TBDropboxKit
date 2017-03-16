@@ -45,17 +45,25 @@
               withCompletion:(CDBErrorCompletion)completion {
     
     if (self.state != TBDropboxTaskStateRunning) {
-        completion([self failedToRunUnscheduledError]);
+        NSError * error = [self failedToRunUnscheduledError];
+        completion(error);
+        self.completion(self, error);
     }
     
     DBFILESRoutes * routes = routesSource.filesRoutes;
     if (routes == nil) {
-        completion([self failedToRunNoRoutesError]);
+        NSError * error = [self failedToRunNoRoutesError];
+        completion(error);
+        self.completion(self, error);
+        return;
     }
     
     [self performMainUsingRoutes: routes
                   withCompletion: ^(NSError * _Nullable error) {
+        self.dropboxTask = nil;
+        
         completion(error);
+        self.completion(self, error);
     }];
 }
 
@@ -92,18 +100,13 @@
     return result;
 }
 
-- (void)handleResponseUsingRequestError:(DBRequestError * _Nullable)requestError
-                       taskRelatedError:(id _Nullable)relatedError
-                             completion:(CDBErrorCompletion _Nonnull)completion {
-    self.dropboxTask = nil;
-    
+- (NSError *)composeErrorUsingRequestError:(DBRequestError * _Nullable)requestError
+                          taskRelatedError:(id _Nullable)relatedError {
     NSDictionary * info = @{ TBDropboxTaskDescriptionKey: self.description };
-    NSError * error = [[self class] errorUsingRequestError: requestError
-                                          taskRelatedError: relatedError
-                                                      info: info];
-                                          
-    completion(error);
-    self.completion(self, error);
+    NSError * result = [[self class] errorUsingRequestError: requestError
+                                           taskRelatedError: relatedError
+                                                       info: info];
+    return result;
 }
 
 /// MARK: dropbox errors

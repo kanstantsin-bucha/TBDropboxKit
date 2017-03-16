@@ -45,23 +45,25 @@
     [self.dropboxTask setResponseBlock: ^(DBFILESMetadata * response,
                                           id  _Nullable routeError,
                                           DBRequestError * _Nullable requestError) {
-        [wself handleResponseUsingRequestError: requestError
-                              taskRelatedError: routeError
-                                    completion: ^(NSError * _Nullable error) {
-                                    
-            DBFILESDeletedMetadata * metadata =
-                [[DBFILESDeletedMetadata alloc] initWithName:response.name
-                                                   pathLower:response.pathLower
-                                                 pathDisplay:response.pathDisplay
-                                        parentSharedFolderId:response.parentSharedFolderId];
-            id<TBDropboxEntry> metadataEntry =
-                [TBDropboxEntryFactory entryUsingMetadata: metadata];
-            if (metadataEntry != nil) {
-                self.entry = metadataEntry;
-            }
-            
+        NSError * error = [wself composeErrorUsingRequestError: requestError
+                                              taskRelatedError: routeError];
+        if (error != nil) {
             completion(error);
-        }];
+            return;
+        }
+        
+        DBFILESDeletedMetadata * metadata =
+            [[DBFILESDeletedMetadata alloc] initWithName:response.name
+                                               pathLower:response.pathLower
+                                             pathDisplay:response.pathDisplay
+                                    parentSharedFolderId:response.parentSharedFolderId];
+        id<TBDropboxEntry> metadataEntry =
+            [TBDropboxEntryFactory entryUsingMetadata: metadata];
+        if (metadataEntry != nil) {
+            self.entry = metadataEntry;
+        }
+            
+        completion(error);
     }];
     
     [self.dropboxTask start];

@@ -49,17 +49,20 @@
     [self.dropboxTask setResponseBlock: ^(id  _Nullable response,
                                           id  _Nullable routeError,
                                           DBRequestError * _Nullable requestError) {
-        [wself handleResponseUsingRequestError: requestError
-                              taskRelatedError: routeError
-                                    completion:^(NSError * _Nullable error) {
-            id<TBDropboxEntry> metadataEntry =
-                [TBDropboxEntryFactory entryUsingMetadata: response];
-            if (metadataEntry != nil) {
-                self.destinationEntry = metadataEntry;
-            }
-            
+        NSError * error = [wself composeErrorUsingRequestError: requestError
+                                              taskRelatedError: routeError];
+        if (error != nil) {
             completion(error);
-        }];
+            return;
+        }
+        
+        id<TBDropboxEntry> metadataEntry =
+            [TBDropboxEntryFactory entryUsingMetadata: response];
+        if (metadataEntry != nil) {
+            self.destinationEntry = metadataEntry;
+        }
+        
+        completion(error);
     }];
     
     [self.dropboxTask start];
