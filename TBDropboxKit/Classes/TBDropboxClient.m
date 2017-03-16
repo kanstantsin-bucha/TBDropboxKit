@@ -233,6 +233,9 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
     if (state == TBDropboxQueueStateResumedProcessing) {
         [self.watchdog pause];
     }
+    if (state == TBDropboxQueueStateResumedNoLoad) {
+        [self.watchdog resume];
+    }
 }
 
 - (void)queue:(TBDropboxQueue *)queue

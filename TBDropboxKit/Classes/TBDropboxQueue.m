@@ -64,8 +64,17 @@
 
 - (BOOL)hasPendingTasks {
     BOOL result = self.scheduledTasksHolder.count > 0
-                  || self.currentTask != nil;
+    || self.currentTask != nil;
     return result;
+}
+
+- (void)setState:(TBDropboxQueueState)state {
+    if (_state == state) {
+        return;
+    }
+    
+    _state = state;
+    [self notifyThatDidChangeStateTo: state];
 }
 
 /// MARK: life cycle
@@ -147,7 +156,7 @@
 - (TBDropboxTask *)taskByID:(TBDropboxTaskID *)ID {
     NSPredicate * predicate = [self tasksPredicateByID: ID];
     NSArray * filtered =
-        [self.scheduledTasksHolder filteredArrayUsingPredicate: predicate];
+    [self.scheduledTasksHolder filteredArrayUsingPredicate: predicate];
     TBDropboxTask * result = filtered.firstObject;
     return result;
 }
@@ -155,7 +164,7 @@
 - (NSArray<TBDropboxTask *> *)tasksByEntry:(id<TBDropboxEntry>)entry {
     NSPredicate * predicate = [self tasksPredicateByPath: entry.dropboxPath];
     NSArray * result =
-        [self.scheduledTasksHolder filteredArrayUsingPredicate: predicate];
+    [self.scheduledTasksHolder filteredArrayUsingPredicate: predicate];
     return result;
 }
 
@@ -166,7 +175,7 @@
     self.state = TBDropboxQueueStateResumedProcessing;
     
     BOOL shouldRestoreCurrent = self.currentTask != nil
-                                && self.currentTask.state != TBDropboxTaskStateSucceed;
+    && self.currentTask.state != TBDropboxTaskStateSucceed;
     
     if (shouldRestoreCurrent) {
         BOOL resumed = [self.currentTask resume];
@@ -231,15 +240,15 @@
     weakCDB(wself);
     [runningTask runUsingRoutesSource: self.routesSource
                        withCompletion: ^(NSError * _Nullable error) {
-        if (error != nil) {
-            runningTask.state = TBDropboxTaskStateFailed;
-            [self checkUnderlingErrorOf: error];
-        } else {
-            runningTask.state = TBDropboxTaskStateSucceed;
-        }
-        
-        [wself finishCurrentTask];
-    }];
+                           if (error != nil) {
+                               runningTask.state = TBDropboxTaskStateFailed;
+                               [self checkUnderlingErrorOf: error];
+                           } else {
+                               runningTask.state = TBDropboxTaskStateSucceed;
+                           }
+                           
+                           [wself finishCurrentTask];
+                       }];
 }
 
 - (void)checkUnderlingErrorOf:(NSError *)mainError {
@@ -252,7 +261,7 @@
     DBRequestErrorTag tag = [(DBRequestError *)error tag];
     
     BOOL receivedAuthError = tag == DBRequestErrorAuth
-                             || tag == DBRequestErrorClient;
+    || tag == DBRequestErrorClient;
     if (receivedAuthError == NO) {
         return;
     }
@@ -261,6 +270,16 @@
     if ([self.delegate respondsToSelector:selector]) {
         [self.delegate queue: self
          didReceiveAuthError: mainError];
+    }
+}
+
+/// MAKR: notify delegate
+
+- (void)notifyThatDidChangeStateTo:(TBDropboxQueueState)state {
+    SEL selector = @selector(queue:didChangeStateTo:);
+    if ([self.delegate respondsToSelector: selector]) {
+        [self.delegate queue: self
+            didChangeStateTo: state];
     }
 }
 
