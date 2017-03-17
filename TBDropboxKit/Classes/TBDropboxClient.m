@@ -95,9 +95,8 @@
     }
     _watchdogEnabled = watchdogEnabled;
     if (_watchdogEnabled) {
-        if (self.connection.state == TBDropboxConnectionStateConnected
-            && self.tasksQueue.state == TBDropboxQueueStateResumedNoLoad) {
-            [self.watchdog resume];
+        if (self.connection.state == TBDropboxConnectionStateConnected) {
+            [self resumeWatchdogAfterDelay:0];
         }
     } else {
         [self.watchdog pause];
@@ -230,7 +229,7 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
         [self.watchdog pause];
     }
     if (state == TBDropboxQueueStateResumedNoLoad) {
-        [self.watchdog resume];
+        [self resumeWatchdogAfterDelay:0];
     }
 }
 
@@ -241,10 +240,7 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
         
         self.outgoingChanges =
             [TBDropboxChangesProcessor outgoingMetadataChangesUsingTasks: tasks];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.watchdog resume];
-        });
-        
+        [self resumeWatchdogAfterDelay:0];
     }
 }
 
@@ -273,6 +269,19 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
 }
 
 /// MARK: private
+
+- (void)resumeWatchdogAfterDelay:(NSUInteger)sec {
+    if (self.watchdogEnabled == NO) {
+        return;
+    }
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(sec * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.tasksQueue.state == TBDropboxQueueStateResumedNoLoad
+            || self.tasksQueue.state == TBDropboxQueueStatePaused) {
+            [self.watchdog resume];
+        }
+    });
+}
 
 - (void)provideIncomingMetadataChanges:(NSArray *)metadataChanges {
     NSArray * changes =

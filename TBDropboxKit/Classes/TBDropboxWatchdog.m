@@ -57,6 +57,15 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
       usingSessionID:self.sessionID];
 }
 
+- (void)setState:(TBDropboxWatchdogState)state {
+    if (_state == state) {
+        return;
+    }
+    
+    _state = state;
+    [self notifyThatDidChangeStateTo: state];
+}
+
 /// MARK: - life cycle -
 
 - (instancetype)initInstance {
@@ -80,6 +89,12 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
 /// MARK: - public -
 
 - (void)resume {
+    BOOL couldResume = self.state == TBDropboxWatchdogStateUndefined
+                       || self.state == TBDropboxWatchdogStatePaused;
+    if (couldResume == NO) {
+        return;
+    }
+    
     self.state = TBDropboxWatchdogStateUndefined;
     
     if (self.cursor != nil) {
@@ -91,6 +106,10 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
 }
 
 - (void)pause {
+    if (self.state == TBDropboxQueueStatePaused) {
+        return;
+    }
+    
     [self.pendingChangesTask suspend];
     self.pendingChangesTask = nil;
     
@@ -228,6 +247,16 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
     }];
     
     [self.wideAwakeTask start];
+}
+
+/// MAKR: notify delegate
+
+- (void)notifyThatDidChangeStateTo:(TBDropboxQueueState)state {
+    SEL selector = @selector(watchdog:didChangeStateTo:);
+    if ([self.delegate respondsToSelector: selector]) {
+        [self.delegate watchdog: self
+               didChangeStateTo: state];
+    }
 }
 
 - (void)notePendingChanges:(NSArray *)changes {
