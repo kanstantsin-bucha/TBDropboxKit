@@ -18,7 +18,7 @@
 #define TBDropboxWatchdog_Schedule_Delay_Sec 5
 
 // must be at least 30
-#define TBDropboxWatchdog_Request_Timeout_Sec 30
+#define TBDropboxWatchdog_Request_Timeout_Min_Sec 30
 
 
 @interface TBDropboxWatchdog ()
@@ -61,6 +61,15 @@
                           self.routesSource];
 
     return result;
+}
+
+- (void)setWideAwakeTimeout:(NSUInteger)wideAwakeTimeout {
+    if (wideAwakeTimeout < TBDropboxWatchdog_Request_Timeout_Min_Sec) {
+        _wideAwakeTimeout = TBDropboxWatchdog_Request_Timeout_Min_Sec;
+        return;
+    }
+    
+    _wideAwakeTimeout = wideAwakeTimeout;
 }
 
 - (TBDropboxCursor *)wideAwakeCursor {
@@ -120,6 +129,7 @@
 
 - (instancetype)initInstance {
     if (self = [super init]) {
+        _wideAwakeTimeout = TBDropboxWatchdog_Request_Timeout_Min_Sec;
     }
     return self;
 }
@@ -302,7 +312,7 @@
     [self.logger info:@"create wide awake task using cursor %@", self.wideAwakeCursor];
 
     self.wideAwakeTask = [self.fileRoutes listFolderLongpoll: self.wideAwakeCursor
-                                                     timeout: @(TBDropboxWatchdog_Request_Timeout_Sec)];
+                                                     timeout: @(self.wideAwakeTimeout)];
     
     weakCDB(wself);
     [self.wideAwakeTask setResponseBlock:^(DBFILESListFolderLongpollResult *  _Nullable response,

@@ -17,6 +17,13 @@
 @property (assign, nonatomic, readonly) TBDropboxWatchdogState state;
 
 /**
+ @brief: A timeout in seconds. The request will block for at most this length of time,
+  plus up to 90 seconds of random jitter added to avoid the thundering herd problem.
+  Minimal value is 30. Default value is 30.
+ **/
+@property (assign, nonatomic) NSUInteger wideAwakeTimeout;
+
+/**
  @brief: Change logger.logLevel option to enable verdbose logging
  Default setup is TBLogLevelWarning
  **/
