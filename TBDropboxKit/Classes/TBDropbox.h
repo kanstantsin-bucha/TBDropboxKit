@@ -54,6 +54,15 @@ typedef NS_ENUM(NSInteger, TBDropboxAuthState) {
     TBDropboxAuthStateSucceed = 5
 };
 
+#define StringFromDropboxAuthState(enum) (([@[\
+@"State: Undefined",\
+@"State: Initiated",\
+@"State: Authorization",\
+@"State: Cancelled",\
+@"State: GotError",\
+@"State: Succeed",\
+] objectAtIndex:(enum)]))
+
 typedef NS_ENUM(NSInteger, TBDropboxWatchdogState) {
     TBDropboxWatchdogStateUndefined = 0,
     TBDropboxWatchdogStatePaused = 1,
@@ -61,12 +70,26 @@ typedef NS_ENUM(NSInteger, TBDropboxWatchdogState) {
     TBDropboxWatchdogStateResumedWideAwake = 3
 };
 
+#define StringFromDropboxWatchdogState(enum) (([@[\
+@"State: Undefined",\
+@"State: Paused",\
+@"State: Resumed-processingChanges",\
+@"State: Resumed-wideAwake",\
+] objectAtIndex:(enum)]))
+
 typedef NS_ENUM(NSInteger, TBDropboxQueueState) {
     TBDropboxQueueStateUndefined = 0,
     TBDropboxQueueStatePaused = 1,
     TBDropboxQueueStateResumedNoLoad = 2,
     TBDropboxQueueStateResumedProcessing = 3
 };
+
+#define StringFromDropboxQueueState(enum) (([@[\
+@"State: Undefined",\
+@"State: Paused",\
+@"State: Resumed-noLoad",\
+@"State: Resumed-processing",\
+] objectAtIndex:(enum)]))
 
 typedef NS_ENUM(NSInteger, TBDropboxEntrySource) {
     TBDropboxEntrySourcePath = 0,
