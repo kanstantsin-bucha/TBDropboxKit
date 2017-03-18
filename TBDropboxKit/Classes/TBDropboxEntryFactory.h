@@ -20,4 +20,6 @@
 + (TBDropboxFileEntry *)fileEntryByMirroringLocalURL:(NSURL *)fileURL
                                         usingBaseURL:(NSURL *)baseURL;
 
++ (NSArray<id<TBDropboxEntry>> * _Nullable)entriesUsingMetadata:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries;
+
 @end

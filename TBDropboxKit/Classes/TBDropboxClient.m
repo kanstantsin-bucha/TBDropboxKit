@@ -314,6 +314,13 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
     return result;
 }
 
+- (void)watchdog:(TBDropboxWatchdog *)watchdog
+didReceiveAuthError:(NSError *)error {
+    [self.logger error: @"watchdog acquired Auth error %@",
+                        error.localizedDescription];
+    [self handleAuthError: error];
+}
+
 /// MARK: TBDropboxQueueDelegate
 
 - (void)queue:(TBDropboxQueue *)queue
@@ -359,24 +366,17 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
     didReceiveAuthError:(NSError *)error {
     [self.logger error: @"tasks queue acquired Auth error %@",
                         error.localizedDescription];
-    [self.logger log: @"auth error %@",
-                      error];
-    
-    [self pauseTasksQueue];
-    [self pauseWatchdog];
-    
-    [self.logger log: @"process user reauthorization"];
-    [self.connection reauthorizeClient];
+    [self handleAuthError: error];
 }
 
 /// MARK: TBDropboxClientSource
 
-- (DBFILESRoutes *)filesRoutes {
-    [self.logger info: @"provide file routes"];
+- (DBFILESRoutes *)provideFilesRoutesFor:(NSObject *)inquirer {
+    [self.logger info: @"provide file routes to %@", inquirer];
     
     DBFILESRoutes * result = self.client.filesRoutes;
     
-    [self.logger verbose: @" %@", result];
+    [self.logger verbose: @"did provide file routes %@ to %@", result, inquirer];
     return result;
 }
 
@@ -449,6 +449,18 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
         
         [self resumeWatchdog];
     });
+}
+
+/// handle auth error
+
+- (void)handleAuthError:(NSError *)error {
+    [self.logger log: @"auth error %@", error];
+    
+    [self pauseTasksQueue];
+    [self pauseWatchdog];
+    
+    [self.logger log: @"process user reauthorization"];
+    [self.connection reauthorizeClient];
 }
 
 /// MARK provide changes

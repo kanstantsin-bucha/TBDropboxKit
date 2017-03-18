@@ -9,31 +9,50 @@
 #import "TBDropboxListFolderTask.h"
 #import "TBDropboxTask+Private.h"
 #import "TBDropboxFolderEntry+Private.h"
+#import "TBDropboxEntryFactory.h"
 
 
 @interface TBDropboxListFolderTask ()
 
 @property (strong, nonatomic, readwrite, nonnull) TBDropboxFolderEntry * entry;
-@property (strong, nonatomic, readwrite, nonnull) TBDropboxCursor * cursor;
+
+@property (strong, nonatomic, readwrite, nullable) TBDropboxCursor * cursor;
+@property (strong, nonatomic, readwrite, nullable) NSArray<id<TBDropboxEntry>> * folderEntries;
+@property (strong, nonatomic, readwrite, nullable) NSMutableArray<DBFILESMetadata *> * incomingMetadata;
 
 @end
 
 
 @implementation TBDropboxListFolderTask
 
-/// MARK: life cycle
+/// MAKR: property
 
-+ (instancetype)taskUsingEntry:(TBDropboxFolderEntry *)entry
-                    completion:(TBDropboxTaskCompletion)completion {
-    TBDropboxListFolderTask * result =
-        [[self class] taskUsingEntry: entry
-                              cursor: nil
-                          completion: completion];
+- (NSArray<id<TBDropboxEntry>> *)folderEntries {
+    if (_folderEntries != nil) {
+        return _folderEntries;
+    }
+    
+    _folderEntries = [TBDropboxEntryFactory entriesUsingMetadata: self.folderMetadata];
+    return _folderEntries;
+}
+
+- (NSArray<DBFILESMetadata *> *)folderMetadata {
+    NSArray * result = [self.incomingMetadata copy];
     return result;
 }
 
+- (NSMutableArray<DBFILESMetadata *> *)incomingMetadata {
+    if (_incomingMetadata != nil) {
+        return _incomingMetadata;
+    }
+    
+    _incomingMetadata = [NSMutableArray array];
+    return _incomingMetadata;
+}
+
+/// MARK: life cycle
+
 + (instancetype)taskUsingEntry:(TBDropboxFolderEntry *)entry
-                        cursor:(NSString *)cursor
                     completion:(TBDropboxTaskCompletion)completion {
     if (entry == nil
         || completion == nil) {
@@ -42,7 +61,21 @@
     
     TBDropboxListFolderTask * result = [[[self class] alloc] initInstance];
     result.completion = completion;
+    result.state = TBDropboxTaskStateReady;
+    result.type = TBDropboxTaskTypeRequestInfo;
     result.entry = entry;
+    return result;
+}
+
++ (instancetype)taskUsingCursor:(NSString *)cursor
+                    completion:(TBDropboxTaskCompletion)completion {
+    if (cursor == nil
+        || completion == nil) {
+        return nil;
+    }
+    
+    TBDropboxListFolderTask * result = [[[self class] alloc] initInstance];
+    result.completion = completion;
     result.state = TBDropboxTaskStateReady;
     result.type = TBDropboxTaskTypeRequestInfo;
     result.cursor = cursor;
@@ -53,7 +86,7 @@
 
 - (void)performMainUsingRoutes:(DBFILESRoutes *)routes
                 withCompletion:(CDBErrorCompletion)completion {
-    if (self.cursor == nil) {
+    if (self.entry != nil) {
         self.dropboxTask = [routes listFolder: self.entry.dropboxPath
                                     recursive: @(self.recursive)
                              includeMediaInfo: @(self.includeMediaInfo)
@@ -76,8 +109,10 @@
         }
             
         wself.cursor = response.cursor;
-        [wself.entry addIncomingMetadataEntries: response.entries];
-            
+        if (response.entries != nil) {
+            [wself.incomingMetadata addObjectsFromArray: response.entries];
+        }
+        
         if (response.hasMore.boolValue) {
             [wself performMainUsingRoutes: routes
                            withCompletion: completion];
@@ -88,5 +123,21 @@
     
     [self.dropboxTask start];
 }
+
+- (NSString *)description {
+    NSString * properties = @"";
+    if (self.entry != nil) {
+        properties = [properties stringByAppendingFormat:@"Path: %@", self.entry.readablePath];
+    }
+    if (self.cursor != nil) {
+        properties = [properties stringByAppendingFormat:@"Cursor: %@", self.cursor];
+    }
+    NSString * result =
+        [NSString stringWithFormat:@"%@ <%@>\r %@\r %@",
+                                   NSStringFromClass([self class]),@(self.hash),
+                                   StringFromDropboxTaskState(self.state), properties];
+    return result;
+}
+
 
 @end

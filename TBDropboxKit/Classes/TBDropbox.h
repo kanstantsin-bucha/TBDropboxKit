@@ -66,13 +66,15 @@ typedef NS_ENUM(NSInteger, TBDropboxAuthState) {
 typedef NS_ENUM(NSInteger, TBDropboxWatchdogState) {
     TBDropboxWatchdogStateUndefined = 0,
     TBDropboxWatchdogStatePaused = 1,
-    TBDropboxWatchdogStateResumedProcessingChanges = 2,
-    TBDropboxWatchdogStateResumedWideAwake = 3
+    TBDropboxWatchdogStateResumed = 2,
+    TBDropboxWatchdogStateResumedProcessingChanges = 3,
+    TBDropboxWatchdogStateResumedWideAwake = 4
 };
 
 #define StringFromDropboxWatchdogState(enum) (([@[\
 @"State: Undefined",\
 @"State: Paused",\
+@"State: Resumed",\
 @"State: Resumed-processingChanges",\
 @"State: Resumed-wideAwake",\
 ] objectAtIndex:(enum)]))
@@ -171,6 +173,9 @@ didCollectPendingChanges:(NSArray *)changes;
 
 - (BOOL)watchdogCouldBeWideAwake:(TBDropboxWatchdog * _Nonnull)watchdog;
 
+- (void)watchdog:(TBDropboxWatchdog * _Nonnull)watchdog
+didReceiveAuthError:(NSError *)error;
+
 @end
 
 @protocol TBDropboxQueueDelegate <NSObject>
@@ -199,7 +204,7 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> *)changes;
 
 @protocol TBDropboxClientSource <NSObject>
 
-@property (strong, nonatomic, readonly, nonnull) DBFILESRoutes * filesRoutes;
+- (DBFILESRoutes *)provideFilesRoutesFor:(NSObject *)inquirer;
 @property (strong, nonatomic, readonly, nonnull) NSString * sessionID;
 
 @end

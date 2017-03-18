@@ -240,15 +240,15 @@
     weakCDB(wself);
     [runningTask runUsingRoutesSource: self.routesSource
                        withCompletion: ^(NSError * _Nullable error) {
-                           if (error != nil) {
-                               runningTask.state = TBDropboxTaskStateFailed;
-                               [self checkUnderlingErrorOf: error];
-                           } else {
-                               runningTask.state = TBDropboxTaskStateSucceed;
-                           }
-                           
-                           [wself finishCurrentTask];
-                       }];
+        if (error != nil) {
+            runningTask.state = TBDropboxTaskStateFailed;
+            [self checkUnderlingErrorOf: error];
+        } else {
+            runningTask.state = TBDropboxTaskStateSucceed;
+        }
+       
+        [wself finishCurrentTask];
+    }];
 }
 
 - (void)checkUnderlingErrorOf:(NSError *)mainError {

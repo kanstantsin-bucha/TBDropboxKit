@@ -39,6 +39,10 @@
 - (NSError *)composeErrorUsingRequestError:(DBRequestError * _Nullable)requestError
                           taskRelatedError:(id _Nullable)relatedError;
 
++ (NSError *)errorUsingRequestError:(DBRequestError * _Nullable)requestError
+                   taskRelatedError:(id _Nullable)relatedError
+                               info:(NSDictionary *)info;
+
 - (NSError *)errorFileNotExistsAtURL:(NSURL * _Nonnull)URL
                          description:(NSString * _Nonnull)description;
 

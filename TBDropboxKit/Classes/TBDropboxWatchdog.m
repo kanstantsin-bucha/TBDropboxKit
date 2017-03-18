@@ -8,53 +8,103 @@
 
 #import "TBDropboxWatchdog.h"
 #import "TBDropboxFolderEntry.h"
+#import "TBDropboxEntryFactory.h"
+#import "TBDropboxTask+Private.h"
+#import "TBDropboxListFolderTask.h"
 
-#define TBDropboxWatchdog_Cursor_Key @"TBDropboxWatchdog_Cursor_Key=TBDropboxCursor.NSString"
 
-typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
-                                            TBDropboxCursor * _Nullable cursor,
-                                            NSError * _Nullable error);
+#define TBDropboxWatchdog_Cursor_PendingChanges_Key @"TBDropboxWatchdog_Cursor_PendingChanges_Key=TBDropboxCursor.NSString"
+#define TBDropboxWatchdog_Cursor_WideAwake_Key @"TBDropboxWatchdog_Cursor_WideAwake_Key=TBDropboxCursor.NSString"
+#define TBDropboxWatchdog_Schedule_Delay_Sec 5
+
+// must be at least 30
+#define TBDropboxWatchdog_Request_Timeout_Sec 30
+
 
 @interface TBDropboxWatchdog ()
 
 @property (weak, nonatomic, readwrite, nullable) id<TBDropboxClientSource> routesSource;
-@property (strong, nonatomic, nullable) DBRpcTask * pendingChangesTask;
+@property (strong, nonatomic, nullable) TBDropboxListFolderTask * pendingChangesTask;
 @property (strong, nonatomic, nullable) DBRpcTask * wideAwakeTask;
 @property (strong, nonatomic, readonly, nullable) DBFILESRoutes * fileRoutes;
-@property (strong, nonatomic, readwrite) TBDropboxCursor * cursor;
+@property (strong, nonatomic) TBDropboxCursor * pendingChangesCursor;
+@property (strong, nonatomic) TBDropboxCursor * wideAwakeCursor;
 @property (assign, nonatomic, readwrite) TBDropboxWatchdogState state;
 @property (strong, nonatomic) NSString * sessionID;
+@property (strong, nonatomic, readwrite) TBLogger * logger;
 
 @end
 
 
 @implementation TBDropboxWatchdog
 
-@synthesize cursor = _cursor;
+@synthesize wideAwakeCursor = _wideAwakeCursor,
+            pendingChangesCursor = _pendingChangesCursor;
 
 /// MARK: - property -
 
+- (TBLogger *)logger {
+    if (_logger != nil) {
+        return _logger;
+    }
+    _logger = [TBLogger loggerWithName: NSStringFromClass([self class])];
+    _logger.logLevel = TBLogLevelWarning;
+    return _logger;
+}
+
 - (DBFILESRoutes *)fileRoutes {
-    DBFILESRoutes * result = [self.routesSource filesRoutes];
+    DBFILESRoutes * result = [self.routesSource provideFilesRoutesFor: self];
+    
+    [self.logger info: result  == nil ? @"failed to receive routes"
+                                      : @"did receive routes"];
+    [self.logger verbose: @"did receive routes %@ from %@", result,
+                          self.routesSource];
+
     return result;
 }
 
-- (TBDropboxCursor *)cursor {
-    if (_cursor != nil) {
-        return _cursor;
-    }
-    _cursor = [self loadCursorUsingSessionID: self.sessionID];
-    return _cursor;
+- (TBDropboxCursor *)wideAwakeCursor {
+    return _pendingChangesCursor;
 }
 
-- (void)setCursor:(TBDropboxCursor *)cursor {
-    if ([_cursor isEqualToString:cursor]) {
+//- (TBDropboxCursor *)wideAwakeCursor {
+//    if (_wideAwakeCursor != nil) {
+//        return _wideAwakeCursor;
+//    }
+//    _wideAwakeCursor = [self loadCursorUsingKey: TBDropboxWatchdog_Cursor_WideAwake_Key
+//                                      sessionID: self.sessionID];
+//    return _wideAwakeCursor;
+//}
+//
+//- (void)setWideAwakeCursor:(TBDropboxCursor *)wideAwakeCursor {
+//    if ([_wideAwakeCursor isEqualToString: wideAwakeCursor]) {
+//        return;
+//    }
+//    
+//    _wideAwakeCursor = wideAwakeCursor;
+//    [self saveCursor: _wideAwakeCursor
+//            usingKey: TBDropboxWatchdog_Cursor_WideAwake_Key
+//           sessionID: self.sessionID];
+//}
+
+- (TBDropboxCursor *)pendingChangesCursor {
+    if (_pendingChangesCursor != nil) {
+        return _pendingChangesCursor;
+    }
+    _pendingChangesCursor = [self loadCursorUsingKey: TBDropboxWatchdog_Cursor_PendingChanges_Key
+                                      sessionID: self.sessionID];
+    return _pendingChangesCursor;
+}
+
+- (void)setPendingChangesCursor:(TBDropboxCursor *)pendingChangesCursor {
+    if ([_pendingChangesCursor isEqualToString: pendingChangesCursor]) {
         return;
     }
     
-    _cursor = cursor;
-    [self saveCursor:cursor
-      usingSessionID:self.sessionID];
+    _pendingChangesCursor = pendingChangesCursor;
+    [self saveCursor: _pendingChangesCursor
+            usingKey: TBDropboxWatchdog_Cursor_PendingChanges_Key
+           sessionID: self.sessionID];
 }
 
 - (void)setState:(TBDropboxWatchdogState)state {
@@ -82,6 +132,7 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
     TBDropboxWatchdog * result = [[[self class] alloc] initInstance];
     result.routesSource = source;
     result.sessionID = source.sessionID;
+    [result.logger log:@"create instance <%>", @(result.hash)];
     
     return result;
 }
@@ -89,42 +140,50 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
 /// MARK: - public -
 
 - (void)resume {
+    [self.logger info:@"did receive resume"];
+    
     BOOL couldResume = self.state == TBDropboxWatchdogStateUndefined
                        || self.state == TBDropboxWatchdogStatePaused;
     if (couldResume == NO) {
+        [self.logger log:@"skipping resume because State: Resumed"];
         return;
     }
     
-    self.state = TBDropboxWatchdogStateUndefined;
+    [self.logger log:@"resume"];
     
-    if (self.cursor != nil) {
+    self.state = TBDropboxWatchdogStateResumed;
+    if (self.wideAwakeCursor != nil) {
         [self startWideAwake];
         return;
     }
     
-    [self processPendingChanges];
+    [self startPendingChanges];
 }
 
 - (void)pause {
+    [self.logger info:@"did receive pause"];
+    
     if (self.state == TBDropboxQueueStatePaused) {
+        [self.logger log:@"skipping resume because State: Paused"];
         return;
     }
     
-    [self.pendingChangesTask suspend];
-    self.pendingChangesTask = nil;
+    [self.logger log:@"pause"];
     
-    [self.wideAwakeTask suspend];
-    self.wideAwakeTask = nil;
-    
+    [self dissmissProcessingTasks];
+
     self.state = TBDropboxWatchdogStatePaused;
 }
 
 - (void)resetCursor {
+    [self.logger log:@"reset cursor"];
+    
     BOOL shouldResume = self.state == TBDropboxWatchdogStateResumedProcessingChanges
                         || self.state == TBDropboxWatchdogStateResumedWideAwake;
     [self pause];
     
-    self.cursor = nil;
+    self.pendingChangesCursor = nil;
+    self.wideAwakeCursor = nil;
     
     if (shouldResume) {
         [self resume];
@@ -133,98 +192,96 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
 
 /// MARK: - private -
 
-- (void)processPendingChanges {
-    if (self.state == TBDropboxWatchdogStatePaused) {
+- (void)startPendingChanges {
+    [self.logger info:@"did recieve start pending changes"];
+    if (self.state != TBDropboxWatchdogStateResumed) {
+        [self.logger log:@"skipping start pending changes because is not State: Resumed"];
         return;
     }
+    
+    [self.logger log:@"start pending changes"];
+    [self.logger info: @"pendign changes cursor %@", self.pendingChangesCursor];
     
     self.state = TBDropboxWatchdogStateResumedProcessingChanges;
     
     weakCDB(wself);
-    [self processPendingChangesPreviosChanges: nil
-                                       cursor: self.cursor
-                                   completion:^(NSArray * _Nullable changes,
-                                                TBDropboxCursor * _Nullable cursor,
-                                                NSError * _Nullable error) {
+    self.pendingChangesTask =
+        [self pendingChangesTaskUsingCursor: self.pendingChangesCursor
+                                 completion: ^(TBDropboxTask * _Nonnull task,
+                                               NSError * _Nullable error) {
+        wself.state = TBDropboxWatchdogStateResumed;
+        
+        TBDropboxListFolderTask * listTask = (TBDropboxListFolderTask *)task;
+        NSArray * changes = listTask.folderMetadata;
+        
         if (error != nil) {
-            [wself scheduleProcessPendingChanges];
             return;
         }
         
+        wself.pendingChangesCursor = listTask.cursor;
+        [wself.logger info:@"inquired cursor %@", wself.pendingChangesCursor];
+        
         [wself notePendingChanges: changes];
-        wself.cursor = cursor;
+        [wself tryBeWideAwake];
+    }];
     
-        if (wself.state == TBDropboxWatchdogStateResumedProcessingChanges) {
-            [self tryBeWideAwake];
+    NSAssert(self.pendingChangesTask != nil, @"Pending changes task never could be nil");
+    if (self.pendingChangesTask == nil) {
+        [self.logger error: @"Failed to create pending changes task"];
+        [self scheduleProcessPendingChanges];
+        return;
+    }
+    
+    [self.logger info:@"start pending changes task: %@", self.pendingChangesTask];
+    
+    self.pendingChangesTask.state = TBDropboxTaskStateRunning;
+    
+    [self.pendingChangesTask runUsingRoutesSource: self.routesSource
+                                   withCompletion: ^(NSError * _Nullable error) {
+        if (error == nil) {
+            return;
         }
-
+         
+        [wself.logger error: @"failed processing pending changes"];
+        [wself.logger log: @"pending changes error %@", error];
+        [wself checkUnderlingErrorOf: error];
+        [wself scheduleProcessPendingChanges];
     }];
 }
 
 - (void)scheduleProcessPendingChanges {
+    int delay = TBDropboxWatchdog_Schedule_Delay_Sec;
+    
+    [self.logger log: @"schedule start pending changes after %@ sec", @(delay)];
+    
     weakCDB(wself);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                                 (int64_t)(delay * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
-        [wself processPendingChanges];
+        [self.logger info: @"fire scheduled start pending"];
+        
+        [wself startPendingChanges];
     });
 }
 
-- (void)processPendingChangesPreviosChanges:(NSArray *)changes
-                                     cursor:(TBDropboxCursor *)cursor
-                                 completion:(TBPendingChangesCompletion _Nonnull)completion {
-    if (cursor != nil) {
-        self.pendingChangesTask = [self.fileRoutes listFolderContinue: cursor];
-    } else {
-        self.pendingChangesTask =
-            [self.fileRoutes listFolder: TBDropboxFolderEntry_Root_Folder_Path
-                              recursive: @(YES)
-                       includeMediaInfo: @(YES)
-                         includeDeleted: @(YES)
-        includeHasExplicitSharedMembers: @(NO)];
+- (void)tryBeWideAwake {
+    [self.logger info:@"received try wide awake"];
+    if (self.state != TBDropboxWatchdogStateResumed) {
+        [self.logger log:@"skipping try wide awake bacause is not State: Resumed"];
+        return;
     }
     
-    weakCDB(wself);
-    [self.pendingChangesTask setResponseBlock:^(DBFILESListFolderResult * response,
-                                                id  _Nullable routeError,
-                                                DBRequestError * _Nullable error) {
-        wself.pendingChangesTask = nil;
-        
-        if (error != nil) {
-            completion(nil, nil, error);
-        }
-        
-        NSMutableArray * gatheredChanges = [NSMutableArray array];
-        if (changes != nil) {
-            [gatheredChanges addObjectsFromArray: changes];
-        }
-        if (response.entries != nil) {
-            [gatheredChanges addObjectsFromArray: response.entries];
-        }
-        
-        if (response.hasMore.boolValue == NO) {
-            wself.cursor = response.cursor;
-            completion(gatheredChanges, response.cursor, error);
-            return;
-        }
-        
-        [wself processPendingChangesPreviosChanges: gatheredChanges
-                                            cursor: response.cursor
-                                        completion: completion];
-    }];
-    
-    [self.pendingChangesTask start];
-}
-
-- (void)tryBeWideAwake {
-    BOOL canDo = YES;
-    
+    BOOL awailableWideAwake = YES;
     SEL selector = @selector(watchdogCouldBeWideAwake:);
     if ([self.delegate respondsToSelector: selector]) {
-        canDo = [self.delegate watchdogCouldBeWideAwake: self];
+        awailableWideAwake = [self.delegate watchdogCouldBeWideAwake: self];
+        [self.logger info: @"delegate %@ allow wide awake: %@",
+                           self.delegate, awailableWideAwake ? @"YES" : @"NO"];
     }
     
-    if (canDo == NO) {
-        self.state = TBDropboxWatchdogStatePaused;
+    if (awailableWideAwake == NO) {
+        [self.logger log: @"skip wide awake bacause forbidden by delegate"];
+        [self pause];
         return;
     }
     
@@ -232,28 +289,137 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
 }
 
 - (void)startWideAwake {
-    if (self.state == TBDropboxWatchdogStatePaused) {
+    [self.logger info:@"received start wide awake"];
+    if (self.state != TBDropboxWatchdogStateResumed) {
+        [self.logger log:@"skipping start wide awake bacause is not State: Resumed"];
         return;
     }
     
+    [self.logger log:@"start wide awake"];
+    
     self.state = TBDropboxWatchdogStateResumedWideAwake;
-    self.wideAwakeTask = [self.fileRoutes listFolderLongpoll: self.cursor];
+  
+    [self.logger info:@"create wide awake task using cursor %@", self.wideAwakeCursor];
+
+    self.wideAwakeTask = [self.fileRoutes listFolderLongpoll: self.wideAwakeCursor
+                                                     timeout: @(TBDropboxWatchdog_Request_Timeout_Sec)];
+    
     weakCDB(wself);
-    [self.wideAwakeTask setResponseBlock:^(id  _Nullable response,
+    [self.wideAwakeTask setResponseBlock:^(DBFILESListFolderLongpollResult *  _Nullable response,
                                            id  _Nullable routeError,
-                                           DBRequestError * _Nullable error) {
+                                           DBRequestError * _Nullable requestError) {
+        wself.state = TBDropboxWatchdogStateResumed;
+        NSError * error = [TBDropboxTask errorUsingRequestError: requestError
+                                               taskRelatedError: routeError
+                                                           info: nil];
+        if (error != nil) {
+            [wself.logger error: @"failed wide awake"];
+            [wself.logger log: @"wide awake error %@", error];
+            [wself checkUnderlingErrorOf: error];
+            [wself scheduleWideAwake];
+            return;
+        }
+        
+        NSInteger changesCount = response.changes.integerValue;
+        
+        [wself.logger log: @"did finish wide awake with %@ incoming changes",
+                           response.changes];
+        
         wself.wideAwakeTask = nil;
-        [wself processPendingChanges];
+        if (changesCount > 0) {
+            [wself startPendingChanges];
+        } else {
+            [wself scheduleWideAwake];
+        }
     }];
+    
+    [self.logger info:@"start wide awake task %@", self.wideAwakeTask];
     
     [self.wideAwakeTask start];
 }
 
-/// MAKR: notify delegate
+- (void)scheduleWideAwake {
+    int delay = TBDropboxWatchdog_Schedule_Delay_Sec;
+    
+    [self.logger log: @"schedule wide awake after %@ sec", @(delay)];
+    
+    weakCDB(wself);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                                 (int64_t)(delay * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        [self.logger info: @"fire scheduled wide awake"];
+
+        [wself startWideAwake];
+    });
+}
+
+/// MARK list folder task
+
+- (TBDropboxListFolderTask *)pendingChangesTaskUsingCursor:(TBDropboxCursor *)cursor
+                                                completion:(TBDropboxTaskCompletion _Nonnull)completion {
+    if (cursor != nil) {
+        [self.logger info: @"create pending changes usig cursor"];
+        [self.logger verbose: @"cursor %@", cursor];
+        
+        TBDropboxListFolderTask * result =
+            [TBDropboxListFolderTask taskUsingCursor: cursor
+                                          completion: completion];
+        return result;
+    }
+    
+    [self.logger info: @"enquiring new pending changes task because of nil cursor"];
+    TBDropboxFolderEntry * root =
+        [TBDropboxEntryFactory folderEntryUsingDropboxPath: nil];
+    TBDropboxListFolderTask * result =
+        [TBDropboxListFolderTask taskUsingEntry: root
+                                     completion: completion];
+    result.recursive = YES;
+    result.includeDeleted = YES;
+    
+    return result;
+}
+
+/// MARK: check error
+
+- (void)checkUnderlingErrorOf:(NSError *)mainError {
+    
+    id error = mainError.userInfo[TBDropboxUnderlyingErrorKey];
+    
+    if ([error isKindOfClass:[DBRequestError class]] == NO) {
+        return;
+    }
+    
+    DBRequestErrorTag tag = [(DBRequestError *)error tag];
+    
+    BOOL receivedAuthError = tag == DBRequestErrorAuth
+                             || tag == DBRequestErrorClient;
+    if (receivedAuthError == NO) {
+        return;
+    }
+    
+    [self.logger warning:@"found auth error"];
+    
+    SEL selector = @selector(watchdog: didReceiveAuthError:);
+    if ([self.delegate respondsToSelector:selector]) {
+        [self.logger log:@"provide auth error to delegate %@", self.delegate];
+        
+        [self.delegate watchdog: self
+            didReceiveAuthError: mainError];
+    }
+}
+
+/// MARK: notify delegate
 
 - (void)notifyThatDidChangeStateTo:(TBDropboxQueueState)state {
+
+    [self.logger warning:@"%@", StringFromDropboxWatchdogState(state)];
+    
     SEL selector = @selector(watchdog:didChangeStateTo:);
     if ([self.delegate respondsToSelector: selector]) {
+        
+        [self.logger log:@"provide %@ to delegate %@",
+                        StringFromDropboxWatchdogState(state), self.delegate];
+        
         [self.delegate watchdog: self
                didChangeStateTo: state];
     }
@@ -261,33 +427,70 @@ typedef void (^TBPendingChangesCompletion) (NSArray * _Nullable changes,
 
 - (void)notePendingChanges:(NSArray *)changes {
     SEL selector = @selector(watchdog:didCollectPendingChanges:);
+    [self.logger warning:@"enquired %@ pending changes", @(changes.count)];
+    [self.logger verbose:@"pending changes:\r %@", changes.debugDescription];
+    
     if ([self.delegate respondsToSelector: selector]) {
+    
+        [self.logger log:@"provide %@ pending changes to delegate %@",
+                         @(changes.count), self.delegate];
+        
         [self.delegate watchdog: self
        didCollectPendingChanges: changes];
     }
 }
 
-- (TBDropboxCursor *)loadCursorUsingSessionID:(NSString *)tokenUID {
+/// MARK cursor storage
+
+- (TBDropboxCursor *)loadCursorUsingKey:(NSString *)key
+                              sessionID:(NSString *)sessionID {
+    [self.logger log: @"load cursor"];
+    
     NSString * cursorKey =
-        [self cursorStoringKeyUsingSessionID: tokenUID];
+        [self cursorStoringKeyUsingKey: key sessionID: sessionID];
     TBDropboxCursor * result =
         [[NSUserDefaults standardUserDefaults] objectForKey: cursorKey];
+    
+    [self.logger info: @"did load cursor %@", result];
+    [self.logger verbose: @"for key %@ session id %@", key, sessionID];
+    
     return result;
 }
 
 - (void)saveCursor:(TBDropboxCursor *)cursor
-    usingSessionID:(NSString *)sessionID {
+          usingKey:(NSString *)key
+         sessionID:(NSString *)sessionID {
+    [self.logger log: @"save cursor"];
+    
     NSString * cursorKey =
-        [self cursorStoringKeyUsingSessionID: sessionID];
+        [self cursorStoringKeyUsingKey: key sessionID: sessionID];
+    
+    [self.logger verbose: @"using cursor key: %@", cursorKey];
+    
     [[NSUserDefaults standardUserDefaults] setObject: cursor
                                               forKey: cursorKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self.logger info: @"did save cursor %@", cursor];
+    [self.logger verbose: @"for key %@ session id %@", key, sessionID];
+
 }
 
-- (NSString *)cursorStoringKeyUsingSessionID:(NSString *)sessionID {
-    NSString * result = [NSString stringWithFormat:@"%@+%@",
-                         TBDropboxWatchdog_Cursor_Key,
-                         sessionID];
+- (NSString *)cursorStoringKeyUsingKey:(NSString *)key
+                             sessionID:(NSString *)sessionID {
+    NSString * result = [NSString stringWithFormat:@"%@+%@", key, sessionID];
     return result;
+}
+
+/// MARK dissmiss tasks
+
+- (void)dissmissProcessingTasks {
+    [self.logger log: @"dissmiss processing tasks"];
+    
+    [self.pendingChangesTask suspend];
+    self.pendingChangesTask = nil;
+
+    [self.wideAwakeTask suspend];
+    self.wideAwakeTask = nil;
 }
 @end

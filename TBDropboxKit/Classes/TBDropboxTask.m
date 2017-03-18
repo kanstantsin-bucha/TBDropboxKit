@@ -45,12 +45,12 @@
               withCompletion:(CDBErrorCompletion)completion {
     
     if (self.state != TBDropboxTaskStateRunning) {
-        NSError * error = [self failedToRunUnscheduledError];
+        NSError * error = [self failedToProcessNotRunningTaskError];
         completion(error);
         self.completion(self, error);
     }
     
-    DBFILESRoutes * routes = routesSource.filesRoutes;
+    DBFILESRoutes * routes = [routesSource provideFilesRoutesFor: self];
     if (routes == nil) {
         NSError * error = [self failedToRunNoRoutesError];
         completion(error);
@@ -76,8 +76,8 @@
 
 /// MARK: error
 
-- (NSError *)failedToRunUnscheduledError {
-    NSString * description = @"Failed to run task that was not scheduled";
+- (NSError *)failedToProcessNotRunningTaskError {
+    NSString * description = @"Failed to process task that was not running";
     NSError * result = [NSError errorWithDomain: TBDropboxErrorDomain
                                            code: 100
                                        userInfo: @{ NSLocalizedDescriptionKey : description}];

@@ -22,8 +22,6 @@
 
 - (instancetype)initInstance;
 
-- (void)addIncomingMetadataEntries:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries;
-
 @end
 
 #endif /* TBDropboxFolderEntry_Private_h */

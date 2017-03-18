@@ -14,7 +14,6 @@
 
 @interface TBDropboxFolderEntry ()
 
-@property (strong, nonatomic, readwrite, nullable) NSArray<id<TBDropboxEntry>> * childEntries;
 
 @end
 
@@ -55,23 +54,6 @@
                          self.readablePath,
                          self.metadata.description];
     return result;
-}
-
-- (void)addIncomingMetadataEntries:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries {
-    NSMutableArray * childEntries = [NSMutableArray new];
-    [childEntries addObjectsFromArray: self.childEntries];
-    
-    for (DBFILESMetadata * metadata in metadataEntries) {
-        id<TBDropboxEntry> entry = [TBDropboxEntryFactory entryUsingMetadata: metadata];
-        if (entry == nil) {
-            NSLog(@"Could not create entry using metadata: %@", metadata);
-            continue;
-        }
-        
-        [childEntries addObject: entry];
-    }
-    
-    self.childEntries = [childEntries copy];
 }
 
 @end

@@ -53,6 +53,7 @@
     result.loggerName = name;
     return result;
 }
+
 /// MARK: public
 
 - (void)verbose:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2) {

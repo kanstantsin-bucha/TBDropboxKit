@@ -99,6 +99,21 @@
     return result;
 }
 
++ (NSArray<id<TBDropboxEntry>> *)entriesUsingMetadata:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries {
+    NSMutableArray * result = [NSMutableArray array];
+    for (DBFILESMetadata * metadata in metadataEntries) {
+        id<TBDropboxEntry> entry = [TBDropboxEntryFactory entryUsingMetadata: metadata];
+        if (entry == nil) {
+            NSLog(@"[ERROR] Could not create entry using metadata: %@", metadata);
+            continue;
+        }
+        
+        [result addObject: entry];
+    }
+    
+    return [result copy];
+}
+
 /// MARK: - private -
 
 + (TBDropboxFileEntry *)fileEntryByMirroringLocalURL:(NSURL *)fileURL
