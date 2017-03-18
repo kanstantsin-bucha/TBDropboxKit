@@ -339,6 +339,7 @@
         if (changesCount > 0) {
             [wself startPendingChanges];
         } else {
+            [wself notePendingChanges:@[]];
             [wself scheduleWideAwake];
         }
     }];
