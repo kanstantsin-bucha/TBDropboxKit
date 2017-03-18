@@ -256,7 +256,6 @@
     }
     
     [self switchToDifferentSession: sessionID];
-    
 }
 
 /// MARK: TBDropboxWatchdogDelegate

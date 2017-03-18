@@ -19,6 +19,7 @@
 
 // must be at least 30
 #define TBDropboxWatchdog_Request_Timeout_Min_Sec 30
+#define TBDropboxWatchdog_Request_Timeout_Default_Sec 60
 
 
 @interface TBDropboxWatchdog ()
@@ -28,7 +29,7 @@
 @property (strong, nonatomic, nullable) DBRpcTask * wideAwakeTask;
 @property (strong, nonatomic, readonly, nullable) DBFILESRoutes * fileRoutes;
 @property (strong, nonatomic) TBDropboxCursor * pendingChangesCursor;
-@property (strong, nonatomic) TBDropboxCursor * wideAwakeCursor;
+@property (strong, nonatomic, readonly) TBDropboxCursor * wideAwakeCursor;
 @property (assign, nonatomic, readwrite) TBDropboxWatchdogState state;
 @property (strong, nonatomic) NSString * sessionID;
 @property (strong, nonatomic, readwrite) TBLogger * logger;
@@ -129,7 +130,7 @@
 
 - (instancetype)initInstance {
     if (self = [super init]) {
-        _wideAwakeTimeout = TBDropboxWatchdog_Request_Timeout_Min_Sec;
+        _wideAwakeTimeout = TBDropboxWatchdog_Request_Timeout_Default_Sec;
     }
     return self;
 }
@@ -162,10 +163,6 @@
     [self.logger log:@"resume"];
     
     self.state = TBDropboxWatchdogStateResumed;
-    if (self.wideAwakeCursor != nil) {
-        [self startWideAwake];
-        return;
-    }
     
     [self startPendingChanges];
 }
@@ -193,12 +190,25 @@
     [self pause];
     
     self.pendingChangesCursor = nil;
-    self.wideAwakeCursor = nil;
     
     if (shouldResume) {
         [self resume];
     }
 }
+
+//- (void)checkIfAnyChangesPresents:(CDBBoolCompletion)completion {
+//    self.checkChangesTask = [self.fileRoutes listFolderGetLatestCursor: @""];
+//    [self.checkChangesTask setResponseBlock:^(DBFILESListFolderGetLatestCursorResult *  _Nullable response,
+//                                              id  _Nullable routeError,
+//                                              DBRequestError * _Nullable error) {
+//        BOOL result = [response.cursor isEqualToString:self.pendingChangesCursor] == NO;
+//        if (completion != nil) {
+//            completion(result);
+//        }
+//    }];
+//    
+//    [self.checkChangesTask start];
+//}
 
 /// MARK: - private -
 
