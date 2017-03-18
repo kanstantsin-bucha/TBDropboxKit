@@ -11,6 +11,7 @@
 #import "TBDropboxQueue.h"
 #import "TBDropboxConnection.h"
 #import "TBDropboxWatchdog.h"
+#import "TBLogger.h"
 
 
 @interface TBDropboxClient : NSObject
@@ -40,10 +41,11 @@
 @property (assign, nonatomic) BOOL watchdogEnabled;
 
 /**
- @brief: Use this option to enable verbose logging
+ @brief: Change logger.logLevel option to enable verdbose logging
+         Default setup is TBLogLevelWarning
  **/
 
-@property (assign, nonatomic) BOOL verbose;
+@property (strong, nonatomic, readonly) TBLogger * logger;
 
 + (instancetype)sharedInstance;
 

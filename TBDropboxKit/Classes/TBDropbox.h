@@ -34,8 +34,16 @@ typedef NS_ENUM(NSInteger, TBDropboxConnectionState) {
     TBDropboxConnectionStateDisconnected = 1,
     TBDropboxConnectionStateAuthorization = 2,
     TBDropboxConnectionStateConnected = 3,
-    TBDropboxConnectionStatePaused = 4 // Disconnected but has authorization token
+    TBDropboxConnectionStatePaused = 4 // Disconnected but keeping authorization token
 };
+
+#define StringFromDropboxConnectionState(enum) (([@[\
+@"State: Undefined",\
+@"State: Disconnected",\
+@"State: Authorization",\
+@"State: Connected",\
+@"State: Paused",\
+] objectAtIndex:(enum)]))
 
 typedef NS_ENUM(NSInteger, TBDropboxAuthState) {
     TBDropboxAuthStateUndefined = 0,

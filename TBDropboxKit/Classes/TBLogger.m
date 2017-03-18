@@ -9,9 +9,11 @@
 #import "TBLogger.h"
 #import <CDBKit/CDBKit.h>
 
+@interface TBLogger ()
 
+@property (copy, nonatomic, readwrite, nullable) NSString * loggerName;
 
-
+@end
 
 @implementation TBLogger
 
@@ -25,62 +27,115 @@
     return @"";
 }
 
+- (NSString *)logFormatString {
+    if (_logFormatString.length > 6) {
+        return _logFormatString;
+    }
+
+    _logFormatString = dTBLogDefaultFormat;
+    return _logFormatString;
+}
+
 /// MARK: life cycle
 
-- (instancetype)init {
+- (instancetype)initInstance {
     self = [super init];
     if (self) {
-        _acceptingLogLevel = TBLogLevelLog;
-        _logFormatString = dTBLogInitialFormat;
+        _logLevel = TBLogLevelVerbose;
+        _logFormatString = dTBLogDefaultFormat;
     }
     
     return self;
 }
 
++ (instancetype)loggerWithName:(NSString *)name {
+    TBLogger * result = [[[self class] alloc] initInstance];
+    result.loggerName = name;
+    return result;
+}
 /// MARK: public
 
 - (void)verbose:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2) {
+    va_list args;
+    va_start(args, format);
+    
     [self logUsingLevel: TBLogLevelVerbose
-            withFormat: format];
+                 format: format
+              arguments: args];
+    
+    va_end(args);
 }
 
 - (void)info:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2) {
+    va_list args;
+    va_start(args, format);
+    
     [self logUsingLevel: TBLogLevelInfo
-             withFormat: format];
+                 format: format
+              arguments: args];
+    
+    va_end(args);
 }
 
 - (void)log:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2) {
+    va_list args;
+    va_start(args, format);
+    
     [self logUsingLevel: TBLogLevelLog
-             withFormat: format];
+                 format: format
+              arguments: args];
+    
+    va_end(args);
 }
 
 - (void)warning:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2) {
+    va_list args;
+    va_start(args, format);
+
     [self logUsingLevel: TBLogLevelWarning
-             withFormat: format];
+                 format: format
+              arguments: args];
+    
+    va_end(args);
 }
 
 - (void)error:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2) {
+    va_list args;
+    va_start(args, format);
+    
     [self logUsingLevel: TBLogLevelError
-             withFormat: format];
+                 format: format
+              arguments: args];
+    
+    va_end(args);
 }
 
 /// MARK: private
 
 - (void)logUsingLevel:(TBLogLevel)level
-           withFormat:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(2,3) {
+               format:(NSString * _Nullable)format
+               arguments:(va_list)argList NS_FORMAT_FUNCTION(2,0) {// ... NS_FORMAT_FUNCTION(2,3) {
     if (format == nil) {
         return;
     }
     
-    if (level < self.acceptingLogLevel) {
+    if (level < self.logLevel) {
         return;
     }
     
-    va_list args;
-    va_start(args, format);
-    NSString * message = [[NSString alloc] initWithFormat: format
-                                                arguments: args];
-    va_end(args);
+    NSString * message = nil;
+    @try {
+        message = [[NSString alloc] initWithFormat: format
+                                         arguments: argList];
+    } @catch (NSException * exception) {
+        message = exception.description;
+    } @finally {
+    
+    }
+    
+    if (message == nil) {
+        return;
+    }
     
     [self logMessage: message
           usingLevel: level];
@@ -89,35 +144,35 @@
 - (void)logMessage:(NSString *)message
         usingLevel:(TBLogLevel)level {
     
-    if (self.logFormatString == nil) {
-        self.logFormatString = dTBLogInitialFormat;
-    }
-    
-    NSString * description = [self localizedLevelDescriptionUsingLogLevel: level];
+    NSString * description = [self localizedDescriptionUsingLogLevel: level];
     NSString * log =
         [NSString stringWithFormat:self.logFormatString,
                                    description, self.loggerName, message];
     NSLog(log);
 }
 
-+ (NSString *)localizedLevelDescriptionUsingLogLevel:(TBLogLevel)level {
+- (NSString *)localizedDescriptionUsingLogLevel:(TBLogLevel)level {
     NSString * result = @"";
     switch (level) {
             
             case TBLogLevelVerbose: {
-                result = LSCDB(@"VERBOSE");
+                result = LSCDB(VERBOSE);
             }    break;
             
             case TBLogLevelInfo: {
-                result = LSCDB(@"INFO");
+                result = LSCDB(INFO);
+            }    break;
+            
+            case TBLogLevelLog: {
+                result = LSCDB(LOG);
             }    break;
             
             case TBLogLevelWarning: {
-                result = LSCDB(@"WARNING");
+                result = LSCDB(WARNING);
             }    break;
             
             case TBLogLevelError: {
-                result = LSCDB(@"ERROR");
+                result = LSCDB(ERROR);
             }    break;
             
         default: {

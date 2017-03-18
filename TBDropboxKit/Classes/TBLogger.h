@@ -14,10 +14,11 @@ typedef NS_ENUM(NSUInteger, TBLogLevel) {
     TBLogLevelLog = 2,
     TBLogLevelWarning = 3,
     TBLogLevelError = 4,
+    TBLogLevelSilent = 5,
 };
 
-//                            [levelDescription] loggerName logMessage
-#define dTBLogInitialFormat @"[%@] %@: %@\r\n"
+//      [levelDescription] loggerName logMessage
+#define dTBLogDefaultFormat @"[%@] %@: %@\r"
 
 
 @interface TBLogger : NSObject
@@ -27,15 +28,20 @@ typedef NS_ENUM(NSUInteger, TBLogLevel) {
  @see dTBLogInitialFormat
  **/
 
-@property (copy, nonatomic) NSString * loggerName;
+@property (copy, nonatomic, readonly, nullable) NSString * loggerName;
 
 /**
  @brief accepts 3 objects - [levelDescription] loggerName logMessage
  @see dTBLogInitialFormat
  **/
 
-@property (copy, nonatomic) NSString * logFormatString;
-@property (assign, nonatomic) TBLogLevel acceptingLogLevel;
+@property (copy, nonatomic, nonnull) NSString * logFormatString;
+@property (assign, nonatomic) TBLogLevel logLevel;
+
++ (instancetype _Nullable)loggerWithName:(NSString * _Nullable)name;
+                                
+- (instancetype _Nullable)init __deprecated;
++ (instancetype _Nullable)new __deprecated;
 
 - (void)verbose:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2);
 - (void)info:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2);
@@ -43,6 +49,11 @@ typedef NS_ENUM(NSUInteger, TBLogLevel) {
 - (void)warning:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2);
 - (void)error:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2);
 
-- (NSString *)localizedLevelDescriptionUsingLogLevel:(TBLogLevel)level;
+/**
+ @brief in case you want provide your own level description
+ @see TBLogLevel
+ **/
+
+- (NSString * _Nonnull)localizedDescriptionUsingLogLevel:(TBLogLevel)level;
 
 @end
