@@ -13,8 +13,6 @@
 
 @interface TBDropboxFolderEntry : NSObject<TBDropboxEntry>
 
-@property (strong, nonatomic, readonly, nullable) NSArray<id<TBDropboxEntry>> * childEntries;
-
 + (instancetype)new __unavailable;
 - (id) init __unavailable;
 
