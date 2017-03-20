@@ -11,7 +11,6 @@
 
 @interface TBDropboxMoveEntryTask : TBDropboxTask
 
-@property (strong, nonatomic, readonly, nonnull) id<TBDropboxEntry> entry;
 @property (strong, nonatomic, readonly, nonnull) id<TBDropboxEntry> destinationEntry;
 
 + (instancetype _Nullable)taskUsingEntry:(id<TBDropboxEntry> _Nonnull)entry

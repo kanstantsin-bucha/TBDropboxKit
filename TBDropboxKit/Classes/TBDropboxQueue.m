@@ -151,6 +151,7 @@
     task.state = TBDropboxTaskStateReady;
     task.ID = nil;
     task.scheduledInQueue = nil;
+    return YES;
 }
 
 - (TBDropboxTask *)taskByID:(TBDropboxTaskID *)ID {

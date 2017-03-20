@@ -10,6 +10,8 @@
 
 @implementation TBDropboxDeletedEntry
 
+@synthesize fileName;
+
 /// MARK: property
 
 - (NSString *)readablePath {

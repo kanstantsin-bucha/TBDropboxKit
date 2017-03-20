@@ -12,7 +12,6 @@
 
 @interface TBDropboxMoveEntryTask ()
 
-@property (strong, nonatomic, readwrite, nonnull) id<TBDropboxEntry> entry;
 @property (strong, nonatomic, readwrite, nonnull) id<TBDropboxEntry> destinationEntry;
 
 @end
@@ -46,9 +45,9 @@
     self.dropboxTask = [routes move: self.entry.dropboxPath
                              toPath: self.destinationEntry.dropboxPath];
     weakCDB(wself);
-    [self.dropboxTask setResponseBlock: ^(id  _Nullable response,
-                                          id  _Nullable routeError,
-                                          DBRequestError * _Nullable requestError) {
+    [(DBRpcTask *)self.dropboxTask setResponseBlock: ^(id  _Nullable response,
+                                                       id  _Nullable routeError,
+                                                       DBRequestError * _Nullable requestError) {
         NSError * error = [wself composeErrorUsingRequestError: requestError
                                               taskRelatedError: routeError];
         if (error != nil) {
@@ -59,7 +58,7 @@
         id<TBDropboxEntry> metadataEntry =
             [TBDropboxEntryFactory entryUsingMetadata: response];
         if (metadataEntry != nil) {
-            self.destinationEntry = metadataEntry;
+            wself.destinationEntry = metadataEntry;
         }
         
         completion(error);

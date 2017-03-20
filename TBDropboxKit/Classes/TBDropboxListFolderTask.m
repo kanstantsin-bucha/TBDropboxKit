@@ -25,6 +25,8 @@
 
 @implementation TBDropboxListFolderTask
 
+@synthesize entry;
+
 /// MAKR: property
 
 - (NSArray<id<TBDropboxEntry>> *)folderEntries {
@@ -97,9 +99,9 @@
     }
 
     weakCDB(wself);
-    [self.dropboxTask setResponseBlock: ^(DBFILESListFolderResult * _Nullable response,
-                                          DBFILESListFolderError * _Nullable folderError,
-                                          DBRequestError * _Nullable requestError) {
+    [(DBRpcTask *)self.dropboxTask setResponseBlock: ^(DBFILESListFolderResult * _Nullable response,
+                                                       DBFILESListFolderError * _Nullable folderError,
+                                                       DBRequestError * _Nullable requestError) {
         NSError * error = [wself composeErrorUsingRequestError: requestError
                                               taskRelatedError: folderError];
 

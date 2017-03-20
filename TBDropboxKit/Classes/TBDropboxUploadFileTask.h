@@ -13,7 +13,6 @@
 
 @interface TBDropboxUploadFileTask : TBDropboxTask
 
-@property (strong, nonatomic, readonly, nonnull) TBDropboxFileEntry * entry;
 @property (strong, nonatomic, readonly, nonnull) NSURL * fileURL;
 
 + (instancetype _Nullable)taskUsingEntry:(TBDropboxFileEntry * _Nonnull)entry

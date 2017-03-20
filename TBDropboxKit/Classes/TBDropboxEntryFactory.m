@@ -86,14 +86,14 @@
     id<TBDropboxEntry> result = nil;
     
     if ([metadata isKindOfClass:[DBFILESDeletedMetadata class]]) {
-        result = [self deletedEntryUsingMetadata: metadata];
+        result = [self deletedEntryUsingMetadata: (DBFILESDeletedMetadata *)metadata];
     }
     if ([metadata isKindOfClass:[DBFILESFileMetadata class]]) {
-        result = [self fileEntryUsingMetadata: metadata];
+        result = [self fileEntryUsingMetadata: (DBFILESFileMetadata *) metadata];
     }
     
     if ([metadata isKindOfClass:[DBFILESFolderMetadata class]]) {
-        result = [self folderEntryUsingMetadata: metadata];
+        result = [self folderEntryUsingMetadata: (DBFILESFolderMetadata *) metadata];
     }
     
     return result;

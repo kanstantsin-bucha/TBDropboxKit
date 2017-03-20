@@ -22,10 +22,10 @@
     TBDropboxQueueDelegate
 >
 
-@property (weak, nonatomic, readwrite) TBDropboxConnection * connection;
+@property (strong, nonatomic, readwrite, nullable) TBDropboxConnection * connection;
 @property (strong, nonatomic, readonly) DBUserClient * client;
-@property (strong, nonatomic, readwrite, nonnull) TBDropboxQueue * tasksQueue;
-@property (strong, nonatomic, readwrite, nonnull) TBDropboxWatchdog * watchdog;
+@property (strong, nonatomic, readwrite, nullable) TBDropboxQueue * tasksQueue;
+@property (strong, nonatomic, readwrite, nullable) TBDropboxWatchdog * watchdog;
 @property (strong, nonatomic) CDBDelegateCollection * delegates;
 @property (strong, nonatomic, readwrite) NSString * sessionID;
 
@@ -58,7 +58,7 @@
     }
     
     _connectionDesired = connectionDesired;
-    [self.logger info: @"Connection desired changed to ",
+    [self.logger info: @"Connection desired changed to %@",
                           connectionDesired ? @"YES" : @"NO"];
     dispatch_async(dispatch_get_main_queue(), ^{
         if (_connectionDesired) {
@@ -190,7 +190,7 @@
     
     
     [self.logger log: @"initiated: connectionDesired: %@\r appkey %@",
-     desired, key == nil ? @"not nil" : @"nil"];
+     desired ? @"YES" : @"NO", key == nil ? @"not nil" : @"nil"];
     
     self.connectionDesired = desired;
     self.sessionID = self.connection.accessTokenUID;

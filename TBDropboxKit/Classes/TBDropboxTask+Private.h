@@ -21,7 +21,7 @@
 @property (copy, nonatomic, readwrite, nullable) TBDropboxTaskID * ID;
 @property (weak, nonatomic, readwrite, nullable) TBDropboxQueue * scheduledInQueue;
 
-@property (strong, nonatomic, nullable) DBRpcTask * dropboxTask;
+@property (strong, nonatomic, nullable) DBTask * dropboxTask;
 @property (strong, nonatomic, nullable) TBDropboxTaskCompletion completion;
 
 @property (strong, nonatomic, readwrite, nullable) NSError * runningError;

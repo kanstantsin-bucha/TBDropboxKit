@@ -292,7 +292,7 @@
     }
     
     DBUserClient * result =
-        [[DBUserClient alloc] initWithAccessToken:token];
+        [[DBUserClient alloc] initWithAccessToken: token.accessToken];
     return result;
 }
 

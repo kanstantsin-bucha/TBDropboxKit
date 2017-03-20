@@ -149,7 +149,7 @@
     NSString * log =
         [NSString stringWithFormat:self.logFormatString,
                                    description, self.loggerName, message];
-    NSLog(log);
+    NSLog(@"%@", log);
 }
 
 - (NSString *)localizedDescriptionUsingLogLevel:(TBLogLevel)level {

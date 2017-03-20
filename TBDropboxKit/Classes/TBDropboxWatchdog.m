@@ -123,7 +123,7 @@
     TBDropboxWatchdog * result = [[[self class] alloc] initInstance];
     result.routesSource = source;
     result.sessionID = source.sessionID;
-    [result.logger log:@"create instance <%>", @(result.hash)];
+    [result.logger log:@"create instance <%@>", @(result.hash)];
     
     return result;
 }
@@ -397,7 +397,7 @@
 
 /// MARK: notify delegate
 
-- (void)notifyThatDidChangeStateTo:(TBDropboxQueueState)state {
+- (void)notifyThatDidChangeStateTo:(TBDropboxWatchdogState)state {
 
     [self.logger warning:@"%@", StringFromDropboxWatchdogState(state)];
     

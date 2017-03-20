@@ -20,6 +20,8 @@
 
 @implementation TBDropboxCreateFolderTask
 
+@synthesize entry;
+
 /// MARK: life cycle
 
 + (instancetype)taskUsingEntry:(TBDropboxFolderEntry *)entry
@@ -44,9 +46,9 @@
     self.dropboxTask = [routes createFolder:self.entry.dropboxPath];
     
     weakCDB(wself);
-    [self.dropboxTask setResponseBlock:^(DBFILESFolderMetadata * response,
-                                         id  _Nullable routeError,
-                                         DBRequestError * _Nullable requestError) {
+    [(DBRpcTask *)self.dropboxTask setResponseBlock:^(DBFILESFolderMetadata * response,
+                                                      id  _Nullable routeError,
+                                                      DBRequestError * _Nullable requestError) {
         NSError * error = [wself composeErrorUsingRequestError: requestError
                                               taskRelatedError: routeError];
         if (error != nil) {
@@ -57,7 +59,7 @@
         id<TBDropboxEntry> metadataEntry =
             [TBDropboxEntryFactory entryUsingMetadata: response];
         if (metadataEntry != nil) {
-            self.entry = metadataEntry;
+            wself.entry = metadataEntry;
         }
         
         completion(error);

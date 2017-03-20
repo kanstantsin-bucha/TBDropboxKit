@@ -9,7 +9,7 @@
 #ifndef TBDropbox_h
 #define TBDropbox_h
 
-#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
+@import ObjectiveDropboxOfficial.ObjectiveDropboxOfficial;
 #import <CDBKit/CDBKit.h>
 
 #define TBDropboxErrorDomain @"TBDropboxKit"

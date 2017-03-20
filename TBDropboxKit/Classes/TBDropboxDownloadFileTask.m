@@ -12,7 +12,6 @@
 
 @interface TBDropboxDownloadFileTask ()
 
-@property (strong, nonatomic, readwrite, nonnull) TBDropboxFileEntry * entry;
 @property (strong, nonatomic, readwrite, nonnull) NSURL * fileURL;
 
 @end

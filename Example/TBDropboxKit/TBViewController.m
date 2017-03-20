@@ -7,7 +7,7 @@
 //
 
 #import "TBViewController.h"
-#import <TBDropboxKit/TBDropboxKit.h>
+@import TBDropboxKit.TBDropboxKit;
 
 @interface TBViewController ()
 

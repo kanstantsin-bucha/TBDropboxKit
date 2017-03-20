@@ -13,12 +13,12 @@
 
 @interface TBDropboxDeleteEntryTask ()
 
-@property (strong, nonatomic, readwrite, nonnull) id<TBDropboxEntry> entry;
 
 @end
 
 
 @implementation TBDropboxDeleteEntryTask
+
 
 + (instancetype)taskUsingEntry:(id<TBDropboxEntry>)entry
                     completion:(TBDropboxTaskCompletion)completion {
@@ -42,9 +42,9 @@
     
     self.dropboxTask = [routes delete_: self.entry.dropboxPath];
     weakCDB(wself);
-    [self.dropboxTask setResponseBlock: ^(DBFILESMetadata * response,
-                                          id  _Nullable routeError,
-                                          DBRequestError * _Nullable requestError) {
+    [(DBRpcTask *)self.dropboxTask setResponseBlock: ^(DBFILESMetadata * response,
+                                                       id  _Nullable routeError,
+                                                       DBRequestError * _Nullable requestError) {
         NSError * error = [wself composeErrorUsingRequestError: requestError
                                               taskRelatedError: routeError];
         if (error != nil) {
@@ -60,7 +60,7 @@
         id<TBDropboxEntry> metadataEntry =
             [TBDropboxEntryFactory entryUsingMetadata: metadata];
         if (metadataEntry != nil) {
-            self.entry = metadataEntry;
+            wself.entry = metadataEntry;
         }
             
         completion(error);

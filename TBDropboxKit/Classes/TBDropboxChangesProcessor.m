@@ -90,8 +90,8 @@ sameToConterpart:(DBFILESMetadata *)conterpart {
     }
     
     if ([change class] == [DBFILESFileMetadata class]) {
-        BOOL result = [self isFileChange: change
-                        sameToConterpart: conterpart];
+        BOOL result = [self isFileChange: (DBFILESFileMetadata *)change
+                        sameToConterpart: (DBFILESFileMetadata *)conterpart];
         return result;
     }
     

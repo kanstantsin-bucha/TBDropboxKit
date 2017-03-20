@@ -13,7 +13,6 @@
 
 @interface TBDropboxUploadFileTask ()
 
-@property (strong, nonatomic, readwrite, nonnull) TBDropboxFileEntry * entry;
 @property (strong, nonatomic, readwrite, nonnull) NSURL * fileURL;
 
 @end
@@ -74,7 +73,7 @@
         id<TBDropboxEntry> metadataEntry =
             [TBDropboxEntryFactory entryUsingMetadata: response];
         if (metadataEntry != nil) {
-            self.entry = metadataEntry;
+            wself.entry = metadataEntry;
         }
         
         completion(error);

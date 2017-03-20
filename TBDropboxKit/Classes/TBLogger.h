@@ -40,8 +40,8 @@ typedef NS_ENUM(NSUInteger, TBLogLevel) {
 
 + (instancetype _Nullable)loggerWithName:(NSString * _Nullable)name;
                                 
-- (instancetype _Nullable)init __deprecated;
-+ (instancetype _Nullable)new __deprecated;
+- (instancetype _Nullable)init __unavailable;
++ (instancetype _Nullable)new __unavailable;
 
 - (void)verbose:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2);
 - (void)info:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2);
