@@ -77,26 +77,6 @@
     return _pendingChangesCursor;
 }
 
-//- (TBDropboxCursor *)wideAwakeCursor {
-//    if (_wideAwakeCursor != nil) {
-//        return _wideAwakeCursor;
-//    }
-//    _wideAwakeCursor = [self loadCursorUsingKey: TBDropboxWatchdog_Cursor_WideAwake_Key
-//                                      sessionID: self.sessionID];
-//    return _wideAwakeCursor;
-//}
-//
-//- (void)setWideAwakeCursor:(TBDropboxCursor *)wideAwakeCursor {
-//    if ([_wideAwakeCursor isEqualToString: wideAwakeCursor]) {
-//        return;
-//    }
-//    
-//    _wideAwakeCursor = wideAwakeCursor;
-//    [self saveCursor: _wideAwakeCursor
-//            usingKey: TBDropboxWatchdog_Cursor_WideAwake_Key
-//           sessionID: self.sessionID];
-//}
-
 - (TBDropboxCursor *)pendingChangesCursor {
     if (_pendingChangesCursor != nil) {
         return _pendingChangesCursor;
@@ -195,20 +175,6 @@
         [self resume];
     }
 }
-
-//- (void)checkIfAnyChangesPresents:(CDBBoolCompletion)completion {
-//    self.checkChangesTask = [self.fileRoutes listFolderGetLatestCursor: @""];
-//    [self.checkChangesTask setResponseBlock:^(DBFILESListFolderGetLatestCursorResult *  _Nullable response,
-//                                              id  _Nullable routeError,
-//                                              DBRequestError * _Nullable error) {
-//        BOOL result = [response.cursor isEqualToString:self.pendingChangesCursor] == NO;
-//        if (completion != nil) {
-//            completion(result);
-//        }
-//    }];
-//    
-//    [self.checkChangesTask start];
-//}
 
 /// MARK: - private -
 
