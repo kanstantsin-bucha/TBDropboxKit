@@ -15,12 +15,12 @@
 
 @property (assign, nonatomic, readonly) TBDropboxConnectionState state;
 
-@property (copy, nonatomic, readonly) NSString * accessTokenUID;
+@property (copy, nonatomic, readonly, nullable) NSString * accessTokenUID;
 
 @property (assign, nonatomic, readonly) BOOL connected;
 
-+ (instancetype)new __unavailable;
-- (id) init __unavailable;
++ (instancetype _Nullable)new __unavailable;
+- (id _Nullable) init __unavailable;
 
 - (BOOL)handleAuthorisationRedirectURL:(NSURL * _Nonnull)url;
 

@@ -14,11 +14,11 @@
 
 @interface TBDropboxEntryFactory : NSObject
 
-+ (id<TBDropboxEntry>)entryUsingMetadata:(DBFILESMetadata * _Nonnull)metadata;
-+ (TBDropboxFileEntry *)fileEntryUsingDropboxPath:(NSString * _Nonnull)path;
-+ (TBDropboxFolderEntry *)folderEntryUsingDropboxPath:(NSString * _Nullable)path;
-+ (TBDropboxFileEntry *)fileEntryByMirroringLocalURL:(NSURL *)fileURL
-                                        usingBaseURL:(NSURL *)baseURL;
++ (id<TBDropboxEntry> _Nullable)entryUsingMetadata:(DBFILESMetadata * _Nonnull)metadata;
++ (TBDropboxFileEntry * _Nullable)fileEntryUsingDropboxPath:(NSString * _Nonnull)path;
++ (TBDropboxFolderEntry * _Nullable)folderEntryUsingDropboxPath:(NSString * _Nullable)path;
++ (TBDropboxFileEntry * _Nullable)fileEntryByMirroringLocalURL:(NSURL * _Nonnull)fileURL
+                                                  usingBaseURL:(NSURL * _Nonnull)baseURL;
 
 + (NSArray<id<TBDropboxEntry>> * _Nullable)entriesUsingMetadata:(NSArray<DBFILESMetadata *> * _Nonnull)metadataEntries;
 

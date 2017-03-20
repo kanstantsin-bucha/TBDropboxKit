@@ -26,16 +26,16 @@
 
 @property (assign, nonatomic) BOOL verboseLogging;
 
-+ (instancetype)queueUsingSource:(id<TBDropboxClientSource> _Nonnull)source;
++ (instancetype _Nullable)queueUsingSource:(id<TBDropboxClientSource> _Nonnull)source;
 
-+ (instancetype)new __unavailable;
-- (id) init __unavailable;
++ (instancetype _Nullable)new __unavailable;
+- (id _Nullable) init __unavailable;
 
-- (TBDropboxTask *)taskByID:(TBDropboxTaskID *)ID;
-- (NSArray<TBDropboxTask *> *)tasksByEntry:(id<TBDropboxEntry>)entry;
+- (TBDropboxTask * _Nullable)taskByID:(TBDropboxTaskID * _Nonnull)ID;
+- (NSArray<TBDropboxTask *> * _Nullable)tasksByEntry:(id<TBDropboxEntry> _Nonnull)entry;
 
-- (NSNumber *)addTask:(TBDropboxTask *)task;
-- (BOOL)removeTask:(TBDropboxTask *)task;
+- (NSNumber * _Nullable)addTask:(TBDropboxTask * _Nonnull)task;
+- (BOOL)removeTask:(TBDropboxTask * _Nonnull)task;
 
 - (void)resume;
 - (void)pause;

@@ -25,8 +25,8 @@
 
 @property (strong, nonatomic, readonly, nullable) NSError * runningError;
 
-+ (instancetype)new __unavailable;
-- (id) init __unavailable;
++ (instancetype _Nullable)new __unavailable;
+- (id _Nullable) init __unavailable;
 
 @end
 

@@ -23,13 +23,13 @@
 @property (strong, nonatomic, readonly, nullable) NSArray<id<TBDropboxEntry>> * folderEntries;
 @property (strong, nonatomic, readonly, nullable) NSArray<DBFILESMetadata *> * folderMetadata;
 
-+ (instancetype)taskUsingEntry:(TBDropboxFolderEntry * _Nonnull)entry
-                    completion:(TBDropboxTaskCompletion _Nonnull)completion;
++ (instancetype _Nullable)taskUsingEntry:(TBDropboxFolderEntry * _Nonnull)entry
+                              completion:(TBDropboxTaskCompletion _Nonnull)completion;
 
-+ (instancetype)taskUsingCursor:(NSString * _Nonnull)cursor
-                     completion:(TBDropboxTaskCompletion _Nonnull)completion;
++ (instancetype _Nullable)taskUsingCursor:(NSString * _Nonnull)cursor
+                               completion:(TBDropboxTaskCompletion _Nonnull)completion;
 
-+ (instancetype)new __unavailable;
-- (id) init __unavailable;
++ (instancetype _Nullable)new __unavailable;
+- (id _Nullable) init __unavailable;
 
 @end

@@ -153,41 +153,46 @@ typedef NS_ENUM(NSInteger, TBDropboxChangeAction) {
 - (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
          didChangeStateTo:(TBDropboxConnectionState)state;
 
+@optional
+
 - (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
      didChangeAuthStateTo:(TBDropboxAuthState)state
                 withError:(NSError * _Nullable)error;
 
 - (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
-       didChangeSessionID:(NSString *)sessionID;
+       didChangeSessionID:(NSString * _Nonnull)sessionID;
 @end
 
 
 @protocol TBDropboxWatchdogDelegate <NSObject>
 
+@optional
+
 - (void)watchdog:(TBDropboxWatchdog * _Nonnull)watchdog
 didChangeStateTo:(TBDropboxWatchdogState)state;
 
-
 - (void)watchdog:(TBDropboxWatchdog * _Nonnull)watchdog
-didCollectPendingChanges:(NSArray *)changes;
+didCollectPendingChanges:(NSArray * _Nullable)changes;
 
 - (BOOL)watchdogCouldBeWideAwake:(TBDropboxWatchdog * _Nonnull)watchdog;
 
 - (void)watchdog:(TBDropboxWatchdog * _Nonnull)watchdog
-didReceiveAuthError:(NSError *)error;
+didReceiveAuthError:(NSError * _Nonnull)error;
 
 @end
 
 @protocol TBDropboxQueueDelegate <NSObject>
 
+@optional
+
 - (void)queue:(TBDropboxQueue * _Nonnull)queue
 didChangeStateTo:(TBDropboxQueueState)state;
 
 - (void)queue:(TBDropboxQueue * _Nonnull)queue
-didFinishBatchOfTasks:(NSArray *)tasks;
+didFinishBatchOfTasks:(NSArray * _Nullable)tasks;
 
 - (void)queue:(TBDropboxQueue * _Nonnull)queue
-didReceiveAuthError:(NSError *)error;
+didReceiveAuthError:(NSError * _Nonnull)error;
 
 @end
 
@@ -197,14 +202,14 @@ didReceiveAuthError:(NSError *)error;
 TBDropboxWatchdogDelegate,
 TBDropboxQueueDelegate>
 
-- (void)client:(TBDropboxClient *)client
-didReceiveIncomingChanges:(NSArray <TBDropboxChange *> *)changes;
+- (void)client:(TBDropboxClient * _Nonnull)client
+didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes;
 
 @end
 
 @protocol TBDropboxClientSource <NSObject>
 
-- (DBFILESRoutes *)provideFilesRoutesFor:(NSObject *)inquirer;
+- (DBFILESRoutes * _Nullable)provideFilesRoutesFor:(NSObject * _Nonnull)inquirer;
 @property (strong, nonatomic, readonly, nonnull) NSString * sessionID;
 
 @end

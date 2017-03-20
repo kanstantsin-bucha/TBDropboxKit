@@ -23,7 +23,7 @@
                           dropboxPath:(NSString * _Nonnull)path
                                action:(TBDropboxChangeAction)action;
 
-+ (instancetype)new __unavailable;
-- (id) init __unavailable;
++ (instancetype _Nullable)new __unavailable;
+- (id _Nullable) init __unavailable;
 
 @end

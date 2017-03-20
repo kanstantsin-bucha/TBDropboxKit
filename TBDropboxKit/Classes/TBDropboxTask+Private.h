@@ -21,12 +21,12 @@
 @property (copy, nonatomic, readwrite, nullable) TBDropboxTaskID * ID;
 @property (weak, nonatomic, readwrite, nullable) TBDropboxQueue * scheduledInQueue;
 
-@property (strong, nonatomic) DBRpcTask * dropboxTask;
-@property (strong, nonatomic) TBDropboxTaskCompletion completion;
+@property (strong, nonatomic, nullable) DBRpcTask * dropboxTask;
+@property (strong, nonatomic, nullable) TBDropboxTaskCompletion completion;
 
 @property (strong, nonatomic, readwrite, nullable) NSError * runningError;
 
-- (instancetype)initInstance;
+- (instancetype _Nullable)initInstance;
 
 - (void)runUsingRoutesSource:(id<TBDropboxClientSource> _Nonnull)routesSource
               withCompletion:(CDBErrorCompletion _Nonnull)completion;
@@ -36,15 +36,15 @@
 - (void)suspend;
 - (BOOL)resume;
 
-- (NSError *)composeErrorUsingRequestError:(DBRequestError * _Nullable)requestError
-                          taskRelatedError:(id _Nullable)relatedError;
+- (NSError * _Nullable)composeErrorUsingRequestError:(DBRequestError * _Nullable)requestError
+                                    taskRelatedError:(id _Nullable)relatedError;
 
-+ (NSError *)errorUsingRequestError:(DBRequestError * _Nullable)requestError
-                   taskRelatedError:(id _Nullable)relatedError
-                               info:(NSDictionary *)info;
++ (NSError * _Nullable)errorUsingRequestError:(DBRequestError * _Nullable)requestError
+                             taskRelatedError:(id _Nullable)relatedError
+                                         info:(NSDictionary * _Nullable)info;
 
-- (NSError *)errorFileNotExistsAtURL:(NSURL * _Nonnull)URL
-                         description:(NSString * _Nonnull)description;
+- (NSError * _Nullable)errorFileNotExistsAtURL:(NSURL * _Nonnull)URL
+                                   description:(NSString * _Nonnull)description;
 
 @end
 

@@ -47,14 +47,18 @@
     if (self.state != TBDropboxTaskStateRunning) {
         NSError * error = [self failedToProcessNotRunningTaskError];
         completion(error);
-        self.completion(self, error);
+        if (self.completion != nil) {
+            self.completion(self, error);
+        }
     }
     
     DBFILESRoutes * routes = [routesSource provideFilesRoutesFor: self];
     if (routes == nil) {
         NSError * error = [self failedToRunNoRoutesError];
         completion(error);
-        self.completion(self, error);
+        if (self.completion != nil) {
+            self.completion(self, error);
+        }
         return;
     }
     
@@ -63,7 +67,9 @@
         self.dropboxTask = nil;
         
         completion(error);
-        self.completion(self, error);
+        if (self.completion != nil) {
+            self.completion(self, error);
+        }
     }];
 }
 

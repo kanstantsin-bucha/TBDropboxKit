@@ -27,12 +27,12 @@
  @brief: Change logger.logLevel option to enable verdbose logging
  Default setup is TBLogLevelWarning
  **/
-@property (strong, nonatomic, readonly) TBLogger * logger;
+@property (strong, nonatomic, readonly, nullable) TBLogger * logger;
 
 + (instancetype _Nullable)watchdogUsingSource:(id<TBDropboxClientSource> _Nonnull)source;
 
-+ (instancetype)new __unavailable;
-- (id) init __unavailable;
++ (instancetype _Nullable)new __unavailable;
+- (id _Nullable) init __unavailable;
 
 - (void)resume;
 - (void)pause;

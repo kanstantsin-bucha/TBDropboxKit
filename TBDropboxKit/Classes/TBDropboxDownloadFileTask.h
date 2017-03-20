@@ -16,11 +16,11 @@
 @property (strong, nonatomic, readonly, nonnull) TBDropboxFileEntry * entry;
 @property (strong, nonatomic, readonly, nonnull) NSURL * fileURL;
 
-+ (instancetype)taskUsingEntry:(TBDropboxFileEntry * _Nonnull)entry
-                       fileURL:(NSURL *)fileURL
-                    completion:(TBDropboxTaskCompletion _Nonnull)completion;
++ (instancetype _Nullable)taskUsingEntry:(TBDropboxFileEntry * _Nonnull)entry
+                                 fileURL:(NSURL * _Nonnull)fileURL
+                              completion:(TBDropboxTaskCompletion _Nonnull)completion;
 
-+ (instancetype)new __unavailable;
-- (id) init __unavailable;
++ (instancetype _Nullable)new __unavailable;
+- (id _Nullable) init __unavailable;
 
 @end

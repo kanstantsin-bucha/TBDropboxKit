@@ -17,9 +17,9 @@
 @property (strong, nonatomic, readonly, nonnull) DBFILESMetadata * metadata;
 
 + (instancetype _Nullable)changeUsingMetadata:(DBFILESMetadata * _Nonnull)metadata;
-- (NSURL * _Nullable)localURLUsingBaseURL:(NSURL *)baseURL;
+- (NSURL * _Nullable)localURLUsingBaseURL:(NSURL * _Nonnull)baseURL;
 
-+ (instancetype)new __unavailable;
-- (id) init __unavailable;
++ (instancetype _Nullable)new __unavailable;
+- (id _Nullable) init __unavailable;
 
 @end

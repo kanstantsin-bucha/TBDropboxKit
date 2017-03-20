@@ -15,10 +15,10 @@
 
 @property (strong, nonatomic, readonly, nonnull) TBDropboxFolderEntry * entry;
 
-+ (instancetype)taskUsingEntry:(TBDropboxFolderEntry * _Nonnull)entry
-                    completion:(TBDropboxTaskCompletion _Nonnull)completion;
++ (instancetype _Nullable)taskUsingEntry:(TBDropboxFolderEntry * _Nonnull)entry
+                              completion:(TBDropboxTaskCompletion _Nonnull)completion;
 
-+ (instancetype)new __unavailable;
-- (id) init __unavailable;
++ (instancetype _Nullable)new __unavailable;
+- (id _Nullable) init __unavailable;
 
 @end

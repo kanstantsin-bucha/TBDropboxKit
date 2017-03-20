@@ -45,14 +45,14 @@
          Default setup is TBLogLevelWarning
  **/
 
-@property (strong, nonatomic, readonly) TBLogger * logger;
+@property (strong, nonatomic, readonly, nullable) TBLogger * logger;
 
-+ (instancetype)sharedInstance;
++ (instancetype _Nullable)sharedInstance;
 
-+ (instancetype)alloc __attribute__((unavailable("alloc not available, call sharedInstance instead")));
-- (instancetype)init __attribute__((unavailable("init not available, call sharedInstance instead")));
-+ (instancetype)new __attribute__((unavailable("new not available, call sharedInstance instead")));
-- (instancetype)copy __attribute__((unavailable("copy not available, call sharedInstance instead")));
++ (instancetype _Nullable)alloc __attribute__((unavailable("alloc not available, call sharedInstance instead")));
+- (instancetype _Nullable)init __attribute__((unavailable("init not available, call sharedInstance instead")));
++ (instancetype _Nullable)new __attribute__((unavailable("new not available, call sharedInstance instead")));
+- (instancetype _Nullable)copy __attribute__((unavailable("copy not available, call sharedInstance instead")));
 
 - (void)initiateWithConnectionDesired:(BOOL)desired
                           usingAppKey:(NSString * _Nullable)key;

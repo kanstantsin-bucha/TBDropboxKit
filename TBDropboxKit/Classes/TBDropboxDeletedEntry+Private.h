@@ -21,7 +21,7 @@
 @property (strong, nonatomic, readwrite, nullable) DBFILESMetadata * metadata;
 
 
-- (instancetype)initInstance;
+- (instancetype _Nullable)initInstance;
 
 @end
 
