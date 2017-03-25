@@ -93,12 +93,14 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/CDBKit/CDBKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TBDropboxKit/TBDropboxKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/TBLogger/TBLogger.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/CDBDelegateCollection/CDBDelegateCollection.framework"
   install_framework "$BUILT_PRODUCTS_DIR/CDBKit/CDBKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TBDropboxKit/TBDropboxKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/TBLogger/TBLogger.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <TBLogger/TBLogger.h>
 #import "TBDropbox.h"
 #import "TBDropboxQueue.h"
 #import "TBDropboxConnection.h"
 #import "TBDropboxWatchdog.h"
-#import "TBLogger.h"
 
 
 @interface TBDropboxClient : NSObject

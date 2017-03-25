@@ -24,18 +24,24 @@ typedef NS_ENUM(NSUInteger, TBLogLevel) {
 @interface TBLogger : NSObject
 
 /**
- @brief accepts 3 objects - [levelDescription] loggerName logMessage
+ @brief: shown after level description mark - [levelDescription] loggerName logMessage
  @see dTBLogInitialFormat
  **/
 
 @property (copy, nonatomic, readonly, nullable) NSString * loggerName;
 
 /**
- @brief accepts 3 objects - [levelDescription] loggerName logMessage
+ @brief: accepts 3 objects - [levelDescription] loggerName logMessage
  @see dTBLogInitialFormat
  **/
 
 @property (copy, nonatomic, nonnull) NSString * logFormatString;
+
+/**
+ @brief: set desired log level
+         defaul value is TBLogLevelLog
+**/
+
 @property (assign, nonatomic) TBLogLevel logLevel;
 
 + (instancetype _Nullable)loggerWithName:(NSString * _Nullable)name;
@@ -50,7 +56,10 @@ typedef NS_ENUM(NSUInteger, TBLogLevel) {
 - (void)error:(NSString * _Nullable)format, ... NS_FORMAT_FUNCTION(1,2);
 
 /**
- @brief in case you want provide your own level description
+ @brief: in case you want provide your own level description
+         add localized strings for VERBOSE, INFO, LOG, WARNING, ERROR
+         or
+         inherite your class from TBLogger and override this method
  @see TBLogLevel
  **/
 

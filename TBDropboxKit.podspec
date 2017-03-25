@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TBDropboxKit'
-  s.version          = '1.0.2'
+  s.version          = '1.0.3'
   s.summary          = 'Dropbox ObjC synchronization kit using API v2'
 
 # This description is used to generate tags and improve search results.
@@ -40,6 +40,7 @@ It is using dropbox API version 2. It writed using SOLID principles"
   s.public_header_files = 'TBDropboxKit/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'ObjectiveDropboxOfficial', '~> 3.0'
-  s.dependency 'CDBKit', '~> 0.0'
+  s.dependency 'CDBKit', '~> 1.0'
   s.dependency 'CDBDelegateCollection', '~> 0.0'
-end
+  s.dependency 'TBLogger', '~> 1.0'
+  end

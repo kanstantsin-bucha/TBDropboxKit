@@ -41,7 +41,7 @@
 - (instancetype)initInstance {
     self = [super init];
     if (self) {
-        _logLevel = TBLogLevelVerbose;
+        _logLevel = TBLogLevelLog;
         _logFormatString = dTBLogDefaultFormat;
     }
     
@@ -157,23 +157,23 @@
     switch (level) {
             
             case TBLogLevelVerbose: {
-                result = LSCDB(VERBOSE);
+                result = LSD(VERBOSE);
             }    break;
             
             case TBLogLevelInfo: {
-                result = LSCDB(INFO);
+                result = LSD(INFO);
             }    break;
             
             case TBLogLevelLog: {
-                result = LSCDB(LOG);
+                result = LSD(LOG);
             }    break;
             
             case TBLogLevelWarning: {
-                result = LSCDB(WARNING);
+                result = LSD(WARNING);
             }    break;
             
             case TBLogLevelError: {
-                result = LSCDB(ERROR);
+                result = LSD(ERROR);
             }    break;
             
         default: {

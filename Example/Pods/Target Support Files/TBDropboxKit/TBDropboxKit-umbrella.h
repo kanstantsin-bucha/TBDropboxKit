@@ -1,5 +1,5 @@
 #ifdef __OBJC__
-@import UIKit;
+#import <UIKit/UIKit.h>
 #else
 #ifndef FOUNDATION_EXPORT
 #if defined(__cplusplus)
@@ -36,7 +36,6 @@
 #import "TBDropboxTask.h"
 #import "TBDropboxUploadFileTask.h"
 #import "TBDropboxWatchdog.h"
-#import "TBLogger.h"
 
 FOUNDATION_EXPORT double TBDropboxKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char TBDropboxKitVersionString[];
