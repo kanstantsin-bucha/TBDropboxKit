@@ -37,6 +37,7 @@
 
 - (void)resume;
 - (void)pause;
+- (void)resetCursor;
 
 @end
 

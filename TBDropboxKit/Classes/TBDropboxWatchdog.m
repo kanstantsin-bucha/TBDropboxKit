@@ -200,6 +200,8 @@
         TBDropboxListFolderTask * listTask = (TBDropboxListFolderTask *)task;
         NSArray * changes = listTask.folderMetadata;
         
+        [wself notePendingChanges: changes];
+        
         if (error != nil) {
             return;
         }
@@ -207,7 +209,6 @@
         wself.pendingChangesCursor = listTask.cursor;
         [wself.logger info:@"inquired cursor %@", wself.pendingChangesCursor];
         
-        [wself notePendingChanges: changes];
         [wself tryBeWideAwake];
     }];
     
@@ -375,15 +376,27 @@
     if ([error isKindOfClass:[DBRequestError class]] == NO) {
         return;
     }
+    DBRequestError * requestError = (DBRequestError *)error;
     
-    DBRequestErrorTag tag = [(DBRequestError *)error tag];
-    
-    BOOL receivedAuthError = tag == DBRequestErrorAuth
-                             || tag == DBRequestErrorClient;
-    if (receivedAuthError == NO) {
-        return;
+    switch (requestError.tag) {
+        case DBRequestErrorAuth:
+        case DBRequestErrorClient: {
+            [self notifyThatHasAuthError: mainError];
+        } break;
+        case DBRequestErrorHttp: {
+            if (requestError.statusCode.integerValue == 409) {
+                [self resetCursor];
+            }
+        } break;
+            
+        default:
+            break;
     }
-    
+}
+
+/// MARK: notify delegate
+
+- (void)notifyThatHasAuthError:(NSError *)error {
     [self.logger warning:@"found auth error"];
     
     SEL selector = @selector(watchdog: didReceiveAuthError:);
@@ -391,11 +404,9 @@
         [self.logger log:@"provide auth error to delegate %@", self.delegate];
         
         [self.delegate watchdog: self
-            didReceiveAuthError: mainError];
+            didReceiveAuthError: error];
     }
 }
-
-/// MARK: notify delegate
 
 - (void)notifyThatDidChangeStateTo:(TBDropboxWatchdogState)state {
 

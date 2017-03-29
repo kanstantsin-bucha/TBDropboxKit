@@ -16,6 +16,7 @@
 
 @property (assign, nonatomic, readwrite) TBDropboxConnectionState state;
 @property (copy, nonatomic, readwrite) NSString * accessTokenUID;
+@property (assign, nonatomic, readwrite) BOOL connected;
 
 @end
 
@@ -33,11 +34,17 @@
     
     _state = state;
     
-    if (state == TBDropboxConnectionStateConnected) {
+    if (self.connected) {
         [self noteChangedSessionID: self.accessTokenUID];
     }
     
     [self noteConnectionStateChanged];
+}
+
+- (BOOL)connected {
+    BOOL result = self.state == TBDropboxConnectionStateConnected
+                  || self.state == TBDropboxConnectionStateReconnected;
+    return result;
 }
 
 - (void)setAccessTokenUID:(NSString *)tokenUID {
@@ -114,8 +121,8 @@
 /// MARK - protected -
 
 - (void)openConnection {
-    if (self.state == TBDropboxConnectionStateAuthorization ||
-        self.state == TBDropboxConnectionStateConnected) {
+    if (self.state == TBDropboxConnectionStateAuthorization
+        || self.connected) {
         return;
     }
     

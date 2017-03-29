@@ -138,7 +138,7 @@
     _watchdogEnabled = watchdogEnabled;
     
     if (_watchdogEnabled) {
-        if (self.connection.state == TBDropboxConnectionStateConnected) {
+        if (self.connection.connected) {
             [self resumeWatchdogAfterDelay: TBDropboxClient_Watchdog_Resume_Delay_Sec];
         }
     } else {
@@ -202,11 +202,14 @@
 
 - (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
          didChangeStateTo:(TBDropboxConnectionState)state {
+    if (state == TBDropboxConnectionStateConnected) {
+        [self.watchdog resetCursor];
+    }
     
     [self.logger warning: @"connection %@",
                           StringFromDropboxConnectionState(state)];
     
-    if (state == TBDropboxConnectionStateConnected) {
+    if (self.connection.connected) {
         [self resumeTasksQueue];
     } else {
         [self pauseTasksQueue];
@@ -284,7 +287,7 @@ didChangeStateTo:(TBDropboxWatchdogState)state {
     [self.logger verbose: @"pending changes:\r %@",
                           changes];
     
-    if (self.connection.state == TBDropboxConnectionStateConnected) {
+    if (self.connection.connected) {
         [self resumeTasksQueue];
     }
     
