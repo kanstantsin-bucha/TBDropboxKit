@@ -119,12 +119,16 @@
         return;
     }
     
+    if ([DBClientsManager authorizedClient] != nil
+        && [[DBClientsManager authorizedClient] isAuthorized]) {
+        self.state = TBDropboxConnectionStateReconnected;
+        return;
+    }
+    
     if (self.accessTokenUID != nil) {
-        DBUserClient * client =
-            [self authorizedClientUsingTokenUID: self.accessTokenUID];
-        if (client != nil) {
-            [DBClientsManager setAuthorizedClient:client];
-            self.state = TBDropboxConnectionStateConnected;
+        BOOL succeed = [DBClientsManager reauthorizeClient: self.accessTokenUID];
+        if (succeed) {
+            self.state = TBDropboxConnectionStateReconnected;
             return;
         }
     }
@@ -133,33 +137,30 @@
 }
 
 - (void)closeConnection {
-    if (self.state != TBDropboxConnectionStateConnected) {
-        return;
-    }
     
-    [DBClientsManager resetClients];
+    [DBClientsManager unlinkAndResetClients];
     self.accessTokenUID = nil;
     self.state = TBDropboxConnectionStateDisconnected;
 }
 
 - (void)pauseConnection {
-    if (self.state != TBDropboxConnectionStateConnected) {
-        return;
-    }
     
     [DBClientsManager resetClients];
     self.state = TBDropboxConnectionStatePaused;
 }
 
 - (void)reauthorizeClient {
+    [DBClientsManager setAuthorizedClient: nil];
+    if (self.accessTokenUID == nil) {
+        [self authorize];
+        return;
+    }
     
     DBOAuthManager * manager = [DBOAuthManager sharedOAuthManager];
     DBAccessToken * token = [manager getAccessToken: self.accessTokenUID];
     if (token != nil) {
         [[DBOAuthManager sharedOAuthManager] clearStoredAccessToken: token];
     }
-    self.accessTokenUID = nil;
-    [DBClientsManager setAuthorizedClient: nil];
     NSLog(@"Clear authorized user token during Auth error. Make user authorize again");
     
     [self authorize];
@@ -181,15 +182,17 @@
         return;
     }
     
+    void (^ openURL)(NSURL *) = ^(NSURL * url) {
+        [self noteAuthStateChanged: TBDropboxAuthStateAuthorization];
+        [[UIApplication sharedApplication] openURL: url];
+    };
+    
     self.state = TBDropboxConnectionStateAuthorization;
     [self noteAuthStateChanged: TBDropboxAuthStateInitiated];
     [DBClientsManager authorizeFromController: [UIApplication sharedApplication]
                                    controller: [UIViewController new]
-                                      openURL: ^(NSURL *url) {
-        [self noteAuthStateChanged: TBDropboxAuthStateAuthorization];
-        [[UIApplication sharedApplication] openURL: url];
-    }
-                                       browserAuth: YES];
+                                      openURL: openURL
+                                  browserAuth: YES];
 }
 
 /// MARK: connection logic
@@ -235,6 +238,10 @@
 /// MARK: redirect URL
 
 - (BOOL)handleDropboxAuthorisationRedirectURL:(NSURL *)url {
+    if (self.state != TBDropboxConnectionStateAuthorization) {
+        return NO;
+    }
+    
     DBOAuthResult * authResult = [DBClientsManager handleRedirectURL: url];
     if (authResult == nil) {
         return NO;
@@ -242,8 +249,14 @@
     
     if ([authResult isSuccess]) {
         NSLog(@"Success! User is logged into Dropbox.");
-        self.accessTokenUID = authResult.accessToken.uid;
-        self.state = TBDropboxConnectionStateConnected;
+        NSString * incomingTokenUID = authResult.accessToken.uid;
+        if ([self.accessTokenUID isEqualToString: incomingTokenUID]) {
+            self.state = TBDropboxConnectionStateReconnected;
+        } else {
+            self.accessTokenUID = authResult.accessToken.uid;
+            self.state = TBDropboxConnectionStateConnected;
+        }
+        
         [self noteAuthStateChanged: TBDropboxAuthStateSucceed];
     } else if ([authResult isCancel]) {
         NSLog(@"Authorization flow was manually canceled by user!");
@@ -280,27 +293,23 @@
 
 /// MARK: token uid
 
-- (DBUserClient *)authorizedClientUsingTokenUID:(NSString *)tokenUID {
-    if ([DBOAuthManager sharedOAuthManager] == nil) {
-        return nil;
-    }
-    
-    DBAccessToken * token =
-        [[DBOAuthManager sharedOAuthManager] getAccessToken: self.accessTokenUID];
-    if (token == nil) {
-        return nil;
-    }
-    
-    DBUserClient * result =
-        [[DBUserClient alloc] initWithAccessToken: token.accessToken];
-    return result;
-}
+//- (DBUserClient *)authorizedClientUsingTokenUID:(NSString *)tokenUID {
+//    if ([DBOAuthManager sharedOAuthManager] == nil) {
+//        return nil;
+//    }
+//    
+//    DBAccessToken * token =
+//        [[DBOAuthManager sharedOAuthManager] getAccessToken: self.accessTokenUID];
+//    if (token == nil) {
+//        return nil;
+//    }
+//    
+//    DBUserClient * result =
+//        [[DBUserClient alloc] initWithAccessToken: token.accessToken];
+//    return result;
+//}
 
 - (void)saveAccessTokenUID:(NSString *)token {
-    if (token == nil) {
-        return;
-    }
-    
     [[NSUserDefaults standardUserDefaults] setObject: token
                                               forKey: AccessTokenUIDKey];
     [[NSUserDefaults standardUserDefaults] synchronize];

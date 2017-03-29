@@ -92,14 +92,14 @@
 ///
 /// Routes for the `Files` namespace
 ///
-@interface DBFILESRoutes : NSObject
+@interface DBFILESUserAuthRoutes : NSObject
 
 /// An instance of the networking client that each route will use to submit a
 /// request.
 @property (nonatomic, readonly) id<DBTransportClient> _Nonnull client;
 
-/// Initializes the `DBFILESRoutes` namespace container object with a networking
-/// client.
+/// Initializes the `DBFILESUserAuthRoutes` namespace container object with a
+/// networking client.
 - (nonnull instancetype)init:(id<DBTransportClient> _Nonnull)client;
 
 ///

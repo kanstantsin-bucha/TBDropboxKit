@@ -67,7 +67,7 @@
             [self.connection openConnection];
         } else {
             [self.logger warning: @"pause connection"];
-            [self.connection pauseConnection];
+            [self.connection closeConnection];
             
             [self nullifyQueueAndWatchdog];
         }
@@ -370,10 +370,10 @@ didReceiveAuthError:(NSError *)error {
 
 /// MARK: TBDropboxClientSource
 
-- (DBFILESRoutes *)provideFilesRoutesFor:(NSObject *)inquirer {
+- (DBFILESUserAuthRoutes *)provideFilesRoutesFor:(NSObject *)inquirer {
     [self.logger info: @"provide file routes to %@", inquirer];
     
-    DBFILESRoutes * result = self.client.filesRoutes;
+    DBFILESUserAuthRoutes * result = self.client.filesRoutes;
     
     [self.logger verbose: @"did provide file routes %@ to %@", result, inquirer];
     return result;

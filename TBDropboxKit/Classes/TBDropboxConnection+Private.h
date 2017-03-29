@@ -10,6 +10,8 @@
 #define TBDropboxConnection_Private_h
 
 #import "TBDropboxConnection.h"
+#import "TBDropbox.h"
+
 
 @interface TBDropboxConnection ()
 

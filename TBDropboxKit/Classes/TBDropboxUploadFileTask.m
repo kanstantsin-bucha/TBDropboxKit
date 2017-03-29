@@ -39,7 +39,7 @@
 
 /// MARK: override
 
-- (void)performMainUsingRoutes:(DBFILESRoutes *)routes
+- (void)performMainUsingRoutes:(DBFILESUserAuthRoutes *)routes
                 withCompletion:(CDBErrorCompletion)completion {
                 
     BOOL fileExists =

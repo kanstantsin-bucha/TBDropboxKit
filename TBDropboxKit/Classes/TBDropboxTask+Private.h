@@ -30,7 +30,7 @@
 
 - (void)runUsingRoutesSource:(id<TBDropboxClientSource> _Nonnull)routesSource
               withCompletion:(CDBErrorCompletion _Nonnull)completion;
-- (void)performMainUsingRoutes:(DBFILESRoutes * _Nonnull)routes
+- (void)performMainUsingRoutes:(DBFILESUserAuthRoutes * _Nonnull)routes
                 withCompletion:(CDBErrorCompletion _Nonnull)completion;
 
 - (void)suspend;

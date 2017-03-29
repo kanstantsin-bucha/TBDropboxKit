@@ -27,7 +27,7 @@
 @property (weak, nonatomic, readwrite, nullable) id<TBDropboxClientSource> routesSource;
 @property (strong, nonatomic, nullable) TBDropboxListFolderTask * pendingChangesTask;
 @property (strong, nonatomic, nullable) DBRpcTask * wideAwakeTask;
-@property (strong, nonatomic, readonly, nullable) DBFILESRoutes * fileRoutes;
+@property (strong, nonatomic, readonly, nullable) DBFILESUserAuthRoutes * fileRoutes;
 @property (strong, nonatomic) TBDropboxCursor * pendingChangesCursor;
 @property (strong, nonatomic, readonly) TBDropboxCursor * wideAwakeCursor;
 @property (assign, nonatomic, readwrite) TBDropboxWatchdogState state;
@@ -53,8 +53,8 @@
     return _logger;
 }
 
-- (DBFILESRoutes *)fileRoutes {
-    DBFILESRoutes * result = [self.routesSource provideFilesRoutesFor: self];
+- (DBFILESUserAuthRoutes *)fileRoutes {
+    DBFILESUserAuthRoutes * result = [self.routesSource provideFilesRoutesFor: self];
     
     [self.logger info: result  == nil ? @"failed to receive routes"
                                       : @"did receive routes"];

@@ -9,7 +9,7 @@
 #ifndef TBDropbox_h
 #define TBDropbox_h
 
-@import ObjectiveDropboxOfficial.ObjectiveDropboxOfficial;
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 #import <CDBKit/CDBKit.h>
 
 #define TBDropboxErrorDomain @"TBDropboxKit"
@@ -34,7 +34,8 @@ typedef NS_ENUM(NSInteger, TBDropboxConnectionState) {
     TBDropboxConnectionStateDisconnected = 1,
     TBDropboxConnectionStateAuthorization = 2,
     TBDropboxConnectionStateConnected = 3,
-    TBDropboxConnectionStatePaused = 4 // Disconnected but keeping authorization token
+    TBDropboxConnectionStateReconnected = 4, // Connected again with same user
+    TBDropboxConnectionStatePaused = 5 // Disconnected but keeping authorization token
 };
 
 #define StringFromDropboxConnectionState(enum) (([@[\
@@ -42,6 +43,7 @@ typedef NS_ENUM(NSInteger, TBDropboxConnectionState) {
 @"State: Disconnected",\
 @"State: Authorization",\
 @"State: Connected",\
+@"State: Reconnected",\
 @"State: Paused",\
 ] objectAtIndex:(enum)]))
 
@@ -209,7 +211,7 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes;
 
 @protocol TBDropboxClientSource <NSObject>
 
-- (DBFILESRoutes * _Nullable)provideFilesRoutesFor:(NSObject * _Nonnull)inquirer;
+- (DBFILESUserAuthRoutes * _Nullable)provideFilesRoutesFor:(NSObject * _Nonnull)inquirer;
 @property (strong, nonatomic, readonly, nonnull) NSString * sessionID;
 
 @end

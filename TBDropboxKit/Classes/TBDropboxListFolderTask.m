@@ -86,7 +86,7 @@
 
 /// MARK: override
 
-- (void)performMainUsingRoutes:(DBFILESRoutes *)routes
+- (void)performMainUsingRoutes:(DBFILESUserAuthRoutes *)routes
                 withCompletion:(CDBErrorCompletion)completion {
     if (self.entry != nil) {
         self.dropboxTask = [routes listFolder: self.entry.dropboxPath

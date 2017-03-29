@@ -52,7 +52,7 @@
         }
     }
     
-    DBFILESRoutes * routes = [routesSource provideFilesRoutesFor: self];
+    DBFILESUserAuthRoutes * routes = [routesSource provideFilesRoutesFor: self];
     if (routes == nil) {
         NSError * error = [self failedToRunNoRoutesError];
         completion(error);
@@ -73,7 +73,7 @@
     }];
 }
 
-- (void)performMainUsingRoutes:(DBFILESRoutes *)routes
+- (void)performMainUsingRoutes:(DBFILESUserAuthRoutes *)routes
                 withCompletion:(CDBErrorCompletion _Nonnull)completion {
     
     NSAssert(NO, @"main logic method required redefinition in subclass");
