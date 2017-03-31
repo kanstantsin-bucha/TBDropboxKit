@@ -35,6 +35,7 @@ Full documentation [here](http://dropbox.github.io/dropbox-sdk-obj-c/api-docs/la
     * [Route-specific errors](#route-specific-errors)
     * [Generic network request errors](#generic-network-request-errors)
     * [Response handling edge cases](#response-handling-edge-cases)
+    * [Consistent global error handling](#consistent-global-error-handling)
   * [Customizing network calls](#customizing-network-calls)
     * [Configure network client](#configure-network-client)
     * [Specify API call response queue](#specify-api-call-response-queue)
@@ -145,7 +146,7 @@ brew install carthage
 
 ```
 # ObjectiveDropboxOfficial
-github "https://github.com/dropbox/dropbox-sdk-obj-c" ~> 3.0.6
+github "https://github.com/dropbox/dropbox-sdk-obj-c" ~> 3.0.8
 ```
 
 Then, run the following command to checkout and build the Dropbox Objective-C SDK repository:
@@ -179,6 +180,13 @@ In the Project Navigator in Xcode, select your project, and then navigate to **G
 
 Then navigate to **Build Phases** > **+** > **New Copy Files Phase**. In the newly-created **Copy Files** section, click the **Destination** drop-down menu and select **Products Directory**, then drag and drop `ObjectiveDropboxOfficial.framework.dSYM` (from `Carthage/Build/Mac`).
 
+>Note: If you wish to keep the SDK outside of your Xcode project folder (perhaps to share between different apps), you will need to configure your a few environmental variables.
+>
+>In the Project Navigator in Xcode, select your project, and then navigate to your project's build target > **Build Settings**:
+>
+>**Header Search Path**: `$(PROJECT_DIR)/../<PATH_TO_SDK>/dropbox-sdk-obj-c/Source/ObjectiveDropboxOfficial (recursive)`
+>
+>**Framework Search Paths**: `$(PROJECT_DIR)/../<PATH_TO_SDK>/dropbox-sdk-obj-c/Source/ObjectiveDropboxOfficial/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) (non-recursive)`
 ---
 
 ### Manually add subproject
@@ -556,7 +564,7 @@ NSData *fileData = [@"file data example" dataUsingEncoding:NSUTF8StringEncoding 
 }];
 ```
 
-Here's an example of an advanced upload case for "batch" uploading a large number of files (NOTE: the `batchUploadFiles:` route method that is used below automatically chunk-uploads large files, something other upload methods in the SDK do **not** do):
+Here's an example of an advanced upload case for "batch" uploading a large number of files:
 
 ```objective-c
 NSMutableDictionary<NSURL *, DBFILESCommitInfo *> *uploadFilesUrlsToCommitInfo = [NSMutableDictionary new];
@@ -603,10 +611,9 @@ DBFILESCommitInfo *commitInfo = [[DBFILESCommitInfo alloc] initWithPath:@"/outpu
         NSLog(@"%@", fileUrlsToRequestErrors);
       }
     }];
-
-// note: with this method, response and progress handlers are passed directly into the route as arguments,
-// and not via the `setResponseBlock` or `setProgressBlock` methods.
 ```
+
+> Note: the `batchUploadFiles:` route method that is used above automatically chunk-uploads large files, something other upload methods in the SDK do **not** do. Also, with this route, response and progress handlers are passed directly into the route as arguments, and not via the `setResponseBlock` or `setProgressBlock` methods.
 
 ---
 
@@ -806,6 +813,45 @@ In this way, datatypes with subtypes are a hybrid of structs and unions. Only a 
 
 ---
 
+#### Consistent global error handling
+
+Normally, errors are handled on a request-by-request basis by calling `setResponseBlock` on the returned request task object. Sometimes, however, it makes more sense to handle errors consistently, based on error type, regardless of the source of the request. For instance, maybe you want to display the same dialog every time there is a `/files/list_folder` error. Or perhaps every time there is an HTTP auth error, you simply want to log the user out of your application. Here's how you would implement these examples:
+
+```objective-c
+void (^listFolderGlobalResponseBlock)(DBFILESListFolderError *, DBRequestError *, DBTask *) =
+    ^(DBFILESListFolderError *folderError, DBRequestError *networkError, DBTask *restartTask) {
+      if (folderError) {
+        // Display some dialog relating to this error
+      }
+    };
+
+void (^networkGlobalResponseBlock)(DBRequestError *, DBTask *) =
+    ^(DBRequestError *networkError, DBTask *restartTask) {
+      if ([networkError isAuthError]) {
+        // log the user out of the app, for instance
+      } else if ([networkError isRateLimitError]) {
+        // automatically retry after backoff period
+        DBAUTHRateLimitError *rateLimitError = [networkError asRateLimitError];
+        int backOff = [rateLimitError.retryAfter intValue];
+
+        [restartTask restart];
+      }
+    };
+
+// one response block per error type to globally handle
+[DBGlobalErrorResponseHandler registerRouteErrorResponseBlock:listFolderGlobalResponseBlock
+                                               routeErrorType:[DBFILESListFolderError class]];
+
+// only one response block total to handle all network errors
+[DBGlobalErrorResponseHandler registerNetworkErrorResponseBlock:networkGlobalResponseBlock];
+```
+
+The SDK allows you to set one response block to handle all generic network errors that aren't route-specific (like an HTTP auth error, or a rate-limit error). The SDK also allows you to set a response block to be executed in the event that a certain error type is returned.
+
+These global response blocks will automatically be executed **in addition** to the response block that you supply for the specific request. These global response blocks are guaranteed to be executed before the normal response block is executed.
+
+---
+
 ### Customizing network calls
 
 #### Configure network client
@@ -860,7 +906,7 @@ The Objective-C SDK includes a convenience class, `DBClientsManager`, for integr
 For most apps, it is reasonable to assume that only one Dropbox account (and access token) needs to be managed at a time. In this case, the `DBClientsManager` flow looks like this: 
 
 * call `setupWithAppKey`/`setupWithAppKeyDesktop` (or `setupWithTeamAppKey`/`setupWithTeamAppKeyDesktop`) in integrating app's app delegate
-* `DBClientsManager` class determines whether any access tokens are stored -- if any exist, one token is arbitrarily chosen to use
+* `DBClientsManager` class determines whether any access tokens are stored -- if any exist, one token is arbitrarily chosen to use for the `authorizedClient` / `authorizedTeamClient` shared instance
 * if no token is found, client of the SDK should call `authorizeFromController`/`authorizeFromControllerDesktop` to initiate the OAuth flow
 * if auth flow is initiated, client of the SDK should call `handleRedirectURL` (or `handleRedirectURLTeam`) in integrating app's app delegate to handle auth redirect back into the app and store the retrieved access token
 * `DBClientsManager` class sets up a `DBUserClient` (or `DBTeamClient`) with the particular network configuration as defined by the `DBTransportDefaultConfig` instance passed in (or a standard configuration, if no config instance was passed when the `setupWith...` method was called)
@@ -874,18 +920,18 @@ The `DBUserClient` (or `DBTeamClient`) is then used to make all of the desired A
 For some apps, it is necessary to manage more than one Dropbox account (and access token) at a time. In this case, the `DBClientsManager` flow looks like this: 
 
 * access token uids are managed by the app that is integrating with the SDK for later lookup
-* call `setupWithAppKeyMultiUser`/`setupWithAppKeyMultiUserDesktop` (or `setupWithTeamAppKeyMultiUser`/`setupWithTeamAppKeyMultiUserDesktop`) in integrating app's app delegate
-* client manager determines whether an access token is stored with the`tokenUid` as a key -- if one exists, this token is chosen to use
+* call `setupWithAppKey`/`setupWithAppKeyDesktop` (or `setupWithTeamAppKey`/`setupWithTeamAppKeyDesktop`) in integrating app's app delegate
+* `DBClientsManager` class determines whether any access tokens are stored -- if any exist, one token is arbitrarily chosen to use for the `authorizedClient` / `authorizedTeamClient` shared instance
+* `DBClientsManager` class also populates `authorizedClients` / `authorizedTeamClients` shared dictionary from all tokens stored in keychain, if any exist
 * if no token is found, client of the SDK should call `authorizeFromController`/`authorizeFromControllerDesktop` to initiate the OAuth flow
 * if auth flow is initiated, call `handleRedirectURL` (or `handleRedirectURLTeam`) in integrating app's app delegate to handle auth redirect back into the app and store the retrieved access token
 * at this point, the app that is integrating with the SDK should persistently save the `tokenUid` from the `DBAccessToken` field of the `DBOAuthResult` object returned from the `handleRedirectURL` (or `handleRedirectURLTeam`) method
-* `tokenUid` can be reused either to authorize a new user mid-way through an app's lifecycle via `reauthorizeClient` (or `reauthorizeTeamClient`) or when the app initially launches via `setupWithAppKeyMultiUser`/`setupWithAppKeyMultiUserDesktop` (or `setupWithTeamAppKeyMultiUser`/`setupWithTeamAppKeyMultiUserDesktop`)
-* `DBClientsManager` class sets up a `DBUserClient` (or `DBTeamClient`) with the particular network configuration as defined by the `DBTransportDefaultConfig` instance passed in (or a standard configuration, if no config instance was passed when the `setupWith...` method was called)
+* `DBClientsManager` class sets up a `DBUserClient` (or `DBTeamClient`) with the particular network configuration as defined by the `DBTransportDefaultConfig` instance passed in (or a standard configuration, if no config instance was passed when the `setupWith...` method was called) and saves it to the list of authorized clients
 
-The `DBUserClient` (or `DBTeamClient`) is then used to make all of the desired API calls.
+The `DBUserClient`s (or `DBTeamClient`s) in `authorizedClients` / `authorizedTeamClients` is then used to make all of the desired API calls.
 
-* call `resetClients` to logout Dropbox user but not clear any access tokens
-* if specific access tokens need to be removed, use the `clearStoredAccessToken` method in `DBOAuthManager`
+* call `unlinkAndResetClients` to logout Dropbox user and clear all access tokens
+* if specific access tokens need to be removed, use the `clearStoredAccessToken` method in `DBOAuthManager`.
 
 ---
 

@@ -157,7 +157,7 @@
 }
 
 - (void)reauthorizeClient {
-    [DBClientsManager setAuthorizedClient: nil];
+    [DBClientsManager resetClients];
     if (self.accessTokenUID == nil) {
         [self authorize];
         return;

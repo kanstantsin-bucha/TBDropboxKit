@@ -16,7 +16,8 @@
 @implementation TBDropboxEntryFactory
 
 + (TBDropboxFileEntry *)fileEntryUsingDropboxPath:(NSString *)path {
-    if (path.length == 0) {
+    if (path.length == 0
+        || [path hasSuffix:@"/"]) {
         return nil;
     }
     
@@ -118,20 +119,30 @@
 
 + (TBDropboxFileEntry *)fileEntryByMirroringLocalURL:(NSURL *)fileURL
                                         usingBaseURL:(NSURL *)baseURL {
-    NSString * dropboxPath = [self relativeURLStringFromURL: fileURL
-                                               usingBaseURL: baseURL];
-    if (dropboxPath == nil) {
+    if ([fileURL.absoluteString hasSuffix: @"/"]) {
         return nil;
     }
     
-    BOOL isDirectory = [dropboxPath hasSuffix:@"/"];
-    if (isDirectory) {
-        return nil;
-    }
+    NSString * dropboxPath = [self relativeURLStringFromURL: fileURL
+                                               usingBaseURL: baseURL];
     
     TBDropboxFileEntry * result = [self fileEntryUsingDropboxPath:dropboxPath];
     return result;
 }
+
++ (TBDropboxFolderEntry *)folderEntryByMirroringLocalURL: (NSURL *) fileURL
+                                            usingBaseURL: (NSURL *) baseURL {
+    if ([fileURL.absoluteString hasSuffix: @"/"] == NO) {
+        return nil;
+    }
+    
+    NSString * dropboxPath = [self relativeURLStringFromURL: fileURL
+                                               usingBaseURL: baseURL];
+    
+    TBDropboxFolderEntry * result = [self folderEntryUsingDropboxPath: dropboxPath];
+    return result;
+}
+
 
 + (NSString *)relativeURLStringFromURL:(NSURL *)URL
                           usingBaseURL:(NSURL *)baseURL {
@@ -142,7 +153,7 @@
         return nil;
     }
     
-    NSString * result = [URL.path substringFromIndex:relativeURLstartIndex];
+    NSString * result = [URL.path substringFromIndex: relativeURLstartIndex];
     return result;
 }
 
@@ -155,7 +166,8 @@
         return nil;
     }
     
-    if ([path hasPrefix:@"/"] == NO) {
+    // dropbox requrements
+    if ([path hasPrefix: @"/"] == NO) {
         return nil;
     }
     
