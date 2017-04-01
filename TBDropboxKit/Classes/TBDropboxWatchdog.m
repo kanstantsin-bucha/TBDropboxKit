@@ -229,8 +229,7 @@
             return;
         }
          
-        [wself.logger error: @"failed processing pending changes"];
-        [wself.logger log: @"pending changes error %@", error];
+        [wself.logger error: @"failed processing pending changes %@", error];
         [wself checkUnderlingErrorOf: error];
         [wself scheduleProcessPendingChanges];
     }];
@@ -300,8 +299,7 @@
                                                taskRelatedError: routeError
                                                            info: nil];
         if (error != nil) {
-            [wself.logger error: @"failed wide awake"];
-            [wself.logger log: @"wide awake error %@", error];
+            [wself.logger error: @"failed wide awake %@", error];
             [wself checkUnderlingErrorOf: error];
             [wself scheduleWideAwake];
             return;

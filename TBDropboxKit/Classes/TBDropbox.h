@@ -57,12 +57,12 @@ typedef NS_ENUM(NSInteger, TBDropboxAuthState) {
 };
 
 #define StringFromDropboxAuthState(enum) (([@[\
-@"State: Undefined",\
-@"State: Initiated",\
-@"State: Authorization",\
-@"State: Cancelled",\
-@"State: GotError",\
-@"State: Succeed",\
+@"Auth: Undefined",\
+@"Auth: Initiated",\
+@"Auth: Authorization",\
+@"Auth: Cancelled",\
+@"Auth: GotError",\
+@"Auth: Succeed",\
 ] objectAtIndex:(enum)]))
 
 typedef NS_ENUM(NSInteger, TBDropboxWatchdogState) {
