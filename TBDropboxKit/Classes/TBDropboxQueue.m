@@ -261,8 +261,7 @@
     
     DBRequestErrorTag tag = [(DBRequestError *)error tag];
     
-    BOOL receivedAuthError = tag == DBRequestErrorAuth
-    || tag == DBRequestErrorClient;
+    BOOL receivedAuthError = tag == DBRequestErrorAuth;
     if (receivedAuthError == NO) {
         return;
     }

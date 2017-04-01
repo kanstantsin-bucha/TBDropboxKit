@@ -377,8 +377,7 @@
     DBRequestError * requestError = (DBRequestError *)error;
     
     switch (requestError.tag) {
-        case DBRequestErrorAuth:
-        case DBRequestErrorClient: {
+        case DBRequestErrorAuth: {
             [self notifyThatHasAuthError: mainError];
         } break;
         case DBRequestErrorHttp: {
