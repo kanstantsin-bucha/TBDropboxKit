@@ -144,7 +144,7 @@
     }
     
     BOOL result = [self handleDropboxAuthorisationRedirectURL:url];
-    [self.logger warning: @"did handle %@ auth URL %@", NSStringFromBool(result), url];
+    [self.logger warning: @"did handle auth URL: %@", NSStringFromBool(result)];
     return result;
 }
 
@@ -348,7 +348,7 @@
     if (self.state != TBDropboxConnectionStateAuthorization) {
     
         [self.logger warning: @"skipping auth url bacause not in Auth state"];
-        [self.logger info: @"auth URL: %@", url];
+        [self.logger verbose: @"auth URL: %@", url];
         
         return NO;
     }
@@ -365,7 +365,7 @@
         NSString * incomingTokenUID = authResult.accessToken.uid;
         
         [self.logger log: @"handle auth URL: success auth"];
-        [self.logger verbose: @"with incoming token uid %@", incomingTokenUID];
+        [self.logger info: @"with incoming token uid %@", incomingTokenUID];
         
         if ([self.accessTokenUID isEqualToString: incomingTokenUID]) {
             self.state = TBDropboxConnectionStateReconnected;
