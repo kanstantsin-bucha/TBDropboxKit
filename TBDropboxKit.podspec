@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TBDropboxKit'
-  s.version          = '1.0.9'
+  s.version          = '1.0.10'
   s.summary          = 'Dropbox ObjC synchronization kit using API v2'
 
 # This description is used to generate tags and improve search results.
@@ -20,7 +20,8 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
   updated to ObjectiveDropboxOfficial 3.0.10
 This framework provide basic two way synchronization functionality for dropbox.
-It is using dropbox API version 2. It writed using SOLID principles"
+It uses official dropbox API version 2 under the hood. It smooth broken changes that official guys do every release.
+ It writed using SOLID principles"
                        DESC
 
   s.homepage         = 'https://github.com/truebucha/TBDropboxKit'
@@ -31,6 +32,7 @@ It is using dropbox API version 2. It writed using SOLID principles"
   s.social_media_url = 'https://twitter.com/truebucha'
 
   s.ios.deployment_target = '8.0'
+  s.mac.deployment_target = '10.6'
 
   s.source_files = 'TBDropboxKit/Classes/**/*'
 
