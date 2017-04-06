@@ -60,13 +60,13 @@ static const char *kV1OSXAccountName = "Dropbox";
 + (NSString *)retrieveTokenWithKey:(NSString *)key {
   NSData *data = [self lookupTokenDataWithKey:key];
   if (data != nil) {
-    return [NSString stringWithUTF8String:[data bytes]];
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
   } else {
     return nil;
   }
 }
 
-+ (NSArray<NSString *> *)retrieveAllTokens {
++ (NSArray<NSString *> *)retrieveAllTokenIds {
   NSMutableDictionary<id, id> *query = [DBSDKKeychain
       queryWithDict:@{(id)kSecReturnAttributes : (id)kCFBooleanTrue, (id)kSecMatchLimit : (id)kSecMatchLimitAll}];
   CFDataRef dataResult = nil;
@@ -75,12 +75,13 @@ static const char *kV1OSXAccountName = "Dropbox";
   NSMutableArray<NSString *> *results = [NSMutableArray new];
 
   if (status == noErr) {
-    NSData *data = (__bridge NSData *)dataResult;
+    NSData *data = (__bridge_transfer NSData *)dataResult;
     NSArray<NSDictionary<NSString *, id> *> *dataResultDict = (NSArray<NSDictionary<NSString *, id> *> *)data ?: @[];
     for (NSDictionary<NSString *, id> *dict in dataResultDict) {
       [results addObject:(id)dict[(NSString *)kSecAttrAccount]];
     }
   }
+
   return results;
 }
 
@@ -112,7 +113,8 @@ static const char *kV1OSXAccountName = "Dropbox";
   OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&dataResult);
 
   if (status == noErr) {
-    return (__bridge NSData *)dataResult;
+    NSData *data = [[NSData alloc] initWithData:(__bridge_transfer NSData *)dataResult];
+    return data;
   }
   return nil;
 }

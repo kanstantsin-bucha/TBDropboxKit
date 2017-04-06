@@ -171,7 +171,7 @@
     }
     
     if (self.accessTokenUID != nil) {
-        BOOL succeed = [DBClientsManager reauthorizeClient: self.accessTokenUID];
+        BOOL succeed = [DBClientsManager authorizeClientFromKeychain: self.accessTokenUID];
         if (succeed) {
             [self.logger log: @"open connection with reauthorized client %@ using token UID %@",
                               [DBClientsManager authorizedClient], self.accessTokenUID];
@@ -197,7 +197,6 @@
 - (void)pauseConnection {
     [self.logger verbose: @"did receive pause connection"];
     
-    [DBClientsManager resetClients];
     self.state = TBDropboxConnectionStatePaused;
     
     [self.logger log: @"did pause connection"];
@@ -208,17 +207,10 @@
     
     [self.logger log: @"did reauthorize client with token UID %@", self.accessTokenUID];
     
-    [DBClientsManager resetClients];
-    if (self.accessTokenUID == nil) {
-        [self authorize];
-        return;
-    }
-    
-    DBOAuthManager * manager = [DBOAuthManager sharedOAuthManager];
-    DBAccessToken * token = [manager getAccessToken: self.accessTokenUID];
-    if (token != nil) {
-        [self.logger info: @"clear access token %@/r with UID %@", token, self.accessTokenUID];
-        [[DBOAuthManager sharedOAuthManager] clearStoredAccessToken: token];
+    if (self.accessTokenUID != nil) {
+        [self.logger info: @"clear access token %@/r with UID %@", self.accessTokenUID, self.accessTokenUID];
+        [DBClientsManager unlinkAndResetClient: self.accessTokenUID];
+        self.accessTokenUID = nil;
     }
     
     [self authorize];

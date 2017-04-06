@@ -222,8 +222,8 @@ static DBOAuthManager *sharedOAuthManager;
   return [DBSDKKeychain storeValueWithKey:accessToken.uid value:accessToken.accessToken];
 }
 
-- (DBAccessToken *)getFirstAccessToken {
-  NSDictionary<NSString *, DBAccessToken *> *tokens = [self getAllAccessTokens];
+- (DBAccessToken *)retrieveFirstAccessToken {
+  NSDictionary<NSString *, DBAccessToken *> *tokens = [self retrieveAllAccessTokens];
   NSArray *values = [tokens allValues];
   if ([values count] != 0) {
     return [values objectAtIndex:0];
@@ -231,17 +231,17 @@ static DBOAuthManager *sharedOAuthManager;
   return nil;
 }
 
-- (DBAccessToken *)getAccessToken:(NSString *)owner {
-  NSString *accessToken = [DBSDKKeychain retrieveTokenWithKey:owner];
+- (DBAccessToken *)retrieveAccessToken:(NSString *)tokenUid {
+  NSString *accessToken = [DBSDKKeychain retrieveTokenWithKey:tokenUid];
   if (accessToken != nil) {
-    return [[DBAccessToken alloc] initWithAccessToken:accessToken uid:owner];
+    return [[DBAccessToken alloc] initWithAccessToken:accessToken uid:tokenUid];
   } else {
     return nil;
   }
 }
 
-- (NSDictionary<NSString *, DBAccessToken *> *)getAllAccessTokens {
-  NSArray<NSString *> *users = [DBSDKKeychain retrieveAllTokens];
+- (NSDictionary<NSString *, DBAccessToken *> *)retrieveAllAccessTokens {
+  NSArray<NSString *> *users = [DBSDKKeychain retrieveAllTokenIds];
   NSMutableDictionary<NSString *, DBAccessToken *> *result = [[NSMutableDictionary alloc] init];
   for (NSString *user in users) {
     NSString *accessToken = [DBSDKKeychain retrieveTokenWithKey:user];
@@ -253,11 +253,11 @@ static DBOAuthManager *sharedOAuthManager;
 }
 
 - (BOOL)hasStoredAccessTokens {
-  return [self getAllAccessTokens].count != 0;
+  return [self retrieveAllAccessTokens].count != 0;
 }
 
-- (BOOL)clearStoredAccessToken:(DBAccessToken *)token {
-  return [DBSDKKeychain deleteTokenWithKey:token.uid];
+- (BOOL)clearStoredAccessToken:(NSString *)tokenUid {
+  return [DBSDKKeychain deleteTokenWithKey:tokenUid];
 }
 
 - (BOOL)clearStoredAccessTokens {
