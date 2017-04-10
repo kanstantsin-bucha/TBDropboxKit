@@ -1,11 +1,17 @@
 use_frameworks!
 
-target 'TBDropboxKit_Example' do
-  pod 'TBDropboxKit', :path => '../'
+abstract_target 'Pod' do
 
-  target 'TBDropboxKit_Tests' do
-    inherit! :search_paths
+ pod 'TBDropboxKit', :path => '../'
 
-    
-  end
+    target 'TBDropboxKit_Example' do
+        target 'TBDropboxKit_Tests' do
+            inherit! :search_paths
+        end
+    end
+    target 'TBDropboxKitMac-Example' do
+        target 'TBDropboxKitMac-ExampleTests' do
+            inherit! :search_paths
+        end
+    end
 end

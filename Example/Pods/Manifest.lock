@@ -1,14 +1,14 @@
 PODS:
-  - CDBDelegateCollection (0.0.1)
-  - CDBKit (1.0.1)
+  - CDBDelegateCollection (1.1.1)
+  - CDBKit (1.1.1)
   - ObjectiveDropboxOfficial (3.0.10)
-  - TBDropboxKit (1.0.8):
-    - CDBDelegateCollection (~> 0.0)
-    - CDBKit (~> 1.0)
-    - ObjectiveDropboxOfficial (~> 3.0)
-    - TBLogger (~> 1.0)
-  - TBLogger (1.0.0):
-    - CDBKit (~> 1.0)
+  - TBDropboxKit (1.0.10):
+    - CDBDelegateCollection (~> 1.1)
+    - CDBKit (~> 1.1)
+    - ObjectiveDropboxOfficial (= 3.0.10)
+    - TBLogger (~> 1.1)
+  - TBLogger (1.1.1):
+    - CDBKit (~> 1.1)
 
 DEPENDENCIES:
   - TBDropboxKit (from `../`)
@@ -18,12 +18,12 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  CDBDelegateCollection: 3d005310ffe134e6a2b60ec7255d89e87485460b
-  CDBKit: a6a979ebc52a9533b70b14d65e1bbaf14b378e34
+  CDBDelegateCollection: d3dc7666965f701bc54ed7eae591de2328a8c706
+  CDBKit: eb073c45d4bffbbad99dc9f2a79effbdab890ea7
   ObjectiveDropboxOfficial: 9f2ec81a2b4d314f77251471256130c81ea38717
-  TBDropboxKit: 2916efc842133e5d5f6276abb1f730545b6a5bc2
-  TBLogger: 4b291a049ee52723bee2af66bb7e932d4fc3e075
+  TBDropboxKit: a9d7ed87474dfd743d766f9e26c3c967a640c306
+  TBLogger: 027f58d2db4880322fd936edf4590719602d63be
 
-PODFILE CHECKSUM: 100065672cb26d1e1a87969b808819e0797deb68
+PODFILE CHECKSUM: 90e636c4efb66bce2c96b1ecf68f69afa2372e17
 
 COCOAPODS: 1.2.0

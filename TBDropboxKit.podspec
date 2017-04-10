@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TBDropboxKit'
-  s.version          = '1.0.10'
+  s.version          = '1.0.11'
   s.summary          = 'Dropbox ObjC synchronization kit using API v2'
 
 # This description is used to generate tags and improve search results.
@@ -31,8 +31,9 @@ It uses official dropbox API version 2 under the hood. It smooth broken changes 
   s.source           = { :git => 'https://github.com/truebucha/TBDropboxKit.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/truebucha'
 
-  s.ios.deployment_target = '8.0'
-  s.mac.deployment_target = '10.6'
+  s.ios.deployment_target = '7.0'
+  s.osx.deployment_target = '10.8'
+  s.requires_arc = true
 
   s.source_files = 'TBDropboxKit/Classes/**/*'
 
@@ -41,9 +42,10 @@ It uses official dropbox API version 2 under the hood. It smooth broken changes 
   # }
 
   s.public_header_files = 'TBDropboxKit/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.frameworks = 'Foundation'
   s.dependency 'ObjectiveDropboxOfficial', '= 3.0.10'
-  s.dependency 'CDBKit', '~> 1.0'
-  s.dependency 'CDBDelegateCollection', '~> 0.0'
-  s.dependency 'TBLogger', '~> 1.0'
+  s.dependency 'CDBKit', '~> 1.1'
+  s.dependency 'CDBDelegateCollection', '~> 1.1'
+  s.dependency 'TBLogger', '~> 1.1'
+
   end

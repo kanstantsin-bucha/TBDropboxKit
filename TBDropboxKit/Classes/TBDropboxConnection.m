@@ -102,9 +102,22 @@
         NSLog(@"[ERROR] Failed to create connection with key:%@\rdelegate: %@", key, delegate);
         return result;
     }
-    
+
     [result subscribeToNotifications];
-    [DBClientsManager setupWithAppKey: key];
+
+#ifdef __APPLE__
+    #if TARGET_OS_OSX
+        // Mac
+        [DBClientsManager setupWithAppKeyDesktop: key];
+    #elif TARGET_OS_IOS
+        // iOS and simulator
+        [DBClientsManager setupWithAppKey: key];
+    #else
+        // undefined
+        
+    #endif
+#endif
+
     result.delegate = delegate;
     result.state = TBDropboxConnectionStateDisconnected;
     
@@ -219,13 +232,23 @@
 /// MARK: notifications
 
 - (void)subscribeToNotifications {
-
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(appBecomeActive:)
-                                                 name: UIApplicationDidBecomeActiveNotification
-                                               object: nil];
-
-    [self.logger info: @"did subscribe to AppBecomeActive notification"];
+#ifdef __APPLE__
+    #if TARGET_OS_OSX
+        // Mac
+    
+    #elif TARGET_OS_IOS
+        // iOS and simulator
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(appBecomeActive:)
+                                                     name: UIApplicationDidBecomeActiveNotification
+                                                   object: nil];
+        
+        [self.logger info: @"did subscribe to AppBecomeActive notification"];
+    #else
+        // undefined
+        
+    #endif
+#endif
 }
 
 /// MARK: private
@@ -238,22 +261,50 @@
         return;
     }
     
-    void (^ openURL)(NSURL *) = ^(NSURL * url) {
-        [self noteAuthStateChanged: TBDropboxAuthStateAuthorization];
-        [[UIApplication sharedApplication] openURL: url];
-        [self.logger log: @"did open auth url"];
-        [self.logger verbose: @"auth url %@", url];
-    };
+#ifdef __APPLE__
+    #if TARGET_OS_OSX
+        // Mac
     
-    self.state = TBDropboxConnectionStateAuthorization;
-    [self noteAuthStateChanged: TBDropboxAuthStateInitiated];
+        void (^ openURL)(NSURL *) = ^(NSURL * url) {
+            [self noteAuthStateChanged: TBDropboxAuthStateAuthorization];
+            [[NSWorkspace sharedWorkspace] openURL: url];
+            [self.logger log: @"did open auth url"];
+            [self.logger verbose: @"auth url %@", url];
+        };
+        
+        self.state = TBDropboxConnectionStateAuthorization;
+        [self noteAuthStateChanged: TBDropboxAuthStateInitiated];
+        
+        NSViewController * authController = [NSViewController new];
+        
+        [DBClientsManager authorizeFromControllerDesktop: [NSWorkspace sharedWorkspace]
+                                              controller: authController
+                                                 openURL: openURL
+                                             browserAuth: YES];
+    #elif TARGET_OS_IOS
+        // iOS and simulator
     
-    UIViewController * authController = [UIViewController new];
-    
-    [DBClientsManager authorizeFromController: [UIApplication sharedApplication]
-                                   controller: authController
-                                      openURL: openURL
-                                  browserAuth: YES];
+        void (^ openURL)(NSURL *) = ^(NSURL * url) {
+            [self noteAuthStateChanged: TBDropboxAuthStateAuthorization];
+            [[UIApplication sharedApplication] openURL: url];
+            [self.logger log: @"did open auth url"];
+            [self.logger verbose: @"auth url %@", url];
+        };
+        
+        self.state = TBDropboxConnectionStateAuthorization;
+        [self noteAuthStateChanged: TBDropboxAuthStateInitiated];
+        
+        UIViewController * authController = [UIViewController new];
+        
+        [DBClientsManager authorizeFromController: [UIApplication sharedApplication]
+                                       controller: authController
+                                          openURL: openURL
+                                      browserAuth: YES];
+    #else
+        // undefined
+        
+    #endif
+#endif
 
     [self.logger log: @"did auth from controller"];
     [self.logger verbose: @"auth controller %@", authController];

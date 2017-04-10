@@ -9,8 +9,22 @@
 #ifndef TBDropbox_h
 #define TBDropbox_h
 
-#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 #import <CDBKit/CDBKit.h>
+#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
+
+//#ifdef __APPLE__
+//    #include "TargetConditionals.h"
+//    #if TARGET_OS_OSX
+//    // Mac
+//
+//    #elif TARGET_OS_IOS
+//    // iOS and simulator
+//
+//    #else
+//    // undefined
+//
+//    #endif
+//#endif
 
 #define TBDropboxErrorDomain @"TBDropboxKit"
 
