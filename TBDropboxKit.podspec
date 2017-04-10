@@ -31,8 +31,8 @@ It uses official dropbox API version 2 under the hood. It smooth broken changes 
   s.source           = { :git => 'https://github.com/truebucha/TBDropboxKit.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/truebucha'
 
-  s.ios.deployment_target = '7.0'
-  s.osx.deployment_target = '10.8'
+  s.ios.deployment_target = '8.0'
+  s.osx.deployment_target = '10.10'
   s.requires_arc = true
 
   s.source_files = 'TBDropboxKit/Classes/**/*'
