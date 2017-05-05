@@ -9,7 +9,7 @@
 ## Example
 
 1) initiate dropbox after application will launch
-
+```
 self.dropbox = [TBDropboxClient sharedInstance];
 // passing YES to ConnectionDesired makes it connect instantly
 // use NO if you want connect after some onthe services will start or 
@@ -23,9 +23,9 @@ self.dropbox.tasksQueue.batchSize = QM_Dropbox_Queue_Batch_Size;
 self.dropbox.watchdog.logger.logLevel = TBLogLevelInfo;
 self.dropbox.connection.logger.logLevel = TBLogLevelVerbose;
 self.dropbox.logger.logLevel = TBLogLevelInfo;
-
+```
 2) implement this delegate's methods
-
+```
 #pragma mark - TBDropboxClientDelegate -
 
 #pragma mark TBDropboxClient
@@ -107,8 +107,9 @@ self.dropbox.logger.logLevel = TBLogLevelInfo;
                 withError:(NSError *)error {
     
 }
-
+```
 3.) To upload/delete/move create a task then add it to the queue
+```
 using [self.dropbox.tasksQueue addTask: task];
 
 - (TBDropboxUploadFileTask *)dropboxUploadTaskUsingDocumentURL:(NSURL *)documentURL
@@ -166,9 +167,9 @@ using [self.dropbox.tasksQueue addTask: task];
     
     return result;
 }
-
+```
 4.) Sync incoming changes & Download
-
+```
 - (void)dropboxSyncChangedDocumentAtURL:(NSURL *)URL
                             dropboxPath:(NSString *)path
                              completion:(CDBErrorCompletion)completion {
@@ -207,9 +208,9 @@ using [self.dropbox.tasksQueue addTask: task];
     
     [self.dropbox.tasksQueue addTask: downloadTask];
 }
-
+```
 5.) Cleanup
-
+```
 - (void)cleanupDropboxAppContainerWithCompletion:(CDBErrorCompletion _Nonnull)completion {
     TBDropboxFolderEntry * rootEntry = [TBDropboxEntryFactory folderEntryUsingDropboxPath:nil];
     TBDropboxListFolderTask * cleanupTask =
@@ -260,7 +261,7 @@ using [self.dropbox.tasksQueue addTask: task];
     
     [self.dropbox.tasksQueue addTask: cleanupTask];
 }
-
+```
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
