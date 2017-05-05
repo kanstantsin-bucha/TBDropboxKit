@@ -33,8 +33,8 @@
     sessionConfig.timeoutIntervalForRequest = 60.0;
 
     _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:_delegate delegateQueue:_delegateQueue];
-    _forceBackgroundSession = transportConfig.forceForegroundSession ? YES : NO;
-    if (!_forceBackgroundSession) {
+    _forceForegroundSession = transportConfig.forceForegroundSession ? YES : NO;
+    if (!_forceForegroundSession) {
       NSString *backgroundId = [NSString stringWithFormat:@"%@.%@", kBackgroundSessionId, [NSUUID UUID].UUIDString];
       NSURLSessionConfiguration *backgroundSessionConfig =
           [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:backgroundId];
@@ -87,7 +87,8 @@
 
 #pragma mark - Upload-style request (NSURL)
 
-- (DBUploadTaskImpl *)requestUpload:(DBRoute *)route arg:(id<DBSerializable>)arg inputUrl:(NSURL *)input {
+- (DBUploadTaskImpl *)requestUpload:(DBRoute *)route arg:(id<DBSerializable>)arg inputUrl:(NSString *)input {
+  NSURL *inputUrl = [NSURL fileURLWithPath:input];
   NSURL *requestUrl = [[self class] urlWithRoute:route];
   NSString *serializedArg = [[self class] serializeStringWithRoute:route routeArg:arg];
   NSDictionary *headers =
@@ -95,12 +96,12 @@
 
   NSURLRequest *request = [[self class] requestWithHeaders:headers url:requestUrl content:nil stream:nil];
 
-  NSURLSessionUploadTask *task = [_secondarySession uploadTaskWithRequest:request fromFile:input];
+  NSURLSessionUploadTask *task = [_secondarySession uploadTaskWithRequest:request fromFile:inputUrl];
   DBUploadTaskImpl *uploadTask = [[DBUploadTaskImpl alloc] initWithTask:task
                                                                 session:_secondarySession
                                                                delegate:_delegate
                                                                   route:route
-                                                               inputUrl:input
+                                                               inputUrl:inputUrl
                                                               inputData:nil];
   [task resume];
 
@@ -227,7 +228,7 @@
                                                 userAgent:self.userAgent
                                                asMemberId:asMemberId
                                             delegateQueue:_delegateQueue
-                                   forceForegroundSession:_forceBackgroundSession];
+                                   forceForegroundSession:_forceForegroundSession];
 }
 
 #pragma mark - Session accessors and mutators

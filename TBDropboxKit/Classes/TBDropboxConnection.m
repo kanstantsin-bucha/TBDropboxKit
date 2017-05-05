@@ -279,8 +279,7 @@
         
         [DBClientsManager authorizeFromControllerDesktop: [NSWorkspace sharedWorkspace]
                                               controller: authController
-                                                 openURL: openURL
-                                             browserAuth: YES];
+                                                 openURL: openURL];
     #elif TARGET_OS_IOS
         // iOS and simulator
     
@@ -294,12 +293,9 @@
         self.state = TBDropboxConnectionStateAuthorization;
         [self noteAuthStateChanged: TBDropboxAuthStateInitiated];
         
-        UIViewController * authController = [UIViewController new];
-        
         [DBClientsManager authorizeFromController: [UIApplication sharedApplication]
-                                       controller: authController
-                                          openURL: openURL
-                                      browserAuth: YES];
+                                       controller: [UIApplication sharedApplication].keyWindow.rootViewController
+                                          openURL: openURL];
     #else
         // undefined
         
@@ -307,7 +303,6 @@
 #endif
 
     [self.logger log: @"did auth from controller"];
-    [self.logger verbose: @"auth controller %@", authController];
 }
 
 /// MARK: connection logic

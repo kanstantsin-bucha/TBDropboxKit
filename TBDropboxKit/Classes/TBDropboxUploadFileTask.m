@@ -52,12 +52,14 @@
     }
     /// TODO: enable this arguments in task properties
     
+    NSString * filePath = self.fileURL.path;
+    
     self.dropboxTask = [routes uploadUrl: self.entry.dropboxPath
                                     mode: [[DBFILESWriteMode alloc] initWithOverwrite]
                               autorename: @(NO)
                           clientModified: [NSDate date]
                                     mute: @(NO)
-                                inputUrl: self.fileURL];
+                                inputUrl: filePath];
     weakCDB(wself);
     [(DBUploadTask *)self.dropboxTask setResponseBlock:^(DBFILESFileMetadata * response,
                                                          id  _Nullable routeError,

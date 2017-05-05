@@ -106,8 +106,21 @@ $ gem install cocoapods
 
 Then navigate to the directory that contains your project and create a new file called `Podfile`. You can do this either with `pod init`, or open an existing Podfile, and then add `pod 'ObjectiveDropboxOfficial'` to the main loop. Your Podfile should look something like this:
 
+##### iOS
+
 ```ruby
-platform :ios, '8.0'
+platform :ios, '9.0'
+use_frameworks!
+
+target '<YOUR_PROJECT_NAME>' do
+    pod 'ObjectiveDropboxOfficial'
+end
+```
+
+##### macOS
+
+```ruby
+platform :osx, '10.10'
 use_frameworks!
 
 target '<YOUR_PROJECT_NAME>' do
@@ -146,7 +159,7 @@ brew install carthage
 
 ```
 # ObjectiveDropboxOfficial
-github "https://github.com/dropbox/dropbox-sdk-obj-c" ~> 3.0.10
+github "https://github.com/dropbox/dropbox-sdk-obj-c" ~> 3.0.11
 ```
 
 Then, run the following command to checkout and build the Dropbox Objective-C SDK repository:
@@ -264,11 +277,10 @@ After you've made the above changes, your application's `.plist` file should loo
 
 ### Handling the authorization flow
 
-There are three methods to programmatically retrieve an OAuth 2.0 access token:
+There are two methods to programmatically retrieve an OAuth 2.0 access token:
 
 * **Direct auth** (iOS only): This launches the official Dropbox iOS app (if installed), authenticates via the official app, then redirects back into the SDK
-* **In-app webview auth** (iOS, macOS): This opens a pre-built in-app webview for authenticating via the Dropbox authorization page. This is convenient because the user is never redirected outside of your app.
-* **External browser auth** (iOS, macOS): This launches the platform's default browser for authenticating via the Dropbox authorization page. This is desirable because it is safer for the end-user, and pre-existing session data can be used to avoid requiring the user to re-enter their Dropbox credentials.
+* **External browser auth** (iOS, macOS): This launches the platform's default browser for authenticating via the Dropbox authorization page. For iOS >= 9, a `SFSafariViewController` is used instead of an external browser. This is desirable because it is safer for the end-user, and pre-existing session data can be used to avoid requiring the user to re-enter their Dropbox credentials.
 
 To facilitate the above authorization flows, you should take the following steps:
 
@@ -302,8 +314,8 @@ To facilitate the above authorization flows, you should take the following steps
 
 #### Begin the authorization flow
 
-You can commence the auth flow by calling `authorizeFromController:controller:openURL:browserAuth` method in your application's
-view controller. If you wish to authenticate via the in-app webview, then set `browserAuth` to `NO`. Otherwise, authentication will be done via an external web browser.
+You can commence the auth flow by calling `authorizeFromController:controller:openURL` method in your application's
+view controller.
 
 ##### iOS
 
@@ -315,8 +327,7 @@ view controller. If you wish to authenticate via the in-app webview, then set `b
                                  controller:self
                                     openURL:^(NSURL *url) {
                                       [[UIApplication sharedApplication] openURL:url];
-                                    }
-                                browserAuth:YES];
+                                    }];
 }
 
 ```
@@ -329,8 +340,7 @@ view controller. If you wish to authenticate via the in-app webview, then set `b
 - (void)myButtonInControllerPressed {
   [DBClientsManager authorizeFromControllerDesktop:[NSWorkspace sharedWorkspace]
                                         controller:self
-                                           openURL:^(NSURL *url){ [[NSWorkspace sharedWorkspace] openURL:url]; }
-                                       browserAuth:YES];
+                                           openURL:^(NSURL *url){ [[NSWorkspace sharedWorkspace] openURL:url]; }];
 }
 ```
 
@@ -559,7 +569,7 @@ NSData *fileData = [@"file data example" dataUsingEncoding:NSUTF8StringEncoding 
       } else {
         NSLog(@"%@\n%@\n", routeError, networkError);
       }
-    }] progress:^(int64_t bytesUploaded, int64_t totalBytesUploaded, int64_t totalBytesExpectedToUploaded) {
+    }] setProgressBlock:^(int64_t bytesUploaded, int64_t totalBytesUploaded, int64_t totalBytesExpectedToUploaded) {
   NSLog(@"\n%lld\n%lld\n%lld\n", bytesUploaded, totalBytesUploaded, totalBytesExpectedToUploaded);
 }];
 ```
@@ -569,7 +579,7 @@ Here's an example of an advanced upload case for "batch" uploading a large numbe
 ```objective-c
 NSMutableDictionary<NSURL *, DBFILESCommitInfo *> *uploadFilesUrlsToCommitInfo = [NSMutableDictionary new];
 DBFILESCommitInfo *commitInfo = [[DBFILESCommitInfo alloc] initWithPath:@"/output/path/in/Dropbox"];
-[uploadFilesUrlsToCommitInfo setObject:commitInfo forKey:[NSURL URLWithString:@"/local/path/to/my/file"]];
+[uploadFilesUrlsToCommitInfo setObject:commitInfo forKey:[NSURL fileURLWithPath:@"/local/path/to/my/file"]];
 
 [client.filesRoutes batchUploadFiles:uploadFilesUrlsToCommitInfo
     queue:nil
@@ -587,7 +597,7 @@ DBFILESCommitInfo *commitInfo = [[DBFILESCommitInfo alloc] initWithPath:@"/outpu
           if ([resultEntry isSuccess]) {
             NSString *dropboxFilePath = resultEntry.success.pathDisplay;
             NSLog(@"File successfully uploaded from %@ on local machine to %@ in Dropbox.",
-                  [clientSideFileUrl absoluteString], dropboxFilePath);
+                  [clientSideFileUrl path], dropboxFilePath);
           } else if ([resultEntry isFailure]) {
             // This particular file was not uploaded successfully, although the other
             // files may have been uploaded successfully. Perhaps implement some retry
@@ -606,7 +616,7 @@ DBFILESCommitInfo *commitInfo = [[DBFILESCommitInfo alloc] initWithPath:@"/outpu
       } else if (finishBatchRequestError) {
         NSLog(@"Request error from calling `/upload_session/finish_batch/check`");
         NSLog(@"%@", finishBatchRequestError);
-      } else if (else if ([fileUrlsToRequestErrors count] > 0) {) {
+      } else if ([fileUrlsToRequestErrors count] > 0) {
         NSLog(@"Other additional errors (e.g. file doesn't exist client-side, etc.).");
         NSLog(@"%@", fileUrlsToRequestErrors);
       }
@@ -637,7 +647,7 @@ NSURL *outputUrl = [outputDirectory URLByAppendingPathComponent:@"test_file_outp
       } else {
         NSLog(@"%@\n%@\n", routeError, networkError);
       }
-    }] progress:^(int64_t bytesDownloaded, int64_t totalBytesDownloaded, int64_t totalBytesExpectedToDownload) {
+    }] setProgressBlock:^(int64_t bytesDownloaded, int64_t totalBytesDownloaded, int64_t totalBytesExpectedToDownload) {
   NSLog(@"%lld\n%lld\n%lld\n", bytesDownloaded, totalBytesDownloaded, totalBytesExpectedToDownload);
 }];
 ```
@@ -655,7 +665,7 @@ Here's an example for downloading straight to memory (`NSData`):
       } else {
         NSLog(@"%@\n%@\n", routeError, networkError);
       }
-    }] progress:^(int64_t bytesDownloaded, int64_t totalBytesDownloaded, int64_t totalBytesExpectedToDownload) {
+    }] setProgressBlock:^(int64_t bytesDownloaded, int64_t totalBytesDownloaded, int64_t totalBytesExpectedToDownload) {
   NSLog(@"%lld\n%lld\n%lld\n", bytesDownloaded, totalBytesDownloaded, totalBytesExpectedToDownload);
 }];
 ```

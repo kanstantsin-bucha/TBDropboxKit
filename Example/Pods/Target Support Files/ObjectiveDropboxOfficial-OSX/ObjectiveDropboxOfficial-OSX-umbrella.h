@@ -541,7 +541,7 @@
 #import "DBTransportClientProtocol.h"
 #import "DBTransportDefaultClient.h"
 #import "DBTransportDefaultConfig.h"
-#import "DBOAuth.h"
+#import "DBOAuthManager.h"
 #import "DBOAuthResult.h"
 #import "DBSDKKeychain.h"
 #import "DBSharedApplicationProtocol.h"
