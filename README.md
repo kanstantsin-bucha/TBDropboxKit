@@ -33,8 +33,8 @@ self.dropbox.logger.logLevel = TBLogLevelInfo;
 - (void)client:(TBDropboxClient *)client
     didReceiveIncomingChanges:(NSArray<TBDropboxChange *> *)changes {    
      // get your sinchronized documents base url
-    NSArray * URLs = [self.fileManager URLsForDirectory:NSDocumentDirectory
-                                                  inDomains:NSUserDomainMask];
+    NSArray * URLs = [[NSFileManager defaultManager] URLsForDirectory: NSDocumentDirectory
+                                                            inDomains: NSUserDomainMask];
     NSURL * baseURL = URLs.lastObject;
 
     for (TBDropboxChange * change in changes) {
