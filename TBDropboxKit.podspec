@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TBDropboxKit'
-  s.version          = '1.0.13'
+  s.version          = '1.0.14'
   s.summary          = 'Dropbox ObjC synchronization kit using API v2'
 
 # This description is used to generate tags and improve search results.
@@ -18,10 +18,11 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-  updated to ObjectiveDropboxOfficial 3.0.11
-This framework provide basic two way synchronization functionality for dropbox.
-It uses official dropbox API version 2 under the hood. It smooth broken changes that official guys do every release.
- It writed using SOLID principles"
+  Stable version, core updated to ObjectiveDropboxOfficial 3.0.11.
+  Please refer to the readme in github. For some reason the cocoapods ignoring README.md :(
+  This framework provide basic two way synchronization functionality for dropbox and changes nofification in both ways.
+  It uses official dropbox API version 2 under the hood. It smoothes broken changes that official guys do every release.
+  It was written using SOLID principles in DRY mode"
                        DESC
 
   s.homepage         = 'https://github.com/truebucha/TBDropboxKit'
