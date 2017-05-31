@@ -1,10 +1,11 @@
-# TBDropboxKit
+## TBDropboxKit
+
+Released in april and used gracefully in app store already
 
 [![CI Status](http://img.shields.io/travis/truebucha/TBDropboxKit.svg?style=flat)](https://travis-ci.org/truebucha/TBDropboxKit)
 [![Version](https://img.shields.io/cocoapods/v/TBDropboxKit.svg?style=flat)](http://cocoapods.org/pods/TBDropboxKit)
 [![License](https://img.shields.io/cocoapods/l/TBDropboxKit.svg?style=flat)](http://cocoapods.org/pods/TBDropboxKit)
 [![Platform](https://img.shields.io/cocoapods/p/TBDropboxKit.svg?style=flat)](http://cocoapods.org/pods/TBDropboxKit)
-## Under Development
 
 ## Example
 
