@@ -7,12 +7,57 @@
 //
 
 #import "TBAppDelegate.h"
+#import <TBDropboxKit/TBDropboxKit.h>
+
+#define dTestSuiteApiKey @"f73chv4vrf1uv40"
+#define dExampleFileName @"japan.jpg"
+
+@interface TBAppDelegate ()
+<TBDropboxClientDelegate>
+
+@property (strong, nonatomic, readonly) TBDropboxClient * dropbox;
+@property (strong, nonatomic) NSURL * localDocumentsURL;
+@property (strong, nonatomic, readonly) NSString * examplePath;
+
+@end
 
 @implementation TBAppDelegate
 
+// MARK: - errors -
+
+- (NSError *)taskCreationFailedErrorUsingInfo:(NSDictionary *)info {
+    NSError * result = [NSError errorWithDomain: NSStringFromClass([self class])
+                                           code: 3
+                                       userInfo: info];
+    return result;
+}
+
+// MARK: - property -
+
+- (TBDropboxClient *)dropbox {
+    TBDropboxClient * result = [TBDropboxClient sharedInstance];
+    return result;
+}
+
+- (NSString *)examplePath {
+    NSString * result = [@"/" stringByAppendingPathComponent: dExampleFileName];
+    return result;
+}
+
+// MARK: - protocols -
+
+// MARK: UIApplicationDelegate
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    NSArray * urls = [[NSFileManager defaultManager] URLsForDirectory: NSDocumentDirectory
+                                                            inDomains: NSUserDomainMask];
+    self.localDocumentsURL = urls.firstObject;
+    NSLog(@"documents directory url = %@", self.localDocumentsURL);
+
+    [self.dropbox initiateWithConnectionDesired: YES
+                                    usingAppKey: dTestSuiteApiKey];
+    [self.dropbox addDelegate: self];
     return YES;
 }
 
@@ -42,5 +87,245 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    
+    BOOL result = [self.dropbox.connection handleAuthorisationRedirectURL: url];
+    return result;
+}
+
+// MARK: TBDropboxClientDelegate
+
+- (void)client:(TBDropboxClient * _Nonnull)client
+didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes {
+
+}
+
+- (void)dropboxConnection:(TBDropboxConnection * _Nonnull)connection
+         didChangeStateTo:(TBDropboxConnectionState)state {
+    if (state == TBDropboxConnectionStateConnected
+        || state == TBDropboxConnectionStateReconnected) {
+        
+        // Upload example file to app folder in dropbox
+        [self uploadExampleFileWithComplation:^(NSError * _Nullable error) {
+        
+            // download that file to local documents directory
+            [self downloadLocalDocumentFromDropboxPath: self.examplePath
+                                            completion: ^(NSError * _Nullable error) {
+                 
+             }];
+        }];
+    }
+}
+
+// MARK: - implementation -
+
+- (void)uploadExampleFileWithComplation:(CDBErrorCompletion)completion {
+    NSURL * exampleUrl =
+        [[NSBundle mainBundle] URLForResource: [dExampleFileName stringByDeletingPathExtension]
+                                withExtension: dExampleFileName.pathExtension];
+    
+    TBDropboxFileEntry * entry =
+        [TBDropboxEntryFactory fileEntryUsingDropboxPath: self.examplePath];
+    TBDropboxUploadFileTask * task =
+        [TBDropboxUploadFileTask taskUsingEntry: entry
+                                        fileURL: exampleUrl
+                                     completion: ^(TBDropboxTask * _Nonnull task,
+                                                   NSError * _Nullable error) {
+        if (completion != nil) {
+            completion(error);
+        }
+    }];
+    
+    [self.dropbox.tasksQueue addTask: task];
+}
+
+// Don't use it on user dropbox [IT DELETE EVERYTHING] it is only for app folder cleunup
+
+- (void)cleanupDropboxAppContainerWithCompletion:(CDBErrorCompletion _Nonnull)completion {
+    TBDropboxFolderEntry * rootEntry = [TBDropboxEntryFactory folderEntryUsingDropboxPath:nil];
+    TBDropboxListFolderTask * listTask =
+        [TBDropboxListFolderTask taskUsingEntry: rootEntry
+                                     completion: ^(TBDropboxTask * _Nonnull task,
+                                                   NSError * _Nullable error) {
+         NSArray * entries = [(TBDropboxListFolderTask *)task folderEntries];
+         
+         if (entries.count == 0) {
+             if (completion != nil) {
+                 completion(nil);
+             }
+             return;
+         }
+         
+         __block NSUInteger counter = 0;
+         __block NSUInteger count = entries.count;
+         __block NSError * deleteError = nil;
+         
+         for (id<TBDropboxEntry> deleteEntry in entries) {
+             TBDropboxDeleteEntryTask * deleteTask =
+                [TBDropboxDeleteEntryTask taskUsingEntry: deleteEntry
+                                              completion: ^(TBDropboxTask * _Nonnull task, NSError * _Nullable error) {
+                    counter++;
+                    if (deleteError != nil) {
+                        deleteError = error;
+                    }
+
+                    if (counter == count
+                        && completion != nil) {
+                        completion(error);
+                    }
+                }];
+             
+             [self.dropbox.tasksQueue addTask: deleteTask];
+         }
+    }];
+    
+    if (listTask == nil
+        && completion != nil) {
+        NSDictionary * info = @{NSLocalizedDescriptionKey : @"List root folder task failed"};
+        NSError * error = [self taskCreationFailedErrorUsingInfo: info];
+        completion(error);
+    }
+    
+    [self.dropbox.tasksQueue addTask: listTask];
+}
+
+- (void)downloadLocalDocumentFromDropboxPath:(NSString *)path
+                                  completion:(CDBErrorCompletion)completion  {
+    NSURL * docURL = [self.localDocumentsURL URLByAppendingPathComponent: path.lastPathComponent];
+    [self downloadDocumentToURL: docURL
+                fromDropboxPath: path
+                     completion: completion];
+}
+
+- (void)uploadLocalDocumentAtUrl:(NSURL *)url {
+    
+    TBDropboxTask * uploadTask =
+        [self dropboxUploadTaskUsingDocumentURL: url
+                                        baseURL: self.localDocumentsURL
+                                 withCompletion: ^(NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"FAILED dropboxSyncChangedFileAtURL: %@", url);
+        }
+    }];
+    
+    if (uploadTask == nil) {
+        NSLog(@"FAILED create task for dropboxSyncChangedFileAtURL: %@\
+                   \r baseURL: %@", url, self.localDocumentsURL);
+    }
+    
+    [self.dropbox.tasksQueue addTask: uploadTask];
+}
+
+- (void)downloadDocumentToURL:(NSURL *)URL
+              fromDropboxPath:(NSString *)path
+                   completion:(CDBErrorCompletion)completion  {
+
+    TBDropboxFileEntry * entry =
+        [TBDropboxEntryFactory fileEntryUsingDropboxPath: path];
+    TBDropboxTask * downloadTask =
+        [TBDropboxDownloadFileTask taskUsingEntry: entry
+                                          fileURL: URL
+                                       completion: ^(TBDropboxTask * _Nonnull task, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"FAILED dropboxSyncChangedDocumentAtURL: %@\
+                       /r Dropbox path %@", URL, path);
+        }
+        if (completion != nil) {
+            completion(error);
+        }
+    }];
+    
+    if (downloadTask == nil) {
+        NSLog(@"FAILED create task for dropboxSyncChangedDocumentAtURL: %@\
+                   \r Dropbox path: %@", URL, path);
+    }
+    
+    [self.dropbox.tasksQueue addTask: downloadTask];
+}
+
+
+// MARK: tasks
+
+- (TBDropboxCreateFolderTask *)dropboxCreateFolderTaskUsingDirectoryURL:(NSURL *)documentURL
+                                                                baseURL:(NSURL *)baseURL
+                                                         withCompletion:(CDBErrorCompletion)completion {
+    TBDropboxFolderEntry * entry =
+        [TBDropboxEntryFactory folderEntryByMirroringLocalURL: documentURL
+                                                 usingBaseURL: baseURL];
+    TBDropboxCreateFolderTask * result =
+        [TBDropboxCreateFolderTask taskUsingEntry: entry
+                                       completion: ^(TBDropboxTask * _Nonnull task,
+                                                     NSError * _Nullable error) {
+        if (completion != nil) {
+            // we don't provide error because dropbox create folders
+            // for uploaded files itself, now we just want to create empty folders if not exists
+            completion(nil);
+        }
+    }];
+    
+    return result;
+}
+
+- (TBDropboxUploadFileTask *)dropboxUploadTaskUsingDocumentURL:(NSURL *)documentURL
+                                                       baseURL:(NSURL *)baseURL
+                                                withCompletion:(CDBErrorCompletion)completion {
+    TBDropboxFileEntry * entry =
+        [TBDropboxEntryFactory fileEntryByMirroringLocalURL: documentURL
+                                               usingBaseURL: baseURL];
+    TBDropboxUploadFileTask * result =
+        [TBDropboxUploadFileTask taskUsingEntry: entry
+                                        fileURL: documentURL
+                                     completion: ^(TBDropboxTask * _Nonnull task,
+                                                   NSError * _Nullable error) {
+        if (completion != nil) {
+            completion(error);
+        }
+    }];
+    
+    return result;
+}
+
+- (TBDropboxDeleteEntryTask *)dropboxDeleteTaskUsingDocumentURL:(NSURL *)documentURL
+                                                        baseURL:(NSURL *)baseURL
+                                                 withCompletion:(CDBErrorCompletion)completion {
+    TBDropboxFileEntry * entry =
+    [TBDropboxEntryFactory fileEntryByMirroringLocalURL: documentURL
+                                           usingBaseURL: baseURL];
+    TBDropboxDeleteEntryTask * result =
+        [TBDropboxDeleteEntryTask taskUsingEntry: entry
+                                      completion: ^(TBDropboxTask * _Nonnull task,
+                                                    NSError * _Nullable error) {
+        completion(error);
+    }];
+    
+    return result;
+}
+
+- (TBDropboxMoveEntryTask *)dropboxMoveTaskUsingDocumentURL:(NSURL *)documentURL
+                                             destinationURL:(NSURL *)destinationURL
+                                                    baseURL:(NSURL *)baseURL
+                                             withCompletion:(CDBErrorCompletion)completion {
+    TBDropboxFileEntry * entry =
+        [TBDropboxEntryFactory fileEntryByMirroringLocalURL: documentURL
+                                               usingBaseURL: baseURL];
+    TBDropboxFileEntry * destinationEntry =
+        [TBDropboxEntryFactory fileEntryByMirroringLocalURL: destinationURL
+                                               usingBaseURL: baseURL];
+    TBDropboxMoveEntryTask * result =
+        [TBDropboxMoveEntryTask taskUsingEntry: entry
+                              destinationEntry: destinationEntry
+                                    completion: ^(TBDropboxTask * _Nonnull task,
+                                                   NSError * _Nullable error) {
+        completion(error);
+    }];
+    
+    return result;
+}
+
+
 
 @end

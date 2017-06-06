@@ -154,7 +154,6 @@
 		19DE37679986495BC75FCAFE2C16F7A0 /* DBFILESDeleteBatchJobStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 254BE42BF1B7516E796B63D572532FF8 /* DBFILESDeleteBatchJobStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		19E5ACB76F430168ED9C09B58C6D9225 /* DBFILESSharingInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F78D86752E9BD847F98332B94318026B /* DBFILESSharingInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A37994D3C6A1B308DABE986D97C61B2 /* DBSharingObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = D955A11955F07CCF1A4C2F7A3B4BB132 /* DBSharingObjects.m */; };
-		1A5AB74DC0F08D5456A16D98CE4456C9 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEEE34BC91E59BDA0BD0687D578BBEFD /* SafariServices.framework */; };
 		1A6F55E6261FF91BF8B5C39D6C589538 /* CDBDelegateCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F694D9DDCEDB7CA08CC64EE7BA411C5 /* CDBDelegateCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A9ABCD6B68DEE523A154B5244990939 /* DBFILESDeleteBatchJobStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 254BE42BF1B7516E796B63D572532FF8 /* DBFILESDeleteBatchJobStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AD59E86E1CA85052A21CBCEF925C2EA /* DBAUTHTokenFromOAuth1Result.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F24A53F6B82FBFB6A59670EF06C87DE /* DBAUTHTokenFromOAuth1Result.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -174,6 +173,7 @@
 		1CF1A8512CFA056C466800D25DA4D6D3 /* DBOAuthDesktop-macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 0361E379C86DA587B6560A9456A35301 /* DBOAuthDesktop-macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CF3FF4B8FDCDC64D643FCD444652D8B /* DBAUTHTokenFromOAuth1Arg.h in Headers */ = {isa = PBXBuildFile; fileRef = 832F0E3E6DCCF6BD308C64AE887B6022 /* DBAUTHTokenFromOAuth1Arg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1D88F0D81C9F94E7389CC12BF569A193 /* DBTEAMListMembersDevicesArg.h in Headers */ = {isa = PBXBuildFile; fileRef = C972938ED788F76AA90BACB1247CD032 /* DBTEAMListMembersDevicesArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1D9A7EB46AAF4AA204A6C4AD48E292F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7453A57CA23157EE77E313358E00DE58 /* Foundation.framework */; };
 		1DC2A6D0845E7A9094D4EEBAE46F84FE /* DBSHARINGInviteeMembershipInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = A96C5C6FBC1ADC430F6BAB1075F9B39B /* DBSHARINGInviteeMembershipInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1DEBBF3B95D41EB34460C2D87D7B70CA /* DBSHARINGUnshareFolderError.h in Headers */ = {isa = PBXBuildFile; fileRef = AB94466AF2E1BE0137B600C112B134B7 /* DBSHARINGUnshareFolderError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1E2052A59412DBB718D4E3511D0B296B /* DBSHARINGMemberSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A5148BAB9FAAB051F5EF1D365C60CFB /* DBSHARINGMemberSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -211,6 +211,7 @@
 		2404697828740EBD178776667CB94516 /* DBTEAMGroupsListContinueArg.h in Headers */ = {isa = PBXBuildFile; fileRef = A2998E4A297B40814C1862E1928CA5E2 /* DBTEAMGroupsListContinueArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2426FA9684B7BF74494D82A436773156 /* DBStoneValidators.h in Headers */ = {isa = PBXBuildFile; fileRef = D5F158D0DC321F85C36AA51D63D26905 /* DBStoneValidators.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		246B032C2DBFA6DB6B45D563ED08070A /* DBFILESDimensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 644EA596013857F29A2652D6D32CB519 /* DBFILESDimensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		247A288E76B1C66D934529832B8B460D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7453A57CA23157EE77E313358E00DE58 /* Foundation.framework */; };
 		248450554F27433F0AD68067AC8D90D5 /* DBPAPERSharingTeamPolicyType.h in Headers */ = {isa = PBXBuildFile; fileRef = 105AF143033004E64C7DD6DD47EEF3D1 /* DBPAPERSharingTeamPolicyType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		24C8808818F5E829BD55B61F189986FF /* DBTEAMGetMembershipReport.h in Headers */ = {isa = PBXBuildFile; fileRef = D77FFA7CFFA4CCEE1FA2B7BB2348AFCD /* DBTEAMGetMembershipReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		251AE7070A1E6648FB302EDA48AEE38C /* DBFILESListFolderArg.h in Headers */ = {isa = PBXBuildFile; fileRef = D952ACE20ACF78DF430BF9414ACBD0F7 /* DBFILESListFolderArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -239,7 +240,6 @@
 		29C9D4804A068912033F0DAC8B5B1956 /* DBSHARINGListSharedLinksResult.h in Headers */ = {isa = PBXBuildFile; fileRef = D2E78F576043D1FE2985A86B023CE733 /* DBSHARINGListSharedLinksResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2A3FA11EF493C1BA9336CB25DC13504F /* DBFILESCommitInfoWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D07CA5EFBB02CFBEDDDC054008386F5 /* DBFILESCommitInfoWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2A5B465D73905118DC65C1F4B086E64C /* DBSHARINGLinkSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 200CA5721106844A56C23D9900C4E74A /* DBSHARINGLinkSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2A681E11467171CAF750F9E33A142BB5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24955AF60E058DD66DBD258FBA44077 /* Foundation.framework */; };
 		2A921AFE9FBFD9C9D44FEFA33B12125D /* DBTeamObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 91FC9CD064DEADDA0ACBF2C8A77C987B /* DBTeamObjects.m */; };
 		2AB4D6E1169A4834292801E589283E8E /* DBTEAMGroupAccessType.h in Headers */ = {isa = PBXBuildFile; fileRef = 170263A78A29F978CE878285F780FD2B /* DBTEAMGroupAccessType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2AFB7D93A27E35B3349C9C73AE8D0A1B /* DBSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 076E824A0A13D4EF62F5C881B2EB0390 /* DBSDKConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -263,6 +263,7 @@
 		2E519BB9854999647255CE3138CC124B /* DBTEAMRemovedStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FD2F996A3E2282CFEF3C48CDD0A4FF4 /* DBTEAMRemovedStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2E9079F2EE56ECBF596C24B7F1103B65 /* DBTEAMGroupFullInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = D90E8948AA829216616E5F4667ECE51F /* DBTEAMGroupFullInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2EB27C5D7113519D0CF6FA082E108583 /* DBFILESDeletedMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 932567783185415AF4D4F8C848D49E15 /* DBFILESDeletedMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2EF18F88BD6370CCA9B79A3E89FC4489 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7453A57CA23157EE77E313358E00DE58 /* Foundation.framework */; };
 		2F021059C694D1EDDBE7B12FAD9A48DD /* DBTEAMGroupsListResult.h in Headers */ = {isa = PBXBuildFile; fileRef = BAF49EF43A5B3EF054416B9A95CC918B /* DBTEAMGroupsListResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F46D795713A21E0641E3A54A16373DA /* DBRequestErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = B1C42709731098DF80DBF3365295B587 /* DBRequestErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F9DEAE6BDD7B5D37EEA46C09E823397 /* DBSHARINGRouteObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A1AA3EDC2D71C2EB00D46A3543124ED /* DBSHARINGRouteObjects.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -279,6 +280,7 @@
 		31999A0BD11F41941763016B1F6FCEBC /* DBClientsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 286025C9BD4BD66755F9EBA10F821570 /* DBClientsManager.m */; };
 		31A2A970676DFC1F9CE8437C5F888527 /* DBFILESListFolderGetLatestCursorResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F2D8CB7935DCA2B2D4F413A53D057A2 /* DBFILESListFolderGetLatestCursorResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		31C7D5352A7E3DFC21C3997FD8AE6123 /* DBUserClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F3A2BCCCE423B261AA3B7F2D7D81068 /* DBUserClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		32173AB0DAD4BE06F2B6F0C36DE3D1B7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7453A57CA23157EE77E313358E00DE58 /* Foundation.framework */; };
 		3237538EC8FA4558B95F10BC95F096A3 /* DBFILESGetTemporaryLinkError.h in Headers */ = {isa = PBXBuildFile; fileRef = 663A7889E5B1AFD63F25AAA0A467215F /* DBFILESGetTemporaryLinkError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		324F20CA6AC6B54B9B3EB343DBFB4C38 /* DBTEAMMemberLinkedApps.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD232665AE390AE82FF53FF73F0D082 /* DBTEAMMemberLinkedApps.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		327C85005ADF2CBE3A71371475A791B2 /* DBSHARINGGetSharedLinksResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C0127B089A414C96AA3ABEDA935FABF /* DBSHARINGGetSharedLinksResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -412,7 +414,6 @@
 		4CC8863CE8498C10F4758A645D1BA1E3 /* DBSHARINGShareFolderJobStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = F5C6A20FA7548DDA6A76762550468D06 /* DBSHARINGShareFolderJobStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CE4A8F8904C597C1DAF3776F101009F /* TBDropboxDownloadFileTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 2271D55CD1DF6D067A41E9D1FEC9F740 /* TBDropboxDownloadFileTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CF709F95F351AF4C521D78DEC4CBD48 /* DBSHARINGFileErrorResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 570747E90FDBB4777E6EEAA848F6830B /* DBSHARINGFileErrorResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4D1A5D01948609E3AC213FA5E6A007E7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24955AF60E058DD66DBD258FBA44077 /* Foundation.framework */; };
 		4DA7536895F4678AC6EB319F5821C94F /* DBFILESRouteObjects.h in Headers */ = {isa = PBXBuildFile; fileRef = 5104E126E35E5523F97C657E823DA7EA /* DBFILESRouteObjects.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DC6A723F3C79B3DE561A056C554DA09 /* DBSHARINGUserAuthRoutes.h in Headers */ = {isa = PBXBuildFile; fileRef = E501C2655C25E62C989A56FB156BC0BF /* DBSHARINGUserAuthRoutes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DDB6BBB30D87D3A7D6D20B8BC74BFC2 /* DBTEAMTeamFolderArchiveArg.h in Headers */ = {isa = PBXBuildFile; fileRef = B7DF05624D6698CE9E9EFE57D91A8373 /* DBTEAMTeamFolderArchiveArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -443,7 +444,6 @@
 		51EC14E129366DF80190AE825ACC40BE /* DBFILESSearchArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DBEBC9EC2B38892413CBEF1508CD729 /* DBFILESSearchArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		526A3A390C94AE6F817FEEA6CF924C73 /* TBDropboxTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AE639075C347D07589FE44FBA85C8F /* TBDropboxTask.m */; };
 		53F599F3F1D1CA4A8D50C67067054E52 /* DBTEAMPOLICIESEmmState.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BF26BE730A3EE281E9686F252F4A02D /* DBTEAMPOLICIESEmmState.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5494E0F0361A3FAAB78511892025AE7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24955AF60E058DD66DBD258FBA44077 /* Foundation.framework */; };
 		54F1790F6F374F5BE7DBC22C9D3B646F /* DBFILESPropertyGroupUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = 31BE31AA4A3D7F2F5CC9A091A15AC21C /* DBFILESPropertyGroupUpdate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5578184ACB5E6B6B35BDAC974FB55AAD /* DBSHARINGFolderPermission.h in Headers */ = {isa = PBXBuildFile; fileRef = 2536040B704539084B9925F152342563 /* DBSHARINGFolderPermission.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5584F431CF9E949BB6ECC7442B246E29 /* TBDropboxQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 23E5F8DE70BFD9A646DF63D41E028EA9 /* TBDropboxQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -498,7 +498,6 @@
 		5E6CAC0FECBC0883B0C6079691D738C8 /* TBLogger-iOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 44C83930EFD5D4DADFDBA72B92A40C91 /* TBLogger-iOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5EBA3C9FC09A01FB0725431091695360 /* DBFILESListFolderLongpollArg.h in Headers */ = {isa = PBXBuildFile; fileRef = F81C1821CB6B577D064A3B3C987DBB2D /* DBFILESListFolderLongpollArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F135DABE5E9021A2369BBC35A8FDA70 /* DBFILESRelocationBatchJobStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 641E545FB0ECDFB657D3AA4F44A2A4D8 /* DBFILESRelocationBatchJobStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5F6FCB695C4DF8F0DC4D5F33E726FDB8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24955AF60E058DD66DBD258FBA44077 /* Foundation.framework */; };
 		5F7E0B5EC06BADEBDBA4452DB15EC251 /* DBTEAMListMembersDevicesResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B0C15FD7B9629E623AE6145BC6DA053 /* DBTEAMListMembersDevicesResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F9C9FB700E3BAB4D0C49AD7E37F932F /* DBTEAMRevokeDesktopClientArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 9090EC8248CBBBFD399120B5E4210F02 /* DBTEAMRevokeDesktopClientArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FA10C91C2D7C0562D7E8C0BB9DF275F /* DBTEAMRevokeDeviceSessionStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 977AEEB5BA8185547037F68D8C56DC58 /* DBTEAMRevokeDeviceSessionStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -658,6 +657,7 @@
 		7BF3871607E485AF4BCA606FEBBB058B /* DBUSERSSpaceUsage.h in Headers */ = {isa = PBXBuildFile; fileRef = 28D9AB99B1862833EF4FC525ACBC415C /* DBUSERSSpaceUsage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7C33A19C5F5669228C247FA5E1A6CF7D /* DBSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 076E824A0A13D4EF62F5C881B2EB0390 /* DBSDKConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7C7300C3DAF7F38DC68BC0E230C2A126 /* DBTEAMGroupMembersAddArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 90DBCAB668D883A03E9DCCEA53C9CD31 /* DBTEAMGroupMembersAddArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7C798DD27C9D0A22FCCA9D775B231955 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F880DF3C544E26936317D29844135AE8 /* UIKit.framework */; };
 		7CAB7E29B2EBB8BC271AFAF09F99496B /* TBDropboxConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 621766805A9DAB6AF489AE0D07C4F41C /* TBDropboxConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7CBA103C5EEBEA6BC33D91C9BAEF8D27 /* DBPAPERUserAuthRoutes.m in Sources */ = {isa = PBXBuildFile; fileRef = 365ACFF3E3463BF45D90BB27CC36D51A /* DBPAPERUserAuthRoutes.m */; };
 		7CC4422DBBFE01C02DFDEE2CF1787562 /* TBDropboxDeletedEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 53E24F41A2EB5C7109CD49A2C2B7A168 /* TBDropboxDeletedEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -681,7 +681,6 @@
 		7FB1A7BC245137C0CA5E164C465531CA /* DBFILESRestoreArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 96A0C702757805217AAA9086373B00FB /* DBFILESRestoreArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7FC671CB7AE294E659F729CFD3852110 /* DBSHARINGFolderPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = C349CA5D83F317FD4A89046D5E423FFA /* DBSHARINGFolderPolicy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8056CFB54E3F57B1CFFDC460DB8E6695 /* DBFILESUploadSessionFinishBatchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 43730932A6454B6CE6BDE82184A1D544 /* DBFILESUploadSessionFinishBatchResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		80878E11E0B6408CEF06FB1514007694 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB5CDFAB96F4A879E39F38DB1F2F710 /* UIKit.framework */; };
 		80D188863FFEA8708564AEB9E84E6E25 /* DBSHARINGRouteObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D301D6E5C7ADF5A5441B11B138AE9E9 /* DBSHARINGRouteObjects.m */; };
 		80EC8BC4DD28E6F3402000B6B1BD9DC2 /* DBFILESUserAuthRoutes.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D08ACF6A50F24A300A5B7709C05D059 /* DBFILESUserAuthRoutes.m */; };
 		811946EF16D086F264801CE105F20596 /* TBDropboxWatchdog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C4BE50DB82519CCCD9ADB6DBCA4E6EB /* TBDropboxWatchdog.m */; };
@@ -799,6 +798,7 @@
 		91E887A794F1041278C2F5C6F77DA46B /* DBTEAMGetDevicesReport.h in Headers */ = {isa = PBXBuildFile; fileRef = D1B9B983BD651C0D90FDEB924386BDDE /* DBTEAMGetDevicesReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9237D5FCC383CD1DCBCE52E02E3DF0C8 /* DBSDKImportsGenerated.h in Headers */ = {isa = PBXBuildFile; fileRef = EC482DCA0827EB90F770DD0A822C3D91 /* DBSDKImportsGenerated.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9256AA38193627122DDCFC532F788EF4 /* DBTasks.m in Sources */ = {isa = PBXBuildFile; fileRef = C75A6C13C9AC69DE32932DF95735F49C /* DBTasks.m */; };
+		92763C373304F159E4B6892A9776EECD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7453A57CA23157EE77E313358E00DE58 /* Foundation.framework */; };
 		9288944408D2F1A55BBD936F3EB11760 /* TBDropboxFileEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 872834E8181ED09A7424DE20680D840C /* TBDropboxFileEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92B48CC96EECEF74B5247317E3904B8F /* DBTEAMTeamFolderActivateError.h in Headers */ = {isa = PBXBuildFile; fileRef = 62265FB023B7F686B2D609F8F711370E /* DBTEAMTeamFolderActivateError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92B7B39E6AF3A2C898D09CA536818BAB /* DBPAPERPaperApiBaseError.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D109765C7EFD68D07E1EFA69F484F2F /* DBPAPERPaperApiBaseError.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -832,6 +832,7 @@
 		98EB486007010AF0B360462457C08486 /* DBSHARINGMemberPermission.h in Headers */ = {isa = PBXBuildFile; fileRef = FE2F04E38AC726245154478063C53A3D /* DBSHARINGMemberPermission.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9901C6B1F497168F0EC2E6455F36BEAD /* DBTEAMListMemberAppsError.h in Headers */ = {isa = PBXBuildFile; fileRef = D4587978D071160EEADB82D4BE146FF0 /* DBTEAMListMemberAppsError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		994A9A174F0E4FDB7918BB2926130DBD /* DBAUTHPaperAccessError.h in Headers */ = {isa = PBXBuildFile; fileRef = 8217DDB2E31A9BDB6DB72BAF20C34660 /* DBAUTHPaperAccessError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		994F3EA94F2FEEE53FC90D5F425B304B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7453A57CA23157EE77E313358E00DE58 /* Foundation.framework */; };
 		9954497A3CCD38E3FCEF12B29E04C84E /* DBPAPERDocSubscriptionLevel.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F072F104FB446CBFBAE6A0AED538F96 /* DBPAPERDocSubscriptionLevel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9965EC110AA6C34EF577735CC1974B09 /* DBSHARINGAddMemberSelectorError.h in Headers */ = {isa = PBXBuildFile; fileRef = DC95365F67487A05413A164C3B623AAF /* DBSHARINGAddMemberSelectorError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		998BE620C8BCB203FBE4842D4F0210A5 /* DBFILESFileMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = F72F7E0C2A0907004F545F212248F44F /* DBFILESFileMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -881,7 +882,6 @@
 		A00690FA4B98F6290A222B0AF503E937 /* DBTEAMListMemberDevicesResult.h in Headers */ = {isa = PBXBuildFile; fileRef = C1D43F8D6388826C2EE911363DAA49B0 /* DBTEAMListMemberDevicesResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A026C854A2E1ED05313A143C779EDA25 /* DBSHARINGAccessLevel.h in Headers */ = {isa = PBXBuildFile; fileRef = 31322B4AFD3F1DB6D9C9A6975E63DF2A /* DBSHARINGAccessLevel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0A0DF131E641F05DC2B5BD1EF61C1E6 /* DBTEAMTeamMemberStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = DA53D8FD3CFA6FBCA31C8E045ACF7AC3 /* DBTEAMTeamMemberStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A0FFE977492B6161093973ECB1F0F23A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24955AF60E058DD66DBD258FBA44077 /* Foundation.framework */; };
 		A102C34EE76F8D9AE37DA2063B56AA2E /* DBFILESGetMetadataArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DDA148BBF5B0DEB6C9CBFC5303A4BB9 /* DBFILESGetMetadataArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A139CE4017FEFC8FF30760557F2D0C69 /* DBFILESSaveCopyReferenceResult.h in Headers */ = {isa = PBXBuildFile; fileRef = D48FFD06AB19BA3BAE545742AE48998F /* DBFILESSaveCopyReferenceResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A1481C041716F2CA8B47FF316BE73E28 /* TBLogger-OSX-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 27CD805A05652316D9A74CBF9B5CDA14 /* TBLogger-OSX-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -972,6 +972,7 @@
 		AF4597C58BE4E11CC6B0D2DF56D0A3CA /* DBFILESWriteMode.h in Headers */ = {isa = PBXBuildFile; fileRef = E31DF3E0A8B9FC7D5CC0CF78D60517BA /* DBFILESWriteMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AF578C1AF77801ADA4421B552FBFB141 /* DBTEAMGroupMembersAddError.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B54C37C28D8B019892936845548E3B6 /* DBTEAMGroupMembersAddError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AF63A31BDC667D66A8437EDE01C84D9C /* TBLogger-iOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F9710571D201E3870AD4F596BA1348F /* TBLogger-iOS-dummy.m */; };
+		AF8D9FAEB7A89A2DA1356E7D8D1CE62E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F880DF3C544E26936317D29844135AE8 /* UIKit.framework */; };
 		AFC7DA4F45CECA14052C87AE43CC1388 /* TBDropboxDeletedEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 3704F9996EF7BCAAF3DFA1987AB3C2D6 /* TBDropboxDeletedEntry.m */; };
 		B00DC832B32BFCEBFFEFF0EDD9C0B1D8 /* DBDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A22E9AE48B799ACFD088F16F801F382 /* DBDelegate.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		B052899612BBE8472D3F8874F0ED3F6B /* TBDropboxMoveEntryTask.h in Headers */ = {isa = PBXBuildFile; fileRef = E563D0AA52D3734BCCE264DA99504173 /* TBDropboxMoveEntryTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1099,7 +1100,6 @@
 		C4E9BA2BE30AE5BAF8403CAA31DC71A6 /* DBTEAMRevokeLinkedAppBatchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A603A66EC6B1AD0FDB29CBA061B4F52 /* DBTEAMRevokeLinkedAppBatchResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C53A60A2BA4F2037AE774574CF0ABABE /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91384F14C85E9C8EAFDF0AF27741067A /* AppKit.framework */; };
 		C56CDB6CDF9A26CA27EB63E27C553E0D /* DBUSERSBasicAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D61DDA3DC28817223D5E50CF987BB88 /* DBUSERSBasicAccount.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C59FFFE53C2957B02E2791A0B1285E8A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847A9D7C3F6967B5739984FACFF9F764 /* SystemConfiguration.framework */; };
 		C5A3FD49E342D0B1261DACFFC9CBA852 /* DBTEAMMembersRemoveError.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C326C6AC9C23B43F0C5554A4F6205BD /* DBTEAMMembersRemoveError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C5A4D3A180D6CCF9A2313ED35FE42CA1 /* DBFILESAlphaGetMetadataArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7B9B59D52FCC41604BB0B3E6CDEF1E /* DBFILESAlphaGetMetadataArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C5B87E34553614774C8ACC282BEC3BD5 /* DBTEAMMembersRecoverError.h in Headers */ = {isa = PBXBuildFile; fileRef = D0C0636D93FBCA155BCD8BF191D00568 /* DBTEAMMembersRecoverError.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1140,7 +1140,6 @@
 		CD0C8CC22C8B57D68A5EC003D2C27A1D /* DBDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A22E9AE48B799ACFD088F16F801F382 /* DBDelegate.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		CD2294A1549A313A7F65E1A401590B46 /* DBSHARINGSharedContentLinkMetadataBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B5CB703610D418F8A3BB144CFA80D4F /* DBSHARINGSharedContentLinkMetadataBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD8FB6C8E46D090054A0DDEEED0E180F /* DBStoneSerializers.h in Headers */ = {isa = PBXBuildFile; fileRef = C58BBBA6BA43A6BD19A83EFA1F8206BD /* DBStoneSerializers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CDA9BFFD579B213841488F9DA9B4867C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24955AF60E058DD66DBD258FBA44077 /* Foundation.framework */; };
 		CDBA4B35DCE8D5E50D299EE5714A7760 /* DBSHARINGMemberPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = BAEB1CCAB2A80FA8FC2CBC5C25198825 /* DBSHARINGMemberPolicy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDBB5E1C4E3D15FCD121CB2DBE8D2CD7 /* DBTEAMTeamFolderListArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 299CB2444C66136EADCE5FF422DD2D76 /* DBTEAMTeamFolderListArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDCAE89D3BF85EAAFAA7643A1BACCFFC /* TBDropboxKit-iOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6844450490D1B53CDB236789C75F5E82 /* TBDropboxKit-iOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1202,6 +1201,7 @@
 		DAA33C5AD92008FD74F0B0C6468927D8 /* DBSHARINGInviteeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E3ECC5E5FE7B9D6A34A3C56343D922F3 /* DBSHARINGInviteeInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DABCE95B391D67B03F2B8367D46C8D08 /* DBPROPERTIESPropertyType.h in Headers */ = {isa = PBXBuildFile; fileRef = 63FA5797908FA675D63FB127A4162502 /* DBPROPERTIESPropertyType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB065E09B6C95A65D965231A48B40637 /* ObjectiveDropboxOfficial-iOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C54D1F6A583227E8C055442E06938699 /* ObjectiveDropboxOfficial-iOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DB209A6B6B1BC99B2874F79377AF9CBC /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BFB05ED873E5EAFD187505A3B7C569D /* SafariServices.framework */; };
 		DB23C96FF7B73F79A34290173D54D757 /* DBSHARINGRemoveFolderMemberArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F99DA0962DF8FAFF3A61788ED6AE789 /* DBSHARINGRemoveFolderMemberArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB3959B4A56F0961A210159C80C58122 /* DBFILESListFolderArg.h in Headers */ = {isa = PBXBuildFile; fileRef = D952ACE20ACF78DF430BF9414ACBD0F7 /* DBFILESListFolderArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBD286F1D3E487ED4E18BB511C919845 /* DBSHARINGAddFolderMemberError.h in Headers */ = {isa = PBXBuildFile; fileRef = F4713F65D629CB686A5270DD5B0CC627 /* DBSHARINGAddFolderMemberError.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1248,6 +1248,7 @@
 		E4A24796C4274E1565449FEC6EF29F70 /* DBFILESRouteObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4F426DCF883AF374EB355FC7DA2F65 /* DBFILESRouteObjects.m */; };
 		E4B702544F17B65D939A56503D5F55F4 /* TBDropbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 52777DF704EF66F83F8E09DD9A871C14 /* TBDropbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E4B9DD5F885312D4916DB20A15E97D7F /* DBTEAMCOMMONTimeRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C4747335163BCFA14FF9D714AD4FCE3 /* DBTEAMCOMMONTimeRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E4EE470B3979D461A0EE61A743F76BF8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7453A57CA23157EE77E313358E00DE58 /* Foundation.framework */; };
 		E4F72FA9E74EAFCDF26D808B38463A30 /* DBSHARINGChangeFileMemberAccessArgs.h in Headers */ = {isa = PBXBuildFile; fileRef = 050E17FE172A39A7674151649EA6FD6E /* DBSHARINGChangeFileMemberAccessArgs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E54B56AF4965E453E7BE5BC6E1850188 /* DBPAPERListPaperDocsContinueArgs.h in Headers */ = {isa = PBXBuildFile; fileRef = A2BD8B74507616ADDBE738F05799A651 /* DBPAPERListPaperDocsContinueArgs.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E54F31320DAA49EACAF71DAB1F8C9461 /* DBTEAMListMemberAppsError.h in Headers */ = {isa = PBXBuildFile; fileRef = D4587978D071160EEADB82D4BE146FF0 /* DBTEAMListMemberAppsError.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1255,17 +1256,16 @@
 		E623174D1C5170E0F7741C422950A1E2 /* DBTEAMUserSelectorArg.h in Headers */ = {isa = PBXBuildFile; fileRef = 1488A391216A741581D215D00AEF5FE5 /* DBTEAMUserSelectorArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E65CBF86D9D0B4D7E396F9A63DFDEC1E /* DBSHARINGGetFileMetadataIndividualResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 189154630963C5093803A44BEE5B9B3E /* DBSHARINGGetFileMetadataIndividualResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E6D3356EAEF26B4E27D2F7C70B457A23 /* DBChunkInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = C27D23C20BE9D0DDEF024ADA1B62D73D /* DBChunkInputStream.m */; };
+		E6E8403D042F3E47A3AF50BA5C610971 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1727D87B3FBF5F629992D48C3CAEE609 /* SystemConfiguration.framework */; };
 		E6FC382C9F0ED99E82182B8AC5292EDF /* DBTransportDefaultClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C9BDF93423539F7100231C56AF0C0FA6 /* DBTransportDefaultClient.m */; };
 		E7575BB1C0D015597582848261C539FD /* DBFILESFolderMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 24165275C5B4405478ABD7C17B72D8AE /* DBFILESFolderMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E7808C97E0B4801E40EDE3C0451B2A43 /* DBFILESUserAuthRoutes.h in Headers */ = {isa = PBXBuildFile; fileRef = C388AED2DD974E0A94807819D1991309 /* DBFILESUserAuthRoutes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E78E1E9B1F063A702C0AAD8D9A225705 /* DBAUTHRateLimitReason.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FF558E59B9AAFAADB3A128DA7036A18 /* DBAUTHRateLimitReason.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E793010C84D0B38AE4CB32CDD546BA40 /* DBTEAMMembersUnsuspendArg.h in Headers */ = {isa = PBXBuildFile; fileRef = DBA50537911476D9AB8E43F9C999F46C /* DBTEAMMembersUnsuspendArg.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E79654497919B8D40A547FDB82544C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB5CDFAB96F4A879E39F38DB1F2F710 /* UIKit.framework */; };
 		E81278D348C67AC2D41B6419411C4783 /* DBStoneBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AAD8090EAD01FE5AB1E9796017CCBAB /* DBStoneBase.m */; };
 		E814652F1B728A1FD6454BEFCA64BB0C /* DBTEAMMembersListError.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DE96EBFA434647708A41DDFEF50EE19 /* DBTEAMMembersListError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E818BF760F3248EA50597EA134886192 /* DBSDKImportsGenerated.h in Headers */ = {isa = PBXBuildFile; fileRef = EC482DCA0827EB90F770DD0A822C3D91 /* DBSDKImportsGenerated.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E82028894D46AA546B48AAB796EF71F2 /* CDBDelegateCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 09053004BE81CD4D137A115F8A1BB091 /* CDBDelegateCollection.m */; };
-		E82CAC369293C0C4EDB86084A54A7297 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24955AF60E058DD66DBD258FBA44077 /* Foundation.framework */; };
 		E82CE1A0D1FFF4B96FD55C7914388960 /* DBTEAMListTeamDevicesError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CBE892FF35089DC6B7F446C869635DA /* DBTEAMListTeamDevicesError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E842E63D8839BF747137BA8B6BB30574 /* DBClientsManager+DesktopAuth-macOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 329C8DDE2E8A78158D469790566B7ACD /* DBClientsManager+DesktopAuth-macOS.m */; };
 		E84A9E63A137F53D1EB9BDB6035C3FE1 /* TBDropboxDeletedEntry+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = C2FF90CADE877E01AED5BA3BB6C573DF /* TBDropboxDeletedEntry+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1589,7 +1589,6 @@
 		0AC04CBA6907D08CF7800B5FE6BA8CC2 /* TBLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TBLogger.m; path = TBLogger/Classes/TBLogger.m; sourceTree = "<group>"; };
 		0B54C37C28D8B019892936845548E3B6 /* DBTEAMGroupMembersAddError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMGroupMembersAddError.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMGroupMembersAddError.h; sourceTree = "<group>"; };
 		0B71080A20424433183ACC1335FE0526 /* DBSHARINGInsufficientQuotaAmounts.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBSHARINGInsufficientQuotaAmounts.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Sharing/Headers/DBSHARINGInsufficientQuotaAmounts.h; sourceTree = "<group>"; };
-		0BB5CDFAB96F4A879E39F38DB1F2F710 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		0BCD73A5F69EBC15674A2FBCDB9A0D13 /* DBTEAMRevokeLinkedApiAppBatchArg.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMRevokeLinkedApiAppBatchArg.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMRevokeLinkedApiAppBatchArg.h; sourceTree = "<group>"; };
 		0BFD1F6D9420C21338543D1AAC987BD6 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/SafariServices.framework; sourceTree = DEVELOPER_DIR; };
 		0C286AE067DB1A254EC50971DF0D25AD /* CDBDelegateReference.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDBDelegateReference.h; path = Pod/Classes/CDBDelegateReference.h; sourceTree = "<group>"; };
@@ -1625,6 +1624,7 @@
 		1673310E734EF32B22F6B9B5F48B6CF4 /* DBTEAMListMembersAppsResult.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMListMembersAppsResult.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMListMembersAppsResult.h; sourceTree = "<group>"; };
 		170263A78A29F978CE878285F780FD2B /* DBTEAMGroupAccessType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMGroupAccessType.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMGroupAccessType.h; sourceTree = "<group>"; };
 		17067AEF54A45FA5686F2DF1402233EF /* DBTasksStorage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DBTasksStorage.m; path = Source/ObjectiveDropboxOfficial/Shared/Handwritten/Networking/DBTasksStorage.m; sourceTree = "<group>"; };
+		1727D87B3FBF5F629992D48C3CAEE609 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		176F8A07AD26F897921C5F79239804B8 /* DBFILESFileSharingInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBFILESFileSharingInfo.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Files/Headers/DBFILESFileSharingInfo.h; sourceTree = "<group>"; };
 		178CF43FC57A010AD25400E097606542 /* DBTEAMGroupsMembersListContinueError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMGroupsMembersListContinueError.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMGroupsMembersListContinueError.h; sourceTree = "<group>"; };
 		180F0FA4B9C0E7078090FE35DF3BF90B /* DBTEAMIncludeMembersArg.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMIncludeMembersArg.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMIncludeMembersArg.h; sourceTree = "<group>"; };
@@ -1882,6 +1882,7 @@
 		6B0DD49082BF0B3499F3857B413E0DBC /* DBPAPERCursor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBPAPERCursor.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Paper/Headers/DBPAPERCursor.h; sourceTree = "<group>"; };
 		6B213DB26CAAF02B5991FC0727FA98E0 /* TBDropboxChange.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TBDropboxChange.h; sourceTree = "<group>"; };
 		6BA4AE5794A6ACC92046F7FA421B409E /* DBPAPERListUsersOnPaperDocResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBPAPERListUsersOnPaperDocResponse.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Paper/Headers/DBPAPERListUsersOnPaperDocResponse.h; sourceTree = "<group>"; };
+		6BFB05ED873E5EAFD187505A3B7C569D /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/SafariServices.framework; sourceTree = DEVELOPER_DIR; };
 		6BFF108FC0FEBBD84036C7FF12D8BE85 /* DBSHARINGCollectionLinkMetadata.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBSHARINGCollectionLinkMetadata.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Sharing/Headers/DBSHARINGCollectionLinkMetadata.h; sourceTree = "<group>"; };
 		6C2E37AAE203E23AECED62D4445B365A /* DBTEAMAddPropertyTemplateArg.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMAddPropertyTemplateArg.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMAddPropertyTemplateArg.h; sourceTree = "<group>"; };
 		6C326C6AC9C23B43F0C5554A4F6205BD /* DBTEAMMembersRemoveError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMMembersRemoveError.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMMembersRemoveError.h; sourceTree = "<group>"; };
@@ -1907,6 +1908,7 @@
 		7373F304E0F3681A3F227498D105DEE0 /* ObjectiveDropboxOfficial-OSX-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ObjectiveDropboxOfficial-OSX-umbrella.h"; sourceTree = "<group>"; };
 		738BF91DF9E19A7A23B2B69B459F8F0D /* DBRequestErrors.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DBRequestErrors.m; path = Source/ObjectiveDropboxOfficial/Shared/Handwritten/Networking/DBRequestErrors.m; sourceTree = "<group>"; };
 		73B5604B1C14956A331759C2CF7CE5BA /* DBPAPERFolderSharingPolicyType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBPAPERFolderSharingPolicyType.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Paper/Headers/DBPAPERFolderSharingPolicyType.h; sourceTree = "<group>"; };
+		7453A57CA23157EE77E313358E00DE58 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		748E730C230FE91F90CE5AB0EBC80911 /* TBDropboxKit-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "TBDropboxKit-iOS-prefix.pch"; path = "../TBDropboxKit-iOS/TBDropboxKit-iOS-prefix.pch"; sourceTree = "<group>"; };
 		74F640BAA6207DAE02EA7956462F8D30 /* DBTEAMTeamMemberInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMTeamMemberInfo.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMTeamMemberInfo.h; sourceTree = "<group>"; };
 		751E484D6FDDFCC5B81E1618B52BE009 /* DBSHARINGFileAction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBSHARINGFileAction.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Sharing/Headers/DBSHARINGFileAction.h; sourceTree = "<group>"; };
@@ -1965,7 +1967,6 @@
 		832F0E3E6DCCF6BD308C64AE887B6022 /* DBAUTHTokenFromOAuth1Arg.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBAUTHTokenFromOAuth1Arg.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Auth/Headers/DBAUTHTokenFromOAuth1Arg.h; sourceTree = "<group>"; };
 		836522AC7ECD7B8762391F0108639621 /* DBSHARINGSharedLinkError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBSHARINGSharedLinkError.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Sharing/Headers/DBSHARINGSharedLinkError.h; sourceTree = "<group>"; };
 		83B899DB8D24B06F0D2B19EC5649B61D /* DBTEAMGroupCreateError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMGroupCreateError.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMGroupCreateError.h; sourceTree = "<group>"; };
-		847A9D7C3F6967B5739984FACFF9F764 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		847C826FE05F811FC268A3C0C2279279 /* DBTEAMMembersRecoverArg.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMMembersRecoverArg.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMMembersRecoverArg.h; sourceTree = "<group>"; };
 		856C71A8625EF2637F6599996593EC01 /* DBPAPERPaperDocExportResult.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBPAPERPaperDocExportResult.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Paper/Headers/DBPAPERPaperDocExportResult.h; sourceTree = "<group>"; };
 		856E8D9499A757EBE526FD2C39F2817F /* Pods-TBDropboxKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TBDropboxKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -2095,7 +2096,6 @@
 		B132BC586845B2BFFAF0B99160077FD6 /* TBDropboxKit-OSX.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "TBDropboxKit-OSX.xcconfig"; sourceTree = "<group>"; };
 		B146EB5C893182A0A6F23AC1777317C6 /* DBTEAMPOLICIESTeamMemberPolicies.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMPOLICIESTeamMemberPolicies.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/TeamPolicies/Headers/DBTEAMPOLICIESTeamMemberPolicies.h; sourceTree = "<group>"; };
 		B1C42709731098DF80DBF3365295B587 /* DBRequestErrors.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBRequestErrors.h; path = Source/ObjectiveDropboxOfficial/Shared/Handwritten/Networking/DBRequestErrors.h; sourceTree = "<group>"; };
-		B24955AF60E058DD66DBD258FBA44077 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		B2D614045FBB54E9414EEBFD3122A6A8 /* DBTEAMTeamFolderMetadata.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMTeamFolderMetadata.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMTeamFolderMetadata.h; sourceTree = "<group>"; };
 		B2D69E13B49F509F7031E7CE09CBAE46 /* DBUSERSGetAccountError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBUSERSGetAccountError.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Users/Headers/DBUSERSGetAccountError.h; sourceTree = "<group>"; };
 		B2F2E69F9FD3205728AAD9944FA76015 /* DBTeamBaseClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DBTeamBaseClient.m; path = Source/ObjectiveDropboxOfficial/Shared/Generated/Client/DBTeamBaseClient.m; sourceTree = "<group>"; };
@@ -2174,7 +2174,6 @@
 		CDA4FB5942E37270CC57DC4B3B23D935 /* DBFILESDownloadError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBFILESDownloadError.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Files/Headers/DBFILESDownloadError.h; sourceTree = "<group>"; };
 		CE36CFD8102DD81588A15DFA58AADD73 /* DBTEAMMembersAddJobStatus.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMMembersAddJobStatus.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMMembersAddJobStatus.h; sourceTree = "<group>"; };
 		CE73DA6FD8E0498B24CAB43A6487435E /* TBDropboxListFolderTask.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TBDropboxListFolderTask.h; sourceTree = "<group>"; };
-		CEEE34BC91E59BDA0BD0687D578BBEFD /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/SafariServices.framework; sourceTree = DEVELOPER_DIR; };
 		CFA67E4C150A83D0DFC605DF7C67E207 /* DBSHARINGMembershipInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBSHARINGMembershipInfo.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Sharing/Headers/DBSHARINGMembershipInfo.h; sourceTree = "<group>"; };
 		CFB1A68FD01D7D45D4675FE4A6E94E6D /* DBASYNCLaunchResultBase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBASYNCLaunchResultBase.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Async/Headers/DBASYNCLaunchResultBase.h; sourceTree = "<group>"; };
 		CFEB9E2F4DAFC186EFC910456F03743C /* DBPAPERAddPaperDocUserResult.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBPAPERAddPaperDocUserResult.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Paper/Headers/DBPAPERAddPaperDocUserResult.h; sourceTree = "<group>"; };
@@ -2318,6 +2317,7 @@
 		F80E8C774CAC48A98EE02B341C711785 /* DBFILESListFolderContinueArg.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBFILESListFolderContinueArg.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Files/Headers/DBFILESListFolderContinueArg.h; sourceTree = "<group>"; };
 		F81C1821CB6B577D064A3B3C987DBB2D /* DBFILESListFolderLongpollArg.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBFILESListFolderLongpollArg.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Files/Headers/DBFILESListFolderLongpollArg.h; sourceTree = "<group>"; };
 		F846D2EF526B43EA022DBCCC183C246D /* DBTEAMTeamFolderRenameArg.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBTEAMTeamFolderRenameArg.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Team/Headers/DBTEAMTeamFolderRenameArg.h; sourceTree = "<group>"; };
+		F880DF3C544E26936317D29844135AE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		F88CF7391FAD92664FA5BB859A848667 /* CDBDelegateCollection-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "CDBDelegateCollection-iOS-umbrella.h"; path = "../CDBDelegateCollection-iOS/CDBDelegateCollection-iOS-umbrella.h"; sourceTree = "<group>"; };
 		F8E3BB0637DDBD3A9AB9BEED822F54B7 /* DBFILESPhotoMetadata.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DBFILESPhotoMetadata.h; path = Source/ObjectiveDropboxOfficial/Shared/Generated/ApiObjects/Files/Headers/DBFILESPhotoMetadata.h; sourceTree = "<group>"; };
 		F8F8A702F13BD8539470DDC18B33E637 /* DBSDKImports-macOS.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "DBSDKImports-macOS.h"; path = "Source/ObjectiveDropboxOfficial/Platform/ObjectiveDropboxOfficial_macOS/DBSDKImports-macOS.h"; sourceTree = "<group>"; };
@@ -2362,10 +2362,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0FFE977492B6161093973ECB1F0F23A /* Foundation.framework in Frameworks */,
-				1A5AB74DC0F08D5456A16D98CE4456C9 /* SafariServices.framework in Frameworks */,
-				C59FFFE53C2957B02E2791A0B1285E8A /* SystemConfiguration.framework in Frameworks */,
-				E79654497919B8D40A547FDB82544C33 /* UIKit.framework in Frameworks */,
+				994F3EA94F2FEEE53FC90D5F425B304B /* Foundation.framework in Frameworks */,
+				DB209A6B6B1BC99B2874F79377AF9CBC /* SafariServices.framework in Frameworks */,
+				E6E8403D042F3E47A3AF50BA5C610971 /* SystemConfiguration.framework in Frameworks */,
+				7C798DD27C9D0A22FCCA9D775B231955 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2385,7 +2385,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDA9BFFD579B213841488F9DA9B4867C /* Foundation.framework in Frameworks */,
+				2EF18F88BD6370CCA9B79A3E89FC4489 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2404,7 +2404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4989077F883D600936D68C71D30A8DCA /* CDBKit.framework in Frameworks */,
-				E82CAC369293C0C4EDB86084A54A7297 /* Foundation.framework in Frameworks */,
+				247A288E76B1C66D934529832B8B460D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2428,7 +2428,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D1A5D01948609E3AC213FA5E6A007E7 /* Foundation.framework in Frameworks */,
+				E4EE470B3979D461A0EE61A743F76BF8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2438,7 +2438,7 @@
 			files = (
 				01721C451E44F2AFB9E8749D9DED699E /* CDBDelegateCollection.framework in Frameworks */,
 				E903CF3BA7C8FBE0455865D14F203A8F /* CDBKit.framework in Frameworks */,
-				5F6FCB695C4DF8F0DC4D5F33E726FDB8 /* Foundation.framework in Frameworks */,
+				92763C373304F159E4B6892A9776EECD /* Foundation.framework in Frameworks */,
 				4C488979DE4633A531A71C64E49B6CAE /* ObjectiveDropboxOfficial.framework in Frameworks */,
 				01BDE6B9C4BC6226D9338BD42AF518A2 /* TBLogger.framework in Frameworks */,
 			);
@@ -2448,7 +2448,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A681E11467171CAF750F9E33A142BB5 /* Foundation.framework in Frameworks */,
+				1D9A7EB46AAF4AA204A6C4AD48E292F3 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2475,8 +2475,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5494E0F0361A3FAAB78511892025AE7D /* Foundation.framework in Frameworks */,
-				80878E11E0B6408CEF06FB1514007694 /* UIKit.framework in Frameworks */,
+				32173AB0DAD4BE06F2B6F0C36DE3D1B7 /* Foundation.framework in Frameworks */,
+				AF8D9FAEB7A89A2DA1356E7D8D1CE62E /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3248,7 +3248,7 @@
 				9DF148115879059830133E9A99CAC034 /* CDBKit.framework */,
 				D15BCFDAA9FC73036D470433A22385D2 /* ObjectiveDropboxOfficial.framework */,
 				8CC022D85110509B5C32C917EE46BCBD /* TBLogger.framework */,
-				DB804C13057215F371B6F4AF88B5F851 /* iOS */,
+				C7087CC4F98CC60A4BDE4134571D62D5 /* iOS */,
 				68B73004180D4E61C2E6199C0AB456BD /* OS X */,
 			);
 			name = Frameworks;
@@ -3411,6 +3411,17 @@
 			path = "../Target Support Files/CDBKit-OSX";
 			sourceTree = "<group>";
 		};
+		C7087CC4F98CC60A4BDE4134571D62D5 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				7453A57CA23157EE77E313358E00DE58 /* Foundation.framework */,
+				6BFB05ED873E5EAFD187505A3B7C569D /* SafariServices.framework */,
+				1727D87B3FBF5F629992D48C3CAEE609 /* SystemConfiguration.framework */,
+				F880DF3C544E26936317D29844135AE8 /* UIKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		D9A69018DDBAF3F2D2C35C45DDD1B7DF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -3461,17 +3472,6 @@
 			);
 			name = Classes;
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		DB804C13057215F371B6F4AF88B5F851 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				B24955AF60E058DD66DBD258FBA44077 /* Foundation.framework */,
-				CEEE34BC91E59BDA0BD0687D578BBEFD /* SafariServices.framework */,
-				847A9D7C3F6967B5739984FACFF9F764 /* SystemConfiguration.framework */,
-				0BB5CDFAB96F4A879E39F38DB1F2F710 /* UIKit.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 		E08B03BB04577E393638EBD2EECDEEEB /* Support Files */ = {
@@ -5062,7 +5062,7 @@
 		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
@@ -5563,113 +5563,6 @@
 			};
 			name = Debug;
 		};
-		0D6B4AFE677321B43AC1FCC1FF6CD80C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_REQUIRED = NO;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_DEBUG=1",
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Debug;
-		};
-		14D7D77A0781A8D19FA33606977A2EC7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D993E018EDB2B776740AA93F6BA07A2 /* CDBKit-iOS.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/CDBKit-iOS/CDBKit-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/CDBKit-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/CDBKit-iOS/CDBKit-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = CDBKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		19F248A81C8580A1438F1EDC3D66DAD8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D993E018EDB2B776740AA93F6BA07A2 /* CDBKit-iOS.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/CDBKit-iOS/CDBKit-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/CDBKit-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/CDBKit-iOS/CDBKit-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = CDBKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		2210D9AA85DCF3880CB5B1A20A29B8E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 247A3C2F9B5E276A33C3AB5A42CFBBE2 /* Pods-Pod-TBDropboxKitMac-Example.debug.xcconfig */;
@@ -5707,36 +5600,37 @@
 			};
 			name = Debug;
 		};
-		2CC0818FED36FBDC2910DE255E569C1F /* Release */ = {
+		27229F406BF96BB47C26235A7383038E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B118FB549C422F5B2DAC0B774C5098D0 /* CDBDelegateCollection-iOS.xcconfig */;
+			baseConfigurationReference = 0D993E018EDB2B776740AA93F6BA07A2 /* CDBKit-iOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/CDBDelegateCollection-iOS/CDBDelegateCollection-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/CDBDelegateCollection-iOS/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/CDBKit-iOS/CDBKit-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CDBKit-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/CDBDelegateCollection-iOS/CDBDelegateCollection-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = CDBDelegateCollection;
+				MODULEMAP_FILE = "Target Support Files/CDBKit-iOS/CDBKit-iOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = CDBKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 		2D4950DA43EE1DA38CB63AA66644F1DE /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -5771,45 +5665,11 @@
 			};
 			name = Release;
 		};
-		3275929F342660415AFAB03C4534DA98 /* Debug */ = {
+		3A53C0BEF72CCEA720A98CC2CF7C5309 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E14FE410773328B7E3490EB0CA788C0 /* Pods-Pod-TBDropboxKit_Example.debug.xcconfig */;
+			baseConfigurationReference = 0D993E018EDB2B776740AA93F6BA07A2 /* CDBKit-iOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Pod-TBDropboxKit_Example/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Pod_TBDropboxKit_Example;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		4D889DBE4C7BDE91537FEA9762749007 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 66FE8D8566F08EE5F157A7578C217CA6 /* TBDropboxKit-iOS.xcconfig */;
-			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -5821,14 +5681,14 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/TBDropboxKit-iOS/TBDropboxKit-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TBDropboxKit-iOS/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/CDBKit-iOS/CDBKit-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CDBKit-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TBDropboxKit-iOS/TBDropboxKit-iOS.modulemap";
+				MODULEMAP_FILE = "Target Support Files/CDBKit-iOS/CDBKit-iOS.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = TBDropboxKit;
+				PRODUCT_NAME = CDBKit;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5870,82 +5730,6 @@
 			};
 			name = Debug;
 		};
-		5CDF4C661A635D759765E98CE678C3EC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 50F72C98A7612ED5636F9D773560AA4E /* Pods-Pod-TBDropboxKit_Example.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Pod-TBDropboxKit_Example/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Pod_TBDropboxKit_Example;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		6204259D62DACCA0AB918BA01B6AA15A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_REQUIRED = NO;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		64BB37526E55ABA60CCEBF70903885B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B132BC586845B2BFFAF0B99160077FD6 /* TBDropboxKit-OSX.xcconfig */;
@@ -5979,15 +5763,144 @@
 			};
 			name = Debug;
 		};
-		8005B9F1BF268CCB059AE2F425820524 /* Debug */ = {
+		66F373A2F4E081921B8AF4DDB289A501 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7CC59304397C70F8565E71B467766221 /* Pods-TBDropboxKit_Tests.debug.xcconfig */;
+			baseConfigurationReference = FCC7C2EB298DA1C13B97DEAB8CEC4123 /* TBLogger-iOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/TBLogger-iOS/TBLogger-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TBLogger-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/TBLogger-iOS/TBLogger-iOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = TBLogger;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		6B856A0F660A07E7267427D0E7AE09DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B118FB549C422F5B2DAC0B774C5098D0 /* CDBDelegateCollection-iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/CDBDelegateCollection-iOS/CDBDelegateCollection-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CDBDelegateCollection-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/CDBDelegateCollection-iOS/CDBDelegateCollection-iOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = CDBDelegateCollection;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		7C023E025E94E860F496766A81EE8123 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B118FB549C422F5B2DAC0B774C5098D0 /* CDBDelegateCollection-iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/CDBDelegateCollection-iOS/CDBDelegateCollection-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CDBDelegateCollection-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/CDBDelegateCollection-iOS/CDBDelegateCollection-iOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = CDBDelegateCollection;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		87FA69E028BDBECC7E8F5327E4C09E87 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 964511B4CA984CFF1F18F20F729C670F /* ObjectiveDropboxOfficial-iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ObjectiveDropboxOfficial-iOS/ObjectiveDropboxOfficial-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ObjectiveDropboxOfficial-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/ObjectiveDropboxOfficial-iOS/ObjectiveDropboxOfficial-iOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = ObjectiveDropboxOfficial;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		8F67C2B2A01FE664441E55E738478356 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 856E8D9499A757EBE526FD2C39F2817F /* Pods-TBDropboxKit_Tests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -6000,7 +5913,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-TBDropboxKit_Tests/Pods-TBDropboxKit_Tests.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -6012,7 +5925,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 		95DC75CEA6B063D812EFB4753E39E33E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -6047,72 +5960,11 @@
 			};
 			name = Debug;
 		};
-		9749E7343A25DD700E114F12980E2DD9 /* Release */ = {
+		9DE0B2104663CBFA2B571DAC8054976D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FCC7C2EB298DA1C13B97DEAB8CEC4123 /* TBLogger-iOS.xcconfig */;
+			baseConfigurationReference = 66FE8D8566F08EE5F157A7578C217CA6 /* TBDropboxKit-iOS.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/TBLogger-iOS/TBLogger-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TBLogger-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TBLogger-iOS/TBLogger-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = TBLogger;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		A0F78AB327157618D17C4ECAE1A556E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 964511B4CA984CFF1F18F20F729C670F /* ObjectiveDropboxOfficial-iOS.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/ObjectiveDropboxOfficial-iOS/ObjectiveDropboxOfficial-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ObjectiveDropboxOfficial-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/ObjectiveDropboxOfficial-iOS/ObjectiveDropboxOfficial-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = ObjectiveDropboxOfficial;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		B662CCEB9A582E2FC5118F6AB9295A1C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FCC7C2EB298DA1C13B97DEAB8CEC4123 /* TBLogger-iOS.xcconfig */;
-			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -6124,14 +5976,127 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/TBDropboxKit-iOS/TBDropboxKit-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TBDropboxKit-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/TBDropboxKit-iOS/TBDropboxKit-iOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = TBDropboxKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A6FCD41D9E76DEB9E24332117DF96960 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FCC7C2EB298DA1C13B97DEAB8CEC4123 /* TBLogger-iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/TBLogger-iOS/TBLogger-iOS-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/TBLogger-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/TBLogger-iOS/TBLogger-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = TBLogger;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A80B1FAB496A3F23576EEBD746424C95 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AB469213A19B129A02B554E05855FF0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E14FE410773328B7E3490EB0CA788C0 /* Pods-Pod-TBDropboxKit_Example.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Pod-TBDropboxKit_Example/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Pod_TBDropboxKit_Example;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6173,6 +6138,42 @@
 			};
 			name = Release;
 		};
+		BA2560E3EF1FAE1A8CFE3EB84585FF0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7CC59304397C70F8565E71B467766221 /* Pods-TBDropboxKit_Tests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-TBDropboxKit_Tests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-TBDropboxKit_Tests/Pods-TBDropboxKit_Tests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_TBDropboxKit_Tests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		C0068F37332703CF04D77558892063D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4323E574983561DBE73BF197E306567C /* ObjectiveDropboxOfficial-OSX.xcconfig */;
@@ -6201,37 +6202,6 @@
 				PRODUCT_NAME = ObjectiveDropboxOfficial;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		C1D8A5CDB82067C136E8703B2835153C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B118FB549C422F5B2DAC0B774C5098D0 /* CDBDelegateCollection-iOS.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/CDBDelegateCollection-iOS/CDBDelegateCollection-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/CDBDelegateCollection-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/CDBDelegateCollection-iOS/CDBDelegateCollection-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = CDBDelegateCollection;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -6307,10 +6277,79 @@
 			};
 			name = Release;
 		};
-		DEA3E4D3BF3453796303AE1FA73F79F5 /* Debug */ = {
+		DD4F0D4C418B47277125C5DB6A7E2755 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66FE8D8566F08EE5F157A7578C217CA6 /* TBDropboxKit-iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/TBDropboxKit-iOS/TBDropboxKit-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TBDropboxKit-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/TBDropboxKit-iOS/TBDropboxKit-iOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = TBDropboxKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		DE703067E3588A46544870E9D54342DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50F72C98A7612ED5636F9D773560AA4E /* Pods-Pod-TBDropboxKit_Example.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Pod-TBDropboxKit_Example/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Pod_TBDropboxKit_Example;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		DEB4D00C637FAD4875F6B5FB9FF25450 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 964511B4CA984CFF1F18F20F729C670F /* ObjectiveDropboxOfficial-iOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -6370,37 +6409,6 @@
 				PRODUCT_NAME = Pods_TBDropboxKitMac_ExampleTests;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		E722DD7BDA86A0E903B881C6C7BB07A9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 66FE8D8566F08EE5F157A7578C217CA6 /* TBDropboxKit-iOS.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/TBDropboxKit-iOS/TBDropboxKit-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TBDropboxKit-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TBDropboxKit-iOS/TBDropboxKit-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = TBDropboxKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -6472,40 +6480,54 @@
 			};
 			name = Release;
 		};
-		FA3338CE9FDC39C2F8625344D284D7AF /* Release */ = {
+		FA1AE2E4BC2CF05E59ADDA649B50D06E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 856E8D9499A757EBE526FD2C39F2817F /* Pods-TBDropboxKit_Tests.release.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-TBDropboxKit_Tests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TBDropboxKit_Tests/Pods-TBDropboxKit_Tests.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_TBDropboxKit_Tests;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
 			};
-			name = Release;
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
@@ -6522,8 +6544,8 @@
 		1127624F6007E019C202D87D26B152D6 /* Build configuration list for PBXNativeTarget "TBDropboxKit-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E722DD7BDA86A0E903B881C6C7BB07A9 /* Debug */,
-				4D889DBE4C7BDE91537FEA9762749007 /* Release */,
+				9DE0B2104663CBFA2B571DAC8054976D /* Debug */,
+				DD4F0D4C418B47277125C5DB6A7E2755 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -6531,8 +6553,8 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0D6B4AFE677321B43AC1FCC1FF6CD80C /* Debug */,
-				6204259D62DACCA0AB918BA01B6AA15A /* Release */,
+				FA1AE2E4BC2CF05E59ADDA649B50D06E /* Debug */,
+				A80B1FAB496A3F23576EEBD746424C95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -6549,8 +6571,8 @@
 		65A3E5BCFDAB923C388CEEA03205E155 /* Build configuration list for PBXNativeTarget "Pods-Pod-TBDropboxKit_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3275929F342660415AFAB03C4534DA98 /* Debug */,
-				5CDF4C661A635D759765E98CE678C3EC /* Release */,
+				AB469213A19B129A02B554E05855FF0B /* Debug */,
+				DE703067E3588A46544870E9D54342DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -6594,8 +6616,8 @@
 		A3C8684A8D8BB2E8C9F74D7C3FB2856E /* Build configuration list for PBXNativeTarget "CDBKit-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				14D7D77A0781A8D19FA33606977A2EC7 /* Debug */,
-				19F248A81C8580A1438F1EDC3D66DAD8 /* Release */,
+				27229F406BF96BB47C26235A7383038E /* Debug */,
+				3A53C0BEF72CCEA720A98CC2CF7C5309 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -6603,8 +6625,8 @@
 		A88D2FE86CE6E73129F6BBFB68C5ED27 /* Build configuration list for PBXNativeTarget "ObjectiveDropboxOfficial-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DEA3E4D3BF3453796303AE1FA73F79F5 /* Debug */,
-				A0F78AB327157618D17C4ECAE1A556E5 /* Release */,
+				DEB4D00C637FAD4875F6B5FB9FF25450 /* Debug */,
+				87FA69E028BDBECC7E8F5327E4C09E87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -6612,8 +6634,8 @@
 		B3097B7A4E5C4F5C275C07D258B25F69 /* Build configuration list for PBXNativeTarget "TBLogger-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B662CCEB9A582E2FC5118F6AB9295A1C /* Debug */,
-				9749E7343A25DD700E114F12980E2DD9 /* Release */,
+				66F373A2F4E081921B8AF4DDB289A501 /* Debug */,
+				A6FCD41D9E76DEB9E24332117DF96960 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -6621,8 +6643,8 @@
 		DE054786B131A4DDC33D28B3542428AF /* Build configuration list for PBXNativeTarget "CDBDelegateCollection-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C1D8A5CDB82067C136E8703B2835153C /* Debug */,
-				2CC0818FED36FBDC2910DE255E569C1F /* Release */,
+				7C023E025E94E860F496766A81EE8123 /* Debug */,
+				6B856A0F660A07E7267427D0E7AE09DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -6630,8 +6652,8 @@
 		ECB8C7A98542555B42E6F51736E8E230 /* Build configuration list for PBXNativeTarget "Pods-TBDropboxKit_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8005B9F1BF268CCB059AE2F425820524 /* Debug */,
-				FA3338CE9FDC39C2F8625344D284D7AF /* Release */,
+				BA2560E3EF1FAE1A8CFE3EB84585FF0B /* Debug */,
+				8F67C2B2A01FE664441E55E738478356 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
