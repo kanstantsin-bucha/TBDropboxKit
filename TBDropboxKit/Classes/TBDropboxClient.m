@@ -174,12 +174,16 @@
 }
 
 
+- (void)initiateWithConnectionDesired:(BOOL)desired {
+    [self initiateWithConnectionDesired: desired
+                            usingAppKey: nil];
+}
+
 - (void)initiateWithConnectionDesired:(BOOL)desired
                           usingAppKey:(NSString *)key {
     if (key.length == 0) {
         [self.logger error:@"initiate called with nil app key"];
     }
-    NSAssert(key.length != 0, @"connection required app key");
     
     [self.logger info: @"initiate connection"];
     TBDropboxConnection * connection = [TBDropboxConnection connectionUsingAppKey: key

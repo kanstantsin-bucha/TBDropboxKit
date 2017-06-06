@@ -9,7 +9,6 @@
 #import "TBAppDelegate.h"
 #import <TBDropboxKit/TBDropboxKit.h>
 
-#define dTestSuiteApiKey @"f73chv4vrf1uv40"
 #define dExampleFileName @"japan.jpg"
 
 @interface TBAppDelegate ()
@@ -55,8 +54,10 @@
     self.localDocumentsURL = urls.firstObject;
     NSLog(@"documents directory url = %@", self.localDocumentsURL);
 
+    // if nil key provided will use one from info plist CFBundleURLName
+    // that matched db-*********** 
     [self.dropbox initiateWithConnectionDesired: YES
-                                    usingAppKey: dTestSuiteApiKey];
+                                    usingAppKey: nil];
     [self.dropbox addDelegate: self];
     return YES;
 }
@@ -115,8 +116,9 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes {
             // download that file to local documents directory
             [self downloadLocalDocumentFromDropboxPath: self.examplePath
                                             completion: ^(NSError * _Nullable error) {
-                 
-             }];
+                // disconnecting
+                self.dropbox.connectionDesired = NO;
+            }];
         }];
     }
 }

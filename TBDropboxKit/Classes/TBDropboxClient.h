@@ -54,6 +54,8 @@
 + (instancetype _Nullable)new __attribute__((unavailable("new not available, call sharedInstance instead")));
 - (instancetype _Nullable)copy __attribute__((unavailable("copy not available, call sharedInstance instead")));
 
+
+- (void)initiateWithConnectionDesired:(BOOL)desired;
 - (void)initiateWithConnectionDesired:(BOOL)desired
                           usingAppKey:(NSString * _Nullable)key;
 

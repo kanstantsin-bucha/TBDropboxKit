@@ -91,6 +91,12 @@
 
 + (instancetype _Nullable)connectionUsingAppKey:(NSString * _Nonnull)key
                                        delegate:(id<TBDropboxConnectionDelegate> _Nonnull)delegate {
+    if (key == nil) {
+        key = [self apiKeyUsingInfoPlist];
+    }
+    
+    NSAssert(key.length != 0, @"dropbox connection required app key");
+    
     if (key == nil
         || delegate == nil) {
         NSLog(@"[ERROR] Failed to create connection with key:%@\rdelegate: %@", key, delegate);
@@ -128,28 +134,15 @@
 
 /// MARK: public
 
-- (NSArray *)provideDropboxURLSchemes {
-    NSArray * URLTypes =
-        [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleURLTypes"];
-    
-    NSArray * URLShemes = [self flatURLSchemesUsingURLTypes: URLTypes];
-    
-    NSPredicate * dropboxSchemePredicate =
-        [NSPredicate predicateWithFormat: @"SELF BEGINSWITH[cd] %@", @"db-"];
-    NSArray * result = [URLShemes filteredArrayUsingPredicate: dropboxSchemePredicate];
-    
-    [self.logger info: @"did provide URL schemes: %@", result];
-    
-    return result;
-}
-
 - (BOOL)handleAuthorisationRedirectURL:(NSURL *)url {
     [self.logger verbose: @"did receive handle auth URL %@", url];
     if (url == nil) {
         return NO;
     }
     
-    NSString * dropboxScheme = [self provideDropboxURLSchemes].firstObject;
+    NSString * dropboxScheme = [[self class] flatURLSchemesFromInfoPlist].firstObject;
+    
+    [self.logger info: @"did provide URL schemes: %@", dropboxScheme];
     
     if ([url.scheme isEqualToString:dropboxScheme] == NO) {
         [self.logger log: @"skipping url beacuse it is not a dropbox scheme URL %@", url];
@@ -434,20 +427,46 @@
     return YES;
 }
 
-- (NSArray *)flatURLSchemesUsingURLTypes:(NSArray *)types {
-    NSMutableArray * result = [NSMutableArray array];
+// MARK: dropbox url schemes
+
++ (NSString *)apiKeyUsingInfoPlist {
+    NSArray * schemes = [self flatURLSchemesFromInfoPlist];
+    NSString * schema = schemes.firstObject;
+    if (schema == nil
+        || schema.length < 4) {
+        return nil;
+    }
+    
+    NSString * result = [schema substringFromIndex:3];
+    return result;
+}
+
++ (NSArray *)flatURLSchemesFromInfoPlist {
+    NSArray * URLTypes =
+        [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleURLTypes"];
+    
+    NSArray * result = [self flatURLSchemesUsingURLTypes: URLTypes];
+    return result;
+}
+
++ (NSArray *)flatURLSchemesUsingURLTypes:(NSArray *)types {
+    NSMutableArray * schemes = [NSMutableArray array];
     for (NSDictionary * type in types) {
-        NSArray * schemes = type[@"CFBundleURLSchemes"];
-        if (schemes.count == 0) {
+        NSArray * typeSchemes = type[@"CFBundleURLSchemes"];
+        if (typeSchemes.count == 0) {
             continue;
         }
         
-        [result addObjectsFromArray: schemes];
+        [schemes addObjectsFromArray: typeSchemes];
     }
     
-    if (result.count == 0) {
+    if (schemes.count == 0) {
         return nil;
     }
+    
+    NSPredicate * dropboxSchemePredicate =
+        [NSPredicate predicateWithFormat: @"SELF BEGINSWITH[cd] %@", @"db-"];
+    NSArray * result = [schemes filteredArrayUsingPredicate: dropboxSchemePredicate];
     
     return result;
 }

@@ -39,6 +39,4 @@
 
 - (BOOL)handleAuthorisationRedirectURL:(NSURL * _Nonnull)url;
 
-- (NSArray * _Nullable)provideDropboxURLSchemes;
-
 @end
