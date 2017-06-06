@@ -54,10 +54,9 @@
     self.localDocumentsURL = urls.firstObject;
     NSLog(@"documents directory url = %@", self.localDocumentsURL);
 
-    // if nil key provided will use one from info plist CFBundleURLName
+    // if no appKey provided will use first one from info plist CFBundleURLName
     // that matched db-*********** 
-    [self.dropbox initiateWithConnectionDesired: YES
-                                    usingAppKey: nil];
+    [self.dropbox initiateWithConnectionDesired: YES];
     [self.dropbox addDelegate: self];
     return YES;
 }
