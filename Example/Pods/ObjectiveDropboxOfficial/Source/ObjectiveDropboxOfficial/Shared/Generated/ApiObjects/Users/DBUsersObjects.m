@@ -74,6 +74,63 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.accountId hash];
+  result = prime * result + [self.name hash];
+  result = prime * result + [self.email hash];
+  result = prime * result + [self.emailVerified hash];
+  result = prime * result + [self.disabled hash];
+  if (self.profilePhotoUrl) {
+    result = prime * result + [self.profilePhotoUrl hash];
+  }
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToAccount:other];
+}
+
+- (BOOL)isEqualToAccount:(DBUSERSAccount *)anAccount {
+  if (self == anAccount) {
+    return YES;
+  }
+  if (![self.accountId isEqual:anAccount.accountId]) {
+    return NO;
+  }
+  if (![self.name isEqual:anAccount.name]) {
+    return NO;
+  }
+  if (![self.email isEqual:anAccount.email]) {
+    return NO;
+  }
+  if (![self.emailVerified isEqual:anAccount.emailVerified]) {
+    return NO;
+  }
+  if (![self.disabled isEqual:anAccount.disabled]) {
+    return NO;
+  }
+  if (self.profilePhotoUrl) {
+    if (![self.profilePhotoUrl isEqual:anAccount.profilePhotoUrl]) {
+      return NO;
+    }
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -109,136 +166,6 @@
                                      emailVerified:emailVerified
                                           disabled:disabled
                                    profilePhotoUrl:profilePhotoUrl];
-}
-
-@end
-
-#import "DBStoneSerializers.h"
-#import "DBStoneValidators.h"
-#import "DBUSERSAccountType.h"
-
-#pragma mark - API Object
-
-@implementation DBUSERSAccountType
-
-#pragma mark - Constructors
-
-- (instancetype)initWithBasic {
-  self = [super init];
-  if (self) {
-    _tag = DBUSERSAccountTypeBasic;
-  }
-  return self;
-}
-
-- (instancetype)initWithPro {
-  self = [super init];
-  if (self) {
-    _tag = DBUSERSAccountTypePro;
-  }
-  return self;
-}
-
-- (instancetype)initWithBusiness {
-  self = [super init];
-  if (self) {
-    _tag = DBUSERSAccountTypeBusiness;
-  }
-  return self;
-}
-
-#pragma mark - Instance field accessors
-
-#pragma mark - Tag state methods
-
-- (BOOL)isBasic {
-  return _tag == DBUSERSAccountTypeBasic;
-}
-
-- (BOOL)isPro {
-  return _tag == DBUSERSAccountTypePro;
-}
-
-- (BOOL)isBusiness {
-  return _tag == DBUSERSAccountTypeBusiness;
-}
-
-- (NSString *)tagName {
-  switch (_tag) {
-  case DBUSERSAccountTypeBasic:
-    return @"DBUSERSAccountTypeBasic";
-  case DBUSERSAccountTypePro:
-    return @"DBUSERSAccountTypePro";
-  case DBUSERSAccountTypeBusiness:
-    return @"DBUSERSAccountTypeBusiness";
-  }
-
-  @throw([NSException exceptionWithName:@"InvalidTag" reason:@"Tag has an unknown value." userInfo:nil]);
-}
-
-#pragma mark - Serialization methods
-
-+ (NSDictionary *)serialize:(id)instance {
-  return [DBUSERSAccountTypeSerializer serialize:instance];
-}
-
-+ (id)deserialize:(NSDictionary *)dict {
-  return [DBUSERSAccountTypeSerializer deserialize:dict];
-}
-
-#pragma mark - Description method
-
-- (NSString *)description {
-  return [[DBUSERSAccountTypeSerializer serialize:self] description];
-}
-
-#pragma mark - Copyable method
-
-- (instancetype)copyWithZone:(NSZone *)zone {
-#pragma unused(zone)
-  /// object is immutable
-  return self;
-}
-
-@end
-
-#pragma mark - Serializer Object
-
-@implementation DBUSERSAccountTypeSerializer
-
-+ (NSDictionary *)serialize:(DBUSERSAccountType *)valueObj {
-  NSMutableDictionary *jsonDict = [[NSMutableDictionary alloc] init];
-
-  if ([valueObj isBasic]) {
-    jsonDict[@".tag"] = @"basic";
-  } else if ([valueObj isPro]) {
-    jsonDict[@".tag"] = @"pro";
-  } else if ([valueObj isBusiness]) {
-    jsonDict[@".tag"] = @"business";
-  } else {
-    @throw([NSException exceptionWithName:@"InvalidTag"
-                                   reason:@"Object not properly initialized. Tag has an unknown value."
-                                 userInfo:nil]);
-  }
-
-  return jsonDict;
-}
-
-+ (DBUSERSAccountType *)deserialize:(NSDictionary *)valueDict {
-  NSString *tag = valueDict[@".tag"];
-
-  if ([tag isEqualToString:@"basic"]) {
-    return [[DBUSERSAccountType alloc] initWithBasic];
-  } else if ([tag isEqualToString:@"pro"]) {
-    return [[DBUSERSAccountType alloc] initWithPro];
-  } else if ([tag isEqualToString:@"business"]) {
-    return [[DBUSERSAccountType alloc] initWithBusiness];
-  } else {
-    @throw([NSException
-        exceptionWithName:@"InvalidTag"
-                   reason:[NSString stringWithFormat:@"Tag has an invalid value: \"%@\".", valueDict[@".tag"]]
-                 userInfo:nil]);
-  }
 }
 
 @end
@@ -318,6 +245,75 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.accountId hash];
+  result = prime * result + [self.name hash];
+  result = prime * result + [self.email hash];
+  result = prime * result + [self.emailVerified hash];
+  result = prime * result + [self.disabled hash];
+  result = prime * result + [self.isTeammate hash];
+  if (self.profilePhotoUrl) {
+    result = prime * result + [self.profilePhotoUrl hash];
+  }
+  if (self.teamMemberId) {
+    result = prime * result + [self.teamMemberId hash];
+  }
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToBasicAccount:other];
+}
+
+- (BOOL)isEqualToBasicAccount:(DBUSERSBasicAccount *)aBasicAccount {
+  if (self == aBasicAccount) {
+    return YES;
+  }
+  if (![self.accountId isEqual:aBasicAccount.accountId]) {
+    return NO;
+  }
+  if (![self.name isEqual:aBasicAccount.name]) {
+    return NO;
+  }
+  if (![self.email isEqual:aBasicAccount.email]) {
+    return NO;
+  }
+  if (![self.emailVerified isEqual:aBasicAccount.emailVerified]) {
+    return NO;
+  }
+  if (![self.disabled isEqual:aBasicAccount.disabled]) {
+    return NO;
+  }
+  if (![self.isTeammate isEqual:aBasicAccount.isTeammate]) {
+    return NO;
+  }
+  if (self.profilePhotoUrl) {
+    if (![self.profilePhotoUrl isEqual:aBasicAccount.profilePhotoUrl]) {
+      return NO;
+    }
+  }
+  if (self.teamMemberId) {
+    if (![self.teamMemberId isEqual:aBasicAccount.teamMemberId]) {
+      return NO;
+    }
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -368,7 +364,7 @@
 #import "DBStoneSerializers.h"
 #import "DBStoneValidators.h"
 #import "DBUSERSAccount.h"
-#import "DBUSERSAccountType.h"
+#import "DBUSERSCOMMONAccountType.h"
 #import "DBUSERSFullAccount.h"
 #import "DBUSERSFullTeam.h"
 #import "DBUSERSName.h"
@@ -387,7 +383,7 @@
                            locale:(NSString *)locale
                      referralLink:(NSString *)referralLink
                          isPaired:(NSNumber *)isPaired
-                      accountType:(DBUSERSAccountType *)accountType
+                      accountType:(DBUSERSCOMMONAccountType *)accountType
                   profilePhotoUrl:(NSString *)profilePhotoUrl
                           country:(NSString *)country
                              team:(DBUSERSFullTeam *)team
@@ -422,7 +418,7 @@
                            locale:(NSString *)locale
                      referralLink:(NSString *)referralLink
                          isPaired:(NSNumber *)isPaired
-                      accountType:(DBUSERSAccountType *)accountType {
+                      accountType:(DBUSERSCOMMONAccountType *)accountType {
   return [self initWithAccountId:accountId
                             name:name
                            email:email
@@ -462,6 +458,103 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.accountId hash];
+  result = prime * result + [self.name hash];
+  result = prime * result + [self.email hash];
+  result = prime * result + [self.emailVerified hash];
+  result = prime * result + [self.disabled hash];
+  result = prime * result + [self.locale hash];
+  result = prime * result + [self.referralLink hash];
+  result = prime * result + [self.isPaired hash];
+  result = prime * result + [self.accountType hash];
+  if (self.profilePhotoUrl) {
+    result = prime * result + [self.profilePhotoUrl hash];
+  }
+  if (self.country) {
+    result = prime * result + [self.country hash];
+  }
+  if (self.team) {
+    result = prime * result + [self.team hash];
+  }
+  if (self.teamMemberId) {
+    result = prime * result + [self.teamMemberId hash];
+  }
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToFullAccount:other];
+}
+
+- (BOOL)isEqualToFullAccount:(DBUSERSFullAccount *)aFullAccount {
+  if (self == aFullAccount) {
+    return YES;
+  }
+  if (![self.accountId isEqual:aFullAccount.accountId]) {
+    return NO;
+  }
+  if (![self.name isEqual:aFullAccount.name]) {
+    return NO;
+  }
+  if (![self.email isEqual:aFullAccount.email]) {
+    return NO;
+  }
+  if (![self.emailVerified isEqual:aFullAccount.emailVerified]) {
+    return NO;
+  }
+  if (![self.disabled isEqual:aFullAccount.disabled]) {
+    return NO;
+  }
+  if (![self.locale isEqual:aFullAccount.locale]) {
+    return NO;
+  }
+  if (![self.referralLink isEqual:aFullAccount.referralLink]) {
+    return NO;
+  }
+  if (![self.isPaired isEqual:aFullAccount.isPaired]) {
+    return NO;
+  }
+  if (![self.accountType isEqual:aFullAccount.accountType]) {
+    return NO;
+  }
+  if (self.profilePhotoUrl) {
+    if (![self.profilePhotoUrl isEqual:aFullAccount.profilePhotoUrl]) {
+      return NO;
+    }
+  }
+  if (self.country) {
+    if (![self.country isEqual:aFullAccount.country]) {
+      return NO;
+    }
+  }
+  if (self.team) {
+    if (![self.team isEqual:aFullAccount.team]) {
+      return NO;
+    }
+  }
+  if (self.teamMemberId) {
+    if (![self.teamMemberId isEqual:aFullAccount.teamMemberId]) {
+      return NO;
+    }
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -479,7 +572,7 @@
   jsonDict[@"locale"] = valueObj.locale;
   jsonDict[@"referral_link"] = valueObj.referralLink;
   jsonDict[@"is_paired"] = valueObj.isPaired;
-  jsonDict[@"account_type"] = [DBUSERSAccountTypeSerializer serialize:valueObj.accountType];
+  jsonDict[@"account_type"] = [DBUSERSCOMMONAccountTypeSerializer serialize:valueObj.accountType];
   if (valueObj.profilePhotoUrl) {
     jsonDict[@"profile_photo_url"] = valueObj.profilePhotoUrl;
   }
@@ -505,7 +598,7 @@
   NSString *locale = valueDict[@"locale"];
   NSString *referralLink = valueDict[@"referral_link"];
   NSNumber *isPaired = valueDict[@"is_paired"];
-  DBUSERSAccountType *accountType = [DBUSERSAccountTypeSerializer deserialize:valueDict[@"account_type"]];
+  DBUSERSCOMMONAccountType *accountType = [DBUSERSCOMMONAccountTypeSerializer deserialize:valueDict[@"account_type"]];
   NSString *profilePhotoUrl = valueDict[@"profile_photo_url"] ?: nil;
   NSString *country = valueDict[@"country"] ?: nil;
   DBUSERSFullTeam *team = valueDict[@"team"] ? [DBUSERSFullTeamSerializer deserialize:valueDict[@"team"]] : nil;
@@ -570,6 +663,43 @@
 #pragma unused(zone)
   /// object is immutable
   return self;
+}
+
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.id_ hash];
+  result = prime * result + [self.name hash];
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToTeam:other];
+}
+
+- (BOOL)isEqualToTeam:(DBUSERSTeam *)aTeam {
+  if (self == aTeam) {
+    return YES;
+  }
+  if (![self.id_ isEqual:aTeam.id_]) {
+    return NO;
+  }
+  if (![self.name isEqual:aTeam.name]) {
+    return NO;
+  }
+  return YES;
 }
 
 @end
@@ -643,6 +773,47 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.id_ hash];
+  result = prime * result + [self.name hash];
+  result = prime * result + [self.sharingPolicies hash];
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToFullTeam:other];
+}
+
+- (BOOL)isEqualToFullTeam:(DBUSERSFullTeam *)aFullTeam {
+  if (self == aFullTeam) {
+    return YES;
+  }
+  if (![self.id_ isEqual:aFullTeam.id_]) {
+    return NO;
+  }
+  if (![self.name isEqual:aFullTeam.name]) {
+    return NO;
+  }
+  if (![self.sharingPolicies isEqual:aFullTeam.sharingPolicies]) {
+    return NO;
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -714,6 +885,39 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.accountId hash];
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToGetAccountArg:other];
+}
+
+- (BOOL)isEqualToGetAccountArg:(DBUSERSGetAccountArg *)aGetAccountArg {
+  if (self == aGetAccountArg) {
+    return YES;
+  }
+  if (![self.accountId isEqual:aGetAccountArg.accountId]) {
+    return NO;
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -779,6 +983,39 @@
 #pragma unused(zone)
   /// object is immutable
   return self;
+}
+
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.accountIds hash];
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToGetAccountBatchArg:other];
+}
+
+- (BOOL)isEqualToGetAccountBatchArg:(DBUSERSGetAccountBatchArg *)aGetAccountBatchArg {
+  if (self == aGetAccountBatchArg) {
+    return YES;
+  }
+  if (![self.accountIds isEqual:aGetAccountBatchArg.accountIds]) {
+    return NO;
+  }
+  return YES;
 }
 
 @end
@@ -893,6 +1130,50 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  switch (_tag) {
+  case DBUSERSGetAccountBatchErrorNoAccount:
+    result = prime * result + [self.noAccount hash];
+  case DBUSERSGetAccountBatchErrorOther:
+    result = prime * result + [[self tagName] hash];
+  }
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToGetAccountBatchError:other];
+}
+
+- (BOOL)isEqualToGetAccountBatchError:(DBUSERSGetAccountBatchError *)aGetAccountBatchError {
+  if (self == aGetAccountBatchError) {
+    return YES;
+  }
+  if (self.tag != aGetAccountBatchError.tag) {
+    return NO;
+  }
+  switch (_tag) {
+  case DBUSERSGetAccountBatchErrorNoAccount:
+    return [self.noAccount isEqual:aGetAccountBatchError.noAccount];
+  case DBUSERSGetAccountBatchErrorOther:
+    return [[self tagName] isEqual:[aGetAccountBatchError tagName]];
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -1002,6 +1283,50 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  switch (_tag) {
+  case DBUSERSGetAccountErrorNoAccount:
+    result = prime * result + [[self tagName] hash];
+  case DBUSERSGetAccountErrorOther:
+    result = prime * result + [[self tagName] hash];
+  }
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToGetAccountError:other];
+}
+
+- (BOOL)isEqualToGetAccountError:(DBUSERSGetAccountError *)aGetAccountError {
+  if (self == aGetAccountError) {
+    return YES;
+  }
+  if (self.tag != aGetAccountError.tag) {
+    return NO;
+  }
+  switch (_tag) {
+  case DBUSERSGetAccountErrorNoAccount:
+    return [[self tagName] isEqual:[aGetAccountError tagName]];
+  case DBUSERSGetAccountErrorOther:
+    return [[self tagName] isEqual:[aGetAccountError tagName]];
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -1079,6 +1404,39 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.allocated hash];
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToIndividualSpaceAllocation:other];
+}
+
+- (BOOL)isEqualToIndividualSpaceAllocation:(DBUSERSIndividualSpaceAllocation *)anIndividualSpaceAllocation {
+  if (self == anIndividualSpaceAllocation) {
+    return YES;
+  }
+  if (![self.allocated isEqual:anIndividualSpaceAllocation.allocated]) {
+    return NO;
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -1150,6 +1508,55 @@
 #pragma unused(zone)
   /// object is immutable
   return self;
+}
+
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.givenName hash];
+  result = prime * result + [self.surname hash];
+  result = prime * result + [self.familiarName hash];
+  result = prime * result + [self.displayName hash];
+  result = prime * result + [self.abbreviatedName hash];
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToName:other];
+}
+
+- (BOOL)isEqualToName:(DBUSERSName *)aName {
+  if (self == aName) {
+    return YES;
+  }
+  if (![self.givenName isEqual:aName.givenName]) {
+    return NO;
+  }
+  if (![self.surname isEqual:aName.surname]) {
+    return NO;
+  }
+  if (![self.familiarName isEqual:aName.familiarName]) {
+    return NO;
+  }
+  if (![self.displayName isEqual:aName.displayName]) {
+    return NO;
+  }
+  if (![self.abbreviatedName isEqual:aName.abbreviatedName]) {
+    return NO;
+  }
+  return YES;
 }
 
 @end
@@ -1296,6 +1703,54 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  switch (_tag) {
+  case DBUSERSSpaceAllocationIndividual:
+    result = prime * result + [self.individual hash];
+  case DBUSERSSpaceAllocationTeam:
+    result = prime * result + [self.team hash];
+  case DBUSERSSpaceAllocationOther:
+    result = prime * result + [[self tagName] hash];
+  }
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToSpaceAllocation:other];
+}
+
+- (BOOL)isEqualToSpaceAllocation:(DBUSERSSpaceAllocation *)aSpaceAllocation {
+  if (self == aSpaceAllocation) {
+    return YES;
+  }
+  if (self.tag != aSpaceAllocation.tag) {
+    return NO;
+  }
+  switch (_tag) {
+  case DBUSERSSpaceAllocationIndividual:
+    return [self.individual isEqual:aSpaceAllocation.individual];
+  case DBUSERSSpaceAllocationTeam:
+    return [self.team isEqual:aSpaceAllocation.team];
+  case DBUSERSSpaceAllocationOther:
+    return [[self tagName] isEqual:[aSpaceAllocation tagName]];
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -1383,6 +1838,43 @@
   return self;
 }
 
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.used hash];
+  result = prime * result + [self.allocation hash];
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToSpaceUsage:other];
+}
+
+- (BOOL)isEqualToSpaceUsage:(DBUSERSSpaceUsage *)aSpaceUsage {
+  if (self == aSpaceUsage) {
+    return YES;
+  }
+  if (![self.used isEqual:aSpaceUsage.used]) {
+    return NO;
+  }
+  if (![self.allocation isEqual:aSpaceUsage.allocation]) {
+    return NO;
+  }
+  return YES;
+}
+
 @end
 
 #pragma mark - Serializer Object
@@ -1449,6 +1941,43 @@
 #pragma unused(zone)
   /// object is immutable
   return self;
+}
+
+#pragma mark - Hash method
+
+- (NSUInteger)hash {
+  NSUInteger prime = 31;
+  NSUInteger result = 1;
+
+  result = prime * result + [self.used hash];
+  result = prime * result + [self.allocated hash];
+
+  return prime * result;
+}
+
+#pragma mark - Equality method
+
+- (BOOL)isEqual:(id)other {
+  if (other == self) {
+    return YES;
+  }
+  if (!other || ![other isKindOfClass:[self class]]) {
+    return NO;
+  }
+  return [self isEqualToTeamSpaceAllocation:other];
+}
+
+- (BOOL)isEqualToTeamSpaceAllocation:(DBUSERSTeamSpaceAllocation *)aTeamSpaceAllocation {
+  if (self == aTeamSpaceAllocation) {
+    return YES;
+  }
+  if (![self.used isEqual:aTeamSpaceAllocation.used]) {
+    return NO;
+  }
+  if (![self.allocated isEqual:aTeamSpaceAllocation.allocated]) {
+    return NO;
+  }
+  return YES;
 }
 
 @end

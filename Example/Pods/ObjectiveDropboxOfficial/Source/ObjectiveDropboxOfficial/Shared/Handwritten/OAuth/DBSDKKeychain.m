@@ -50,7 +50,7 @@ static const char *kV1OSXAccountName = "Dropbox";
 
 + (BOOL)storeValueWithKey:(NSString *)key value:(NSString *)value {
   NSData *encoding = [value dataUsingEncoding:NSUTF8StringEncoding];
-  if (encoding) {
+  if (encoding != nil) {
     return [self storeDataValueWithKey:key value:encoding];
   } else {
     return NO;
@@ -132,10 +132,10 @@ static const char *kV1OSXAccountName = "Dropbox";
 }
 
 + (void)checkAccessibilityMigration {
-  NSUserDefaults *Defaults = [NSUserDefaults standardUserDefaults];
-  BOOL MigrationOccurred = [[Defaults stringForKey:kAccessibilityMigrationOccurredKey] boolValue];
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+  BOOL migrationOccurred = [userDefaults boolForKey:kAccessibilityMigrationOccurredKey];
 
-  if (!MigrationOccurred) {
+  if (migrationOccurred == NO) {
     NSMutableDictionary<id, id> *query = [NSMutableDictionary new];
     NSString *bundleId = [NSBundle mainBundle].bundleIdentifier ?: @"";
     [query setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
@@ -144,7 +144,7 @@ static const char *kV1OSXAccountName = "Dropbox";
     NSDictionary<id, id> *attributesToUpdate =
         @{(id)kSecAttrAccessible : (id)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly};
     SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)attributesToUpdate);
-    [Defaults setObject:@"YES" forKey:kAccessibilityMigrationOccurredKey];
+    [userDefaults setBool:YES forKey:kAccessibilityMigrationOccurredKey];
   }
 }
 
@@ -154,11 +154,11 @@ static const char *kV1OSXAccountName = "Dropbox";
                               appSecret:(NSString *)appSecret {
   NSOperationQueue *queueToUse = queue ?: [NSOperationQueue mainQueue];
 
-  NSUserDefaults *Defaults = [NSUserDefaults standardUserDefaults];
+  NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
   NSString *migrationOccurredLookupKey = [NSString stringWithFormat:kV1TokenMigrationOccurredKeyBase, appKey];
-  BOOL MigrationOccurred = [[Defaults stringForKey:migrationOccurredLookupKey] boolValue];
+  BOOL migrationOccurred = [userDefaults boolForKey:migrationOccurredLookupKey];
 
-  if (!MigrationOccurred) {
+  if (migrationOccurred == NO) {
     NSMutableArray<NSArray<NSString *> *> *v1TokensData = [NSMutableArray new];
 
 #if TARGET_OS_IPHONE
@@ -177,7 +177,7 @@ static const char *kV1OSXAccountName = "Dropbox";
 #endif
 
     if ([v1TokensData count] > 0) {
-      [[NSOperationQueue new] addOperationWithBlock:^{
+      [[self v1TokenConversionOperationQueue] addOperationWithBlock:^{
         [[self class] convertV1TokenToV2:v1TokensData
                                   appKey:appKey
                                appSecret:appSecret
@@ -210,7 +210,7 @@ static const char *kV1OSXAccountName = "Dropbox";
     NSArray<NSDictionary<NSString *, id> *> *dataResultDict = (NSArray<NSDictionary<NSString *, id> *> *)data ?: @[];
     for (NSDictionary<NSString *, id> *dict in dataResultDict) {
       NSData *foundData = dict[(NSString *)kSecValueData];
-      if (foundData) {
+      if (foundData != nil) {
         NSDictionary *unarchivedFoundData = [NSKeyedUnarchiver unarchiveObjectWithData:foundData];
         NSString *retrievedAppKey = unarchivedFoundData[kV1ConsumerAppKeyKey];
         NSArray<NSDictionary<NSString *, id> *> *credentialsList = unarchivedFoundData[kV1UserCredentialsKey];
@@ -219,10 +219,10 @@ static const char *kV1OSXAccountName = "Dropbox";
           NSString *accessToken = credential[kV1UserAccessTokenKey];
           NSString *accessTokenSecret = credential[kV1UserAccessTokenSecretKey];
 
-          if (uid && accessToken && accessTokenSecret && retrievedAppKey) {
+          if (uid != nil && accessToken != nil && accessTokenSecret != nil && retrievedAppKey != nil) {
             // really old versions of the v1 SDK stored tokens without a
             // corresponding user id, so should be skipped
-            if (![uid isEqualToString:kV1IOSUnknownUserIdKey]) {
+            if ([uid isEqualToString:kV1IOSUnknownUserIdKey] == NO) {
               NSArray<NSString *> *tokenData = @[ uid, accessToken, accessTokenSecret, retrievedAppKey ];
               [v1TokensData addObject:tokenData];
             }
@@ -253,7 +253,7 @@ static const char *kV1OSXAccountName = "Dropbox";
     NSArray<NSDictionary<NSString *, id> *> *dataResultDict = (NSArray<NSDictionary<NSString *, id> *> *)data ?: @[];
     for (NSDictionary<NSString *, id> *dict in dataResultDict) {
       NSData *foundData = dict[(NSString *)kSecValueData];
-      if (foundData) {
+      if (foundData != nil) {
         NSDictionary *credentialsDictionary =
             [NSKeyedUnarchiver unarchiveObjectWithData:foundData][kV1SyncAccountCredentialsKey];
         for (NSString *credentialKey in credentialsDictionary) {
@@ -263,7 +263,7 @@ static const char *kV1OSXAccountName = "Dropbox";
             NSString *accessToken = credential[kV1SyncUserAccessTokenKey];
             NSString *accessTokenSecret = credential[kV1SyncUserAccessTokenSecretKey];
 
-            if (uid && accessToken && accessTokenSecret && credentialKey) {
+            if (uid != nil && accessToken != nil && accessTokenSecret != nil && credentialKey != nil) {
               NSArray<NSString *> *tokenData = @[ uid, accessToken, accessTokenSecret, credentialKey ];
               [v1TokensData addObject:tokenData];
             }
@@ -304,14 +304,14 @@ static const char *kV1OSXAccountName = "Dropbox";
       NSString *accessToken = credential[kV1UserAccessTokenKey];
       NSString *accessTokenSecret = credential[kV1UserAccessTokenSecretKey];
 
-      if (uid && accessToken && accessTokenSecret && retrievedAppKey) {
+      if (uid != nil && accessToken != nil && accessTokenSecret != nil && retrievedAppKey != nil) {
         NSArray<NSString *> *tokenData = @[ uid, accessToken, accessTokenSecret, retrievedAppKey ];
         [v1TokensData addObject:tokenData];
       }
     }
   }
 
-  if (pData) {
+  if (pData != nil) {
     SecKeychainItemFreeContent(nil, pData);
   }
 
@@ -344,7 +344,7 @@ static const char *kV1OSXAccountName = "Dropbox";
         NSString *accessToken = credential[kV1SyncUserAccessTokenKey];
         NSString *accessTokenSecret = credential[kV1SyncUserAccessTokenSecretKey];
 
-        if (uid && accessToken && accessTokenSecret && credentialKey) {
+        if (uid != nil && accessToken != nil && accessTokenSecret != nil && credentialKey != nil) {
           NSArray<NSString *> *tokenData = @[ uid, accessToken, accessTokenSecret, credentialKey ];
           [v1TokensData addObject:tokenData];
         }
@@ -352,7 +352,7 @@ static const char *kV1OSXAccountName = "Dropbox";
     }
   }
 
-  if (pData) {
+  if (pData != nil) {
     SecKeychainItemFreeContent(nil, pData);
   }
 
@@ -378,7 +378,7 @@ static const char *kV1OSXAccountName = "Dropbox";
   NSMutableDictionary<NSString *, NSString *> *tokenConversionResults = [NSMutableDictionary new];
   NSLock *tokenConversionResultsLock = [NSLock new];
 
-  NSMutableArray<NSArray<NSString *> *> * _Nonnull unsuccessfullyMigratedTokenData = [NSMutableArray new];
+  NSMutableArray<NSArray<NSString *> *> *unsuccessfullyMigratedTokenData = [NSMutableArray new];
   NSLock *unsuccessfullyMigratedTokenDataLock = [NSLock new];
 
   for (NSArray<NSString *> *v1TokenData in v1TokensData) {
@@ -391,7 +391,7 @@ static const char *kV1OSXAccountName = "Dropbox";
     NSString *accessTokenSecret = v1TokenData[2];
     NSString *retrievedAppKey = v1TokenData[3];
 
-    if (![retrievedAppKey isEqualToString:appKey]) {
+    if ([retrievedAppKey isEqualToString:appKey] == NO) {
       [invalidAppKeyOrSecretLock lock];
       invalidAppKeyOrSecret = YES;
       [invalidAppKeyOrSecretLock unlock];
@@ -408,7 +408,7 @@ static const char *kV1OSXAccountName = "Dropbox";
         setResponseBlock:^(DBAUTHTokenFromOAuth1Result *result, DBAUTHTokenFromOAuth1Error *routeError,
                            DBRequestError *error) {
 #pragma unused(routeError)
-          if (result) {
+          if (result != nil) {
             NSString *oauth2Token = result.oauth2Token;
             [tokenConversionResultsLock lock];
             [tokenConversionResults setObject:oauth2Token forKey:uid];
@@ -434,22 +434,51 @@ static const char *kV1OSXAccountName = "Dropbox";
           }
           dispatch_group_leave(tokenConvertGroup);
         }
-                   queue:[NSOperationQueue new]];
+                   queue:[self rpcTaskOperationQueue]];
   }
 
   // wait for all token conversion calls to complete and then update the keychain, and call the response block
   dispatch_group_notify(tokenConvertGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-    if (!shouldRetry) {
+    if (shouldRetry == NO) {
       for (NSString *uid in tokenConversionResults) {
         [[self class] storeValueWithKey:uid value:[tokenConversionResults objectForKey:uid]];
       }
-      NSUserDefaults *Defaults = [NSUserDefaults standardUserDefaults];
-      [Defaults setObject:@"YES" forKey:[NSString stringWithFormat:kV1TokenMigrationOccurredKeyBase, appKey]];
+      NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+      [userDefaults setBool:YES forKey:[NSString stringWithFormat:kV1TokenMigrationOccurredKeyBase, appKey]];
     }
+
     [queue addOperationWithBlock:^{
       responseBlock(shouldRetry, invalidAppKeyOrSecret, unsuccessfullyMigratedTokenData);
     }];
   });
+}
+
+#pragma mark - Operation Queues
+
+static NSOperationQueue *_v1TokenConversionOperationQueue = nil;
++ (NSOperationQueue *)v1TokenConversionOperationQueue {
+  static dispatch_once_t tokenConversionOnceToken;
+  dispatch_once(&tokenConversionOnceToken, ^{
+    _v1TokenConversionOperationQueue = [[NSOperationQueue alloc] init];
+    _v1TokenConversionOperationQueue.name =
+        [NSString stringWithFormat:@"%@ %@", NSStringFromClass(self.class), NSStringFromSelector(_cmd)];
+    _v1TokenConversionOperationQueue.qualityOfService = NSQualityOfServiceUtility;
+  });
+
+  return _v1TokenConversionOperationQueue;
+}
+
+static NSOperationQueue *_rpcTaskOperationQueue = nil;
++ (NSOperationQueue *)rpcTaskOperationQueue {
+  static dispatch_once_t rpcTaskOnceToken;
+  dispatch_once(&rpcTaskOnceToken, ^{
+    _rpcTaskOperationQueue = [[NSOperationQueue alloc] init];
+    _rpcTaskOperationQueue.name =
+        [NSString stringWithFormat:@"%@ %@", NSStringFromClass(self.class), NSStringFromSelector(_cmd)];
+    _rpcTaskOperationQueue.qualityOfService = NSQualityOfServiceUtility;
+  });
+
+  return _rpcTaskOperationQueue;
 }
 
 @end

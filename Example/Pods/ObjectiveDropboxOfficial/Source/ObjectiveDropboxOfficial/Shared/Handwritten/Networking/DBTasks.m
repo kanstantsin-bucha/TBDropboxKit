@@ -2,12 +2,12 @@
 /// Copyright (c) 2016 Dropbox, Inc. All rights reserved.
 ///
 
+#import "DBTasks.h"
 #import "DBDelegate.h"
 #import "DBGlobalErrorResponseHandler+Internal.h"
 #import "DBHandlerTypes.h"
 #import "DBRequestErrors.h"
 #import "DBStoneBase.h"
-#import "DBTasks.h"
 #import "DBTransportBaseClient+Internal.h"
 #import "DBTransportBaseClient.h"
 
@@ -15,10 +15,12 @@
 
 @implementation DBTask : NSObject
 
-- (instancetype)initWithRoute:(DBRoute *)route {
+- (instancetype)initWithRoute:(DBRoute *)route tokenUid:(NSString *)tokenUid {
   self = [super init];
   if (self) {
     _route = route;
+    _queue = nil;
+    _tokenUid = [tokenUid copy];
   }
   return self;
 }
@@ -125,7 +127,7 @@
                        : nil;
       [DBGlobalErrorResponseHandler executeRegisteredResponseBlocksWithRouteError:routeError
                                                                      networkError:networkError
-                                                                      restartTask:self];
+                                                                      restartTask:strongSelf];
     } else {
       NSError *serializationError;
       result = [DBTransportBaseClient routeResultWithRoute:route data:data serializationError:&serializationError];
@@ -212,7 +214,7 @@
                        : nil;
       [DBGlobalErrorResponseHandler executeRegisteredResponseBlocksWithRouteError:routeError
                                                                      networkError:networkError
-                                                                      restartTask:self];
+                                                                      restartTask:strongSelf];
     } else {
       NSError *serializationError;
       result = [DBTransportBaseClient routeResultWithRoute:route data:data serializationError:&serializationError];
@@ -295,7 +297,7 @@
     DBRequestError *networkError = nil;
     NSURL *destination = strongSelf->_destination;
 
-    if (clientError || !resultData) {
+    if (clientError || !resultData || !location) {
       // error data is in response body (downloaded to output tmp file)
       NSData *errorData = location ? [NSData dataWithContentsOfFile:[location path]] : nil;
       networkError = [DBTransportBaseClient dBRequestErrorWithErrorData:errorData
@@ -307,7 +309,7 @@
                        : nil;
       [DBGlobalErrorResponseHandler executeRegisteredResponseBlocksWithRouteError:routeError
                                                                      networkError:networkError
-                                                                      restartTask:self];
+                                                                      restartTask:strongSelf];
     } else {
       NSFileManager *fileManager = [NSFileManager defaultManager];
       NSString *destinationPath = [destination path];
@@ -425,7 +427,7 @@
                        : nil;
       [DBGlobalErrorResponseHandler executeRegisteredResponseBlocksWithRouteError:routeError
                                                                      networkError:networkError
-                                                                      restartTask:self];
+                                                                      restartTask:strongSelf];
     } else {
       NSError *serializationError;
       result =

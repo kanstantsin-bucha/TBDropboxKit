@@ -17,7 +17,7 @@
   },
   "social_media_url": "https://twitter.com/truebucha",
   "platforms": {
-    "ios": "8.0",
+    "ios": "9.0",
     "osx": "10.10"
   },
   "requires_arc": true,
@@ -26,7 +26,7 @@
   "frameworks": "Foundation",
   "dependencies": {
     "ObjectiveDropboxOfficial": [
-      "= 3.0.11"
+      "~> 3.1"
     ],
     "CDBKit": [
       "~> 1.1"
