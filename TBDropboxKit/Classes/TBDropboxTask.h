@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CDBKit/CDBKit.h>
 #import "TBDropbox.h"
 #import "TBDropboxEntry.h"
 

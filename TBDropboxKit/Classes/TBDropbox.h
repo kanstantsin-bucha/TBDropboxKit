@@ -9,8 +9,16 @@
 #ifndef TBDropbox_h
 #define TBDropbox_h
 
-#import <CDBKit/CDBKit.h>
-#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
+
+#if __has_feature(objc_modules)
+    @import Foundation;
+    @import CDBKit;
+    @import ObjectiveDropboxOfficial;
+#else
+    #import <CDBKit/CDBKit.h>
+    #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
+    #import <Foundation/Foundation.h>
+#endif
 
 //#ifdef __APPLE__
 //    #include "TargetConditionals.h"
