@@ -34,8 +34,8 @@
 
 @property (strong, nonatomic, readonly, nullable) TBLogger * logger;
 
-+ (instancetype _Nullable)new __unavailable;
-- (id _Nullable) init __unavailable;
++ (instancetype _Nonnull)new __unavailable;
+- (id _Nonnull) init __unavailable;
 
 - (BOOL)handleAuthorisationRedirectURL:(NSURL * _Nonnull)url;
 

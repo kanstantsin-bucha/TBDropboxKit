@@ -171,7 +171,7 @@
         result[TBDropboxUnderlyingErrorKey] = error;
     }
     
-    if (info.allKeys > 0) {
+    if (info.allKeys.count > 0) {
         [result addEntriesFromDictionary:info];
     }
     

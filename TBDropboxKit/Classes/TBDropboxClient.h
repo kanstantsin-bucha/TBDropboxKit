@@ -47,12 +47,12 @@
 
 @property (strong, nonatomic, readonly, nullable) TBLogger * logger;
 
-+ (instancetype _Nullable)sharedInstance;
++ (instancetype _Nonnull)sharedInstance;
 
-+ (instancetype _Nullable)alloc __attribute__((unavailable("alloc not available, call sharedInstance instead")));
-- (instancetype _Nullable)init __attribute__((unavailable("init not available, call sharedInstance instead")));
-+ (instancetype _Nullable)new __attribute__((unavailable("new not available, call sharedInstance instead")));
-- (instancetype _Nullable)copy __attribute__((unavailable("copy not available, call sharedInstance instead")));
++ (instancetype _Nonnull)alloc __attribute__((unavailable("alloc not available, call sharedInstance instead")));
+- (instancetype _Nonnull)init __attribute__((unavailable("init not available, call sharedInstance instead")));
++ (instancetype _Nonnull)new __attribute__((unavailable("new not available, call sharedInstance instead")));
+- (instancetype _Nonnull)copy __attribute__((unavailable("copy not available, call sharedInstance instead")));
 
 
 - (void)initiateWithConnectionDesired:(BOOL)desired;

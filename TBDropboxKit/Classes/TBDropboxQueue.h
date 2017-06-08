@@ -28,8 +28,8 @@
 
 + (instancetype _Nullable)queueUsingSource:(id<TBDropboxClientSource> _Nonnull)source;
 
-+ (instancetype _Nullable)new __unavailable;
-- (id _Nullable) init __unavailable;
++ (instancetype _Nonnull)new __unavailable;
+- (id _Nonnull) init __unavailable;
 
 - (TBDropboxTask * _Nullable)taskByID:(TBDropboxTaskID * _Nonnull)ID;
 - (NSArray<TBDropboxTask *> * _Nullable)tasksByEntry:(id<TBDropboxEntry> _Nonnull)entry;
