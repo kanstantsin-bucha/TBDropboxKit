@@ -111,11 +111,12 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes {
         
         // Upload example file to app folder in dropbox
         [self uploadExampleFileWithComplation:^(NSError * _Nullable error) {
-        
+            NSLog(@"Upload file %@", error == nil? @"Succeed" : @"Failed");
             // download that file to local documents directory
             [self downloadLocalDocumentFromDropboxPath: self.examplePath
                                             completion: ^(NSError * _Nullable error) {
                 // disconnecting
+                NSLog(@"download file %@", error == nil? @"Succeed" : @"Failed");
                 self.dropbox.connectionDesired = NO;
             }];
         }];
