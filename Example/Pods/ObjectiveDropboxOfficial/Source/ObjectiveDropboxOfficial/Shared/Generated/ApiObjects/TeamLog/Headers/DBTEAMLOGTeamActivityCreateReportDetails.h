@@ -28,10 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// Report start date.
-@property (nonatomic, readonly, copy) NSString *startDate;
+@property (nonatomic, readonly) NSDate *startDate;
 
 /// Report end date.
-@property (nonatomic, readonly, copy) NSString *endDate;
+@property (nonatomic, readonly) NSDate *endDate;
 
 #pragma mark - Constructors
 
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithStartDate:(NSString *)startDate endDate:(NSString *)endDate;
+- (instancetype)initWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGTeamActivityCreateReportDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGTeamActivityCreateReportDetails *)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMLOGTeamActivityCreateReportDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGTeamActivityCreateReportDetails` instances.

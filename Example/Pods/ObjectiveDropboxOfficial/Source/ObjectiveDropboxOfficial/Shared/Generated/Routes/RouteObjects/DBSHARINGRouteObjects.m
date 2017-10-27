@@ -89,6 +89,7 @@
 #import "DBSHARINGUpdateFolderMemberError.h"
 #import "DBSHARINGUpdateFolderPolicyError.h"
 #import "DBSHARINGUserAuthRoutes.h"
+#import "DBSHARINGUserFileMembershipInfo.h"
 #import "DBSHARINGUserMembershipInfo.h"
 #import "DBSHARINGVisibility.h"
 #import "DBStoneBase.h"
@@ -151,9 +152,9 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
           @"host" : @"api",
           @"style" : @"rpc"
         }
-        arraySerialBlock:nil
-        arrayDeserialBlock:^id(id array) {
-          return [DBArraySerializer deserialize:array
+        dataStructSerialBlock:nil
+        dataStructDeserialBlock:^id(id dataStruct) {
+          return [DBArraySerializer deserialize:dataStruct
                                       withBlock:^id(id elem0) {
                                         return [DBSHARINGFileMemberActionResultSerializer deserialize:elem0];
                                       }];
@@ -174,8 +175,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                  @"host" : @"api",
                                                  @"style" : @"rpc"
                                                }
-                                    arraySerialBlock:nil
-                                  arrayDeserialBlock:nil];
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
   }
   return DBSHARINGAddFolderMember;
 }
@@ -192,8 +193,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                         @"host" : @"api",
                                                         @"style" : @"rpc"
                                                       }
-                                           arraySerialBlock:nil
-                                         arrayDeserialBlock:nil];
+                                      dataStructSerialBlock:nil
+                                    dataStructDeserialBlock:nil];
   }
   return DBSHARINGChangeFileMemberAccess;
 }
@@ -210,8 +211,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                 @"host" : @"api",
                                                 @"style" : @"rpc"
                                               }
-                                   arraySerialBlock:nil
-                                 arrayDeserialBlock:nil];
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
   }
   return DBSHARINGCheckJobStatus;
 }
@@ -228,8 +229,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                             @"host" : @"api",
                                                             @"style" : @"rpc"
                                                           }
-                                               arraySerialBlock:nil
-                                             arrayDeserialBlock:nil];
+                                          dataStructSerialBlock:nil
+                                        dataStructDeserialBlock:nil];
   }
   return DBSHARINGCheckRemoveMemberJobStatus;
 }
@@ -246,8 +247,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                      @"host" : @"api",
                                                      @"style" : @"rpc"
                                                    }
-                                        arraySerialBlock:nil
-                                      arrayDeserialBlock:nil];
+                                   dataStructSerialBlock:nil
+                                 dataStructDeserialBlock:nil];
   }
   return DBSHARINGCheckShareJobStatus;
 }
@@ -264,8 +265,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                   @"host" : @"api",
                                                   @"style" : @"rpc"
                                                 }
-                                     arraySerialBlock:nil
-                                   arrayDeserialBlock:nil];
+                                dataStructSerialBlock:nil
+                              dataStructDeserialBlock:nil];
   }
   return DBSHARINGCreateSharedLink;
 }
@@ -282,8 +283,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                               @"host" : @"api",
                                                               @"style" : @"rpc"
                                                             }
-                                                 arraySerialBlock:nil
-                                               arrayDeserialBlock:nil];
+                                            dataStructSerialBlock:nil
+                                          dataStructDeserialBlock:nil];
   }
   return DBSHARINGCreateSharedLinkWithSettings;
 }
@@ -300,8 +301,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                  @"host" : @"api",
                                                  @"style" : @"rpc"
                                                }
-                                    arraySerialBlock:nil
-                                  arrayDeserialBlock:nil];
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
   }
   return DBSHARINGGetFileMetadata;
 }
@@ -318,9 +319,9 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
           @"host" : @"api",
           @"style" : @"rpc"
         }
-        arraySerialBlock:nil
-        arrayDeserialBlock:^id(id array) {
-          return [DBArraySerializer deserialize:array
+        dataStructSerialBlock:nil
+        dataStructDeserialBlock:^id(id dataStruct) {
+          return [DBArraySerializer deserialize:dataStruct
                                       withBlock:^id(id elem0) {
                                         return [DBSHARINGGetFileMetadataBatchResultSerializer deserialize:elem0];
                                       }];
@@ -341,8 +342,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                    @"host" : @"api",
                                                    @"style" : @"rpc"
                                                  }
-                                      arraySerialBlock:nil
-                                    arrayDeserialBlock:nil];
+                                 dataStructSerialBlock:nil
+                               dataStructDeserialBlock:nil];
   }
   return DBSHARINGGetFolderMetadata;
 }
@@ -359,8 +360,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                    @"host" : @"content",
                                                    @"style" : @"download"
                                                  }
-                                      arraySerialBlock:nil
-                                    arrayDeserialBlock:nil];
+                                 dataStructSerialBlock:nil
+                               dataStructDeserialBlock:nil];
   }
   return DBSHARINGGetSharedLinkFile;
 }
@@ -377,8 +378,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                        @"host" : @"api",
                                                        @"style" : @"rpc"
                                                      }
-                                          arraySerialBlock:nil
-                                        arrayDeserialBlock:nil];
+                                     dataStructSerialBlock:nil
+                                   dataStructDeserialBlock:nil];
   }
   return DBSHARINGGetSharedLinkMetadata;
 }
@@ -395,8 +396,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                 @"host" : @"api",
                                                 @"style" : @"rpc"
                                               }
-                                   arraySerialBlock:nil
-                                 arrayDeserialBlock:nil];
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
   }
   return DBSHARINGGetSharedLinks;
 }
@@ -413,8 +414,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                  @"host" : @"api",
                                                  @"style" : @"rpc"
                                                }
-                                    arraySerialBlock:nil
-                                  arrayDeserialBlock:nil];
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
   }
   return DBSHARINGListFileMembers;
 }
@@ -431,9 +432,9 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
           @"host" : @"api",
           @"style" : @"rpc"
         }
-        arraySerialBlock:nil
-        arrayDeserialBlock:^id(id array) {
-          return [DBArraySerializer deserialize:array
+        dataStructSerialBlock:nil
+        dataStructDeserialBlock:^id(id dataStruct) {
+          return [DBArraySerializer deserialize:dataStruct
                                       withBlock:^id(id elem0) {
                                         return [DBSHARINGListFileMembersBatchResultSerializer deserialize:elem0];
                                       }];
@@ -454,8 +455,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                          @"host" : @"api",
                                                          @"style" : @"rpc"
                                                        }
-                                            arraySerialBlock:nil
-                                          arrayDeserialBlock:nil];
+                                       dataStructSerialBlock:nil
+                                     dataStructDeserialBlock:nil];
   }
   return DBSHARINGListFileMembersContinue;
 }
@@ -472,8 +473,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                    @"host" : @"api",
                                                    @"style" : @"rpc"
                                                  }
-                                      arraySerialBlock:nil
-                                    arrayDeserialBlock:nil];
+                                 dataStructSerialBlock:nil
+                               dataStructDeserialBlock:nil];
   }
   return DBSHARINGListFolderMembers;
 }
@@ -490,8 +491,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                            @"host" : @"api",
                                                            @"style" : @"rpc"
                                                          }
-                                              arraySerialBlock:nil
-                                            arrayDeserialBlock:nil];
+                                         dataStructSerialBlock:nil
+                                       dataStructDeserialBlock:nil];
   }
   return DBSHARINGListFolderMembersContinue;
 }
@@ -508,8 +509,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                              @"host" : @"api",
                                              @"style" : @"rpc"
                                            }
-                                arraySerialBlock:nil
-                              arrayDeserialBlock:nil];
+                           dataStructSerialBlock:nil
+                         dataStructDeserialBlock:nil];
   }
   return DBSHARINGListFolders;
 }
@@ -526,8 +527,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                      @"host" : @"api",
                                                      @"style" : @"rpc"
                                                    }
-                                        arraySerialBlock:nil
-                                      arrayDeserialBlock:nil];
+                                   dataStructSerialBlock:nil
+                                 dataStructDeserialBlock:nil];
   }
   return DBSHARINGListFoldersContinue;
 }
@@ -544,8 +545,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                       @"host" : @"api",
                                                       @"style" : @"rpc"
                                                     }
-                                         arraySerialBlock:nil
-                                       arrayDeserialBlock:nil];
+                                    dataStructSerialBlock:nil
+                                  dataStructDeserialBlock:nil];
   }
   return DBSHARINGListMountableFolders;
 }
@@ -562,8 +563,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                               @"host" : @"api",
                                                               @"style" : @"rpc"
                                                             }
-                                                 arraySerialBlock:nil
-                                               arrayDeserialBlock:nil];
+                                            dataStructSerialBlock:nil
+                                          dataStructDeserialBlock:nil];
   }
   return DBSHARINGListMountableFoldersContinue;
 }
@@ -580,8 +581,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                    @"host" : @"api",
                                                    @"style" : @"rpc"
                                                  }
-                                      arraySerialBlock:nil
-                                    arrayDeserialBlock:nil];
+                                 dataStructSerialBlock:nil
+                               dataStructDeserialBlock:nil];
   }
   return DBSHARINGListReceivedFiles;
 }
@@ -598,8 +599,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                            @"host" : @"api",
                                                            @"style" : @"rpc"
                                                          }
-                                              arraySerialBlock:nil
-                                            arrayDeserialBlock:nil];
+                                         dataStructSerialBlock:nil
+                                       dataStructDeserialBlock:nil];
   }
   return DBSHARINGListReceivedFilesContinue;
 }
@@ -616,8 +617,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                  @"host" : @"api",
                                                  @"style" : @"rpc"
                                                }
-                                    arraySerialBlock:nil
-                                  arrayDeserialBlock:nil];
+                               dataStructSerialBlock:nil
+                             dataStructDeserialBlock:nil];
   }
   return DBSHARINGListSharedLinks;
 }
@@ -634,8 +635,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                           @"host" : @"api",
                                                           @"style" : @"rpc"
                                                         }
-                                             arraySerialBlock:nil
-                                           arrayDeserialBlock:nil];
+                                        dataStructSerialBlock:nil
+                                      dataStructDeserialBlock:nil];
   }
   return DBSHARINGModifySharedLinkSettings;
 }
@@ -652,8 +653,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                              @"host" : @"api",
                                              @"style" : @"rpc"
                                            }
-                                arraySerialBlock:nil
-                              arrayDeserialBlock:nil];
+                           dataStructSerialBlock:nil
+                         dataStructDeserialBlock:nil];
   }
   return DBSHARINGMountFolder;
 }
@@ -670,8 +671,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                           @"host" : @"api",
                                                           @"style" : @"rpc"
                                                         }
-                                             arraySerialBlock:nil
-                                           arrayDeserialBlock:nil];
+                                        dataStructSerialBlock:nil
+                                      dataStructDeserialBlock:nil];
   }
   return DBSHARINGRelinquishFileMembership;
 }
@@ -688,8 +689,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                             @"host" : @"api",
                                                             @"style" : @"rpc"
                                                           }
-                                               arraySerialBlock:nil
-                                             arrayDeserialBlock:nil];
+                                          dataStructSerialBlock:nil
+                                        dataStructDeserialBlock:nil];
   }
   return DBSHARINGRelinquishFolderMembership;
 }
@@ -706,8 +707,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                   @"host" : @"api",
                                                   @"style" : @"rpc"
                                                 }
-                                     arraySerialBlock:nil
-                                   arrayDeserialBlock:nil];
+                                dataStructSerialBlock:nil
+                              dataStructDeserialBlock:nil];
   }
   return DBSHARINGRemoveFileMember;
 }
@@ -724,8 +725,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                    @"host" : @"api",
                                                    @"style" : @"rpc"
                                                  }
-                                      arraySerialBlock:nil
-                                    arrayDeserialBlock:nil];
+                                 dataStructSerialBlock:nil
+                               dataStructDeserialBlock:nil];
   }
   return DBSHARINGRemoveFileMember2;
 }
@@ -742,8 +743,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                     @"host" : @"api",
                                                     @"style" : @"rpc"
                                                   }
-                                       arraySerialBlock:nil
-                                     arrayDeserialBlock:nil];
+                                  dataStructSerialBlock:nil
+                                dataStructDeserialBlock:nil];
   }
   return DBSHARINGRemoveFolderMember;
 }
@@ -760,8 +761,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                   @"host" : @"api",
                                                   @"style" : @"rpc"
                                                 }
-                                     arraySerialBlock:nil
-                                   arrayDeserialBlock:nil];
+                                dataStructSerialBlock:nil
+                              dataStructDeserialBlock:nil];
   }
   return DBSHARINGRevokeSharedLink;
 }
@@ -778,8 +779,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                              @"host" : @"api",
                                              @"style" : @"rpc"
                                            }
-                                arraySerialBlock:nil
-                              arrayDeserialBlock:nil];
+                           dataStructSerialBlock:nil
+                         dataStructDeserialBlock:nil];
   }
   return DBSHARINGShareFolder;
 }
@@ -796,8 +797,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                 @"host" : @"api",
                                                 @"style" : @"rpc"
                                               }
-                                   arraySerialBlock:nil
-                                 arrayDeserialBlock:nil];
+                              dataStructSerialBlock:nil
+                            dataStructDeserialBlock:nil];
   }
   return DBSHARINGTransferFolder;
 }
@@ -814,8 +815,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                @"host" : @"api",
                                                @"style" : @"rpc"
                                              }
-                                  arraySerialBlock:nil
-                                arrayDeserialBlock:nil];
+                             dataStructSerialBlock:nil
+                           dataStructDeserialBlock:nil];
   }
   return DBSHARINGUnmountFolder;
 }
@@ -832,8 +833,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                              @"host" : @"api",
                                              @"style" : @"rpc"
                                            }
-                                arraySerialBlock:nil
-                              arrayDeserialBlock:nil];
+                           dataStructSerialBlock:nil
+                         dataStructDeserialBlock:nil];
   }
   return DBSHARINGUnshareFile;
 }
@@ -850,8 +851,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                @"host" : @"api",
                                                @"style" : @"rpc"
                                              }
-                                  arraySerialBlock:nil
-                                arrayDeserialBlock:nil];
+                             dataStructSerialBlock:nil
+                           dataStructDeserialBlock:nil];
   }
   return DBSHARINGUnshareFolder;
 }
@@ -868,8 +869,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                   @"host" : @"api",
                                                   @"style" : @"rpc"
                                                 }
-                                     arraySerialBlock:nil
-                                   arrayDeserialBlock:nil];
+                                dataStructSerialBlock:nil
+                              dataStructDeserialBlock:nil];
   }
   return DBSHARINGUpdateFileMember;
 }
@@ -886,8 +887,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                     @"host" : @"api",
                                                     @"style" : @"rpc"
                                                   }
-                                       arraySerialBlock:nil
-                                     arrayDeserialBlock:nil];
+                                  dataStructSerialBlock:nil
+                                dataStructDeserialBlock:nil];
   }
   return DBSHARINGUpdateFolderMember;
 }
@@ -904,8 +905,8 @@ static DBRoute *DBSHARINGUpdateFolderPolicy;
                                                     @"host" : @"api",
                                                     @"style" : @"rpc"
                                                   }
-                                       arraySerialBlock:nil
-                                     arrayDeserialBlock:nil];
+                                  dataStructSerialBlock:nil
+                                dataStructDeserialBlock:nil];
   }
   return DBSHARINGUpdateFolderPolicy;
 }

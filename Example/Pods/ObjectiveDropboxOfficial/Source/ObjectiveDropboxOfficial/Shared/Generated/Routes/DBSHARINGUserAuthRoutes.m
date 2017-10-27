@@ -102,6 +102,7 @@
 #import "DBSHARINGRevokeSharedLinkError.h"
 #import "DBSHARINGRouteObjects.h"
 #import "DBSHARINGShareFolderArg.h"
+#import "DBSHARINGShareFolderArgBase.h"
 #import "DBSHARINGShareFolderError.h"
 #import "DBSHARINGShareFolderErrorBase.h"
 #import "DBSHARINGShareFolderJobStatus.h"
@@ -136,6 +137,7 @@
 #import "DBSHARINGUpdateFolderMemberError.h"
 #import "DBSHARINGUpdateFolderPolicyArg.h"
 #import "DBSHARINGUpdateFolderPolicyError.h"
+#import "DBSHARINGUserFileMembershipInfo.h"
 #import "DBSHARINGUserMembershipInfo.h"
 #import "DBSHARINGViewerInfoPolicy.h"
 #import "DBSHARINGVisibility.h"
@@ -599,22 +601,22 @@
 }
 
 - (DBRpcTask *)shareFolder:(NSString *)path
-              memberPolicy:(DBSHARINGMemberPolicy *)memberPolicy
            aclUpdatePolicy:(DBSHARINGAclUpdatePolicy *)aclUpdatePolicy
-          sharedLinkPolicy:(DBSHARINGSharedLinkPolicy *)sharedLinkPolicy
                 forceAsync:(NSNumber *)forceAsync
+              memberPolicy:(DBSHARINGMemberPolicy *)memberPolicy
+          sharedLinkPolicy:(DBSHARINGSharedLinkPolicy *)sharedLinkPolicy
+          viewerInfoPolicy:(DBSHARINGViewerInfoPolicy *)viewerInfoPolicy
                    actions:(NSArray<DBSHARINGFolderAction *> *)actions
-              linkSettings:(DBSHARINGLinkSettings *)linkSettings
-          viewerInfoPolicy:(DBSHARINGViewerInfoPolicy *)viewerInfoPolicy {
+              linkSettings:(DBSHARINGLinkSettings *)linkSettings {
   DBRoute *route = DBSHARINGRouteObjects.DBSHARINGShareFolder;
   DBSHARINGShareFolderArg *arg = [[DBSHARINGShareFolderArg alloc] initWithPath:path
-                                                                  memberPolicy:memberPolicy
                                                                aclUpdatePolicy:aclUpdatePolicy
-                                                              sharedLinkPolicy:sharedLinkPolicy
                                                                     forceAsync:forceAsync
+                                                                  memberPolicy:memberPolicy
+                                                              sharedLinkPolicy:sharedLinkPolicy
+                                                              viewerInfoPolicy:viewerInfoPolicy
                                                                        actions:actions
-                                                                  linkSettings:linkSettings
-                                                              viewerInfoPolicy:viewerInfoPolicy];
+                                                                  linkSettings:linkSettings];
   return [self.client requestRpc:route arg:arg];
 }
 

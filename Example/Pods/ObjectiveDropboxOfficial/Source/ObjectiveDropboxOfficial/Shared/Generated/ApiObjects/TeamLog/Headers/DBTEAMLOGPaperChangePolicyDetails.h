@@ -8,8 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGEnableDisableChangePolicy;
 @class DBTEAMLOGPaperChangePolicyDetails;
+@class DBTEAMPOLICIESPaperEnabledPolicy;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,10 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// New Dropbox Paper policy.
-@property (nonatomic, readonly) DBTEAMLOGEnableDisableChangePolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMPOLICIESPaperEnabledPolicy *dNewValue;
 
 /// Previous Dropbox Paper policy. Might be missing due to historical data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGEnableDisableChangePolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMPOLICIESPaperEnabledPolicy *previousValue;
 
 #pragma mark - Constructors
 
@@ -45,8 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue
-                    previousValue:(nullable DBTEAMLOGEnableDisableChangePolicy *)previousValue;
+- (instancetype)initWithDNewValue:(DBTEAMPOLICIESPaperEnabledPolicy *)dNewValue
+                    previousValue:(nullable DBTEAMPOLICIESPaperEnabledPolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue;
+- (instancetype)initWithDNewValue:(DBTEAMPOLICIESPaperEnabledPolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGPaperChangePolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGPaperChangePolicyDetails *)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMLOGPaperChangePolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGPaperChangePolicyDetails` instances.

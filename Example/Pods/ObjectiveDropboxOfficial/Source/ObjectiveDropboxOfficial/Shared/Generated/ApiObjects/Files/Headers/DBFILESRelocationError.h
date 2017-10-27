@@ -56,6 +56,11 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationErrorTag) {
   /// `DBFILESRelocationArg` and `toPath` in `DBFILESRelocationArg`.
   DBFILESRelocationErrorDuplicatedOrNestedPaths,
 
+  /// Your move operation would result in an ownership transfer. You may
+  /// reissue the request with the field `allowOwnershipTransfer` in
+  /// `DBFILESRelocationArg` to true.
+  DBFILESRelocationErrorCantTransferOwnership,
+
   /// (no description).
   DBFILESRelocationErrorOther,
 
@@ -157,6 +162,17 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationErrorTag) {
 - (instancetype)initWithDuplicatedOrNestedPaths;
 
 ///
+/// Initializes union class with tag state of "cant_transfer_ownership".
+///
+/// Description of the "cant_transfer_ownership" tag state: Your move operation
+/// would result in an ownership transfer. You may reissue the request with the
+/// field `allowOwnershipTransfer` in `DBFILESRelocationArg` to true.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithCantTransferOwnership;
+
+///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
@@ -241,6 +257,15 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationErrorTag) {
 - (BOOL)isDuplicatedOrNestedPaths;
 
 ///
+/// Retrieves whether the union's current tag state has value
+/// "cant_transfer_ownership".
+///
+/// @return Whether the union's current tag state has value
+/// "cant_transfer_ownership".
+///
+- (BOOL)isCantTransferOwnership;
+
+///
 /// Retrieves whether the union's current tag state has value "other".
 ///
 /// @return Whether the union's current tag state has value "other".
@@ -271,7 +296,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESRelocationError` API object.
 ///
-+ (NSDictionary *)serialize:(DBFILESRelocationError *)instance;
++ (nullable NSDictionary *)serialize:(DBFILESRelocationError *)instance;
 
 ///
 /// Deserializes `DBFILESRelocationError` instances.

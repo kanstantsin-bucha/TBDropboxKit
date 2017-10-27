@@ -1,6 +1,0 @@
-framework module ObjectiveDropboxOfficial {
-  umbrella header "ObjectiveDropboxOfficial-OSX-umbrella.h"
-
-  export *
-  module * { export * }
-}

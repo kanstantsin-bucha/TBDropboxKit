@@ -56,6 +56,11 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
   /// `DBFILESRelocationArg` and `toPath` in `DBFILESRelocationArg`.
   DBFILESRelocationBatchErrorDuplicatedOrNestedPaths,
 
+  /// Your move operation would result in an ownership transfer. You may
+  /// reissue the request with the field `allowOwnershipTransfer` in
+  /// `DBFILESRelocationArg` to true.
+  DBFILESRelocationBatchErrorCantTransferOwnership,
+
   /// (no description).
   DBFILESRelocationBatchErrorOther,
 
@@ -161,6 +166,17 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 - (instancetype)initWithDuplicatedOrNestedPaths;
 
 ///
+/// Initializes union class with tag state of "cant_transfer_ownership".
+///
+/// Description of the "cant_transfer_ownership" tag state: Your move operation
+/// would result in an ownership transfer. You may reissue the request with the
+/// field `allowOwnershipTransfer` in `DBFILESRelocationArg` to true.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithCantTransferOwnership;
+
+///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
@@ -255,6 +271,15 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 - (BOOL)isDuplicatedOrNestedPaths;
 
 ///
+/// Retrieves whether the union's current tag state has value
+/// "cant_transfer_ownership".
+///
+/// @return Whether the union's current tag state has value
+/// "cant_transfer_ownership".
+///
+- (BOOL)isCantTransferOwnership;
+
+///
 /// Retrieves whether the union's current tag state has value "other".
 ///
 /// @return Whether the union's current tag state has value "other".
@@ -294,7 +319,7 @@ typedef NS_ENUM(NSInteger, DBFILESRelocationBatchErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESRelocationBatchError` API object.
 ///
-+ (NSDictionary *)serialize:(DBFILESRelocationBatchError *)instance;
++ (nullable NSDictionary *)serialize:(DBFILESRelocationBatchError *)instance;
 
 ///
 /// Deserializes `DBFILESRelocationBatchError` instances.

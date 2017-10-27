@@ -27,52 +27,52 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Target asset index.
-@property (nonatomic, readonly) NSNumber *targetIndex;
+/// Target asset position in the Assets list.
+@property (nonatomic, readonly) NSNumber *targetAssetIndex;
 
 /// Original shared folder name.
 @property (nonatomic, readonly, copy, nullable) NSString *originalFolderName;
 
-/// Sharing permission. Might be missing due to historical data gap.
-@property (nonatomic, readonly, copy, nullable) NSString *sharingPermission;
-
-/// Shared folder type. Might be missing due to historical data gap.
-@property (nonatomic, readonly, copy, nullable) NSString *sharedFolderType;
+/// New sharing permission. Might be missing due to historical data gap.
+@property (nonatomic, readonly, copy, nullable) NSString *dNewSharingPermission;
 
 /// Previous sharing permission. Might be missing due to historical data gap.
 @property (nonatomic, readonly, copy, nullable) NSString *previousSharingPermission;
+
+/// Shared folder type. Might be missing due to historical data gap.
+@property (nonatomic, readonly, copy, nullable) NSString *sharedFolderType;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param targetIndex Target asset index.
+/// @param targetAssetIndex Target asset position in the Assets list.
 /// @param originalFolderName Original shared folder name.
-/// @param sharingPermission Sharing permission. Might be missing due to
-/// historical data gap.
-/// @param sharedFolderType Shared folder type. Might be missing due to
+/// @param dNewSharingPermission New sharing permission. Might be missing due to
 /// historical data gap.
 /// @param previousSharingPermission Previous sharing permission. Might be
 /// missing due to historical data gap.
+/// @param sharedFolderType Shared folder type. Might be missing due to
+/// historical data gap.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithTargetIndex:(NSNumber *)targetIndex
-                 originalFolderName:(nullable NSString *)originalFolderName
-                  sharingPermission:(nullable NSString *)sharingPermission
-                   sharedFolderType:(nullable NSString *)sharedFolderType
-          previousSharingPermission:(nullable NSString *)previousSharingPermission;
+- (instancetype)initWithTargetAssetIndex:(NSNumber *)targetAssetIndex
+                      originalFolderName:(nullable NSString *)originalFolderName
+                   dNewSharingPermission:(nullable NSString *)dNewSharingPermission
+               previousSharingPermission:(nullable NSString *)previousSharingPermission
+                        sharedFolderType:(nullable NSString *)sharedFolderType;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param targetIndex Target asset index.
+/// @param targetAssetIndex Target asset position in the Assets list.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithTargetIndex:(NSNumber *)targetIndex;
+- (instancetype)initWithTargetAssetIndex:(NSNumber *)targetAssetIndex;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedContentChangeMemberRoleDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGSharedContentChangeMemberRoleDetails *)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedContentChangeMemberRoleDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedContentChangeMemberRoleDetails` instances.

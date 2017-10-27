@@ -27,19 +27,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Domain names.
-@property (nonatomic, readonly) NSArray<NSString *> *domainName;
+/// Domain name.
+@property (nonatomic, readonly, copy) NSString *domainName;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param domainName Domain names.
+/// @param domainName Domain name.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDomainName:(NSArray<NSString *> *)domainName;
+- (instancetype)initWithDomainName:(NSString *)domainName;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGAccountCaptureMigrateAccountDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGAccountCaptureMigrateAccountDetails *)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMLOGAccountCaptureMigrateAccountDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGAccountCaptureMigrateAccountDetails` instances.

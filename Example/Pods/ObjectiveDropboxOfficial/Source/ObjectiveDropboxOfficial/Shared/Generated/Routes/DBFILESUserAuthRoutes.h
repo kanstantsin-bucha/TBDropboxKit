@@ -9,16 +9,30 @@
 #import "DBTasks.h"
 
 @class DBASYNCPollError;
-@class DBFILESAddPropertiesError;
+@class DBFILEPROPERTIESAddPropertiesError;
+@class DBFILEPROPERTIESGetTemplateResult;
+@class DBFILEPROPERTIESInvalidPropertyGroupError;
+@class DBFILEPROPERTIESListTemplateResult;
+@class DBFILEPROPERTIESLookUpPropertiesError;
+@class DBFILEPROPERTIESLookupError;
+@class DBFILEPROPERTIESPropertyField;
+@class DBFILEPROPERTIESPropertyFieldTemplate;
+@class DBFILEPROPERTIESPropertyGroup;
+@class DBFILEPROPERTIESPropertyGroupUpdate;
+@class DBFILEPROPERTIESRemovePropertiesError;
+@class DBFILEPROPERTIESTemplateError;
+@class DBFILEPROPERTIESUpdatePropertiesError;
 @class DBFILESAlphaGetMetadataError;
 @class DBFILESCommitInfo;
 @class DBFILESCreateFolderError;
+@class DBFILESCreateFolderResult;
 @class DBFILESDeleteArg;
 @class DBFILESDeleteBatchError;
 @class DBFILESDeleteBatchJobStatus;
 @class DBFILESDeleteBatchLaunch;
 @class DBFILESDeleteBatchResult;
 @class DBFILESDeleteError;
+@class DBFILESDeleteResult;
 @class DBFILESDownloadError;
 @class DBFILESFileMetadata;
 @class DBFILESFileSharingInfo;
@@ -29,7 +43,9 @@
 @class DBFILESGetMetadataError;
 @class DBFILESGetTemporaryLinkError;
 @class DBFILESGetTemporaryLinkResult;
-@class DBFILESInvalidPropertyGroupError;
+@class DBFILESGetThumbnailBatchError;
+@class DBFILESGetThumbnailBatchResult;
+@class DBFILESGetThumbnailBatchResultEntry;
 @class DBFILESListFolderContinueError;
 @class DBFILESListFolderError;
 @class DBFILESListFolderGetLatestCursorResult;
@@ -37,20 +53,19 @@
 @class DBFILESListFolderLongpollResult;
 @class DBFILESListFolderResult;
 @class DBFILESListRevisionsError;
+@class DBFILESListRevisionsMode;
 @class DBFILESListRevisionsResult;
-@class DBFILESLookUpPropertiesError;
 @class DBFILESLookupError;
 @class DBFILESMediaInfo;
 @class DBFILESMetadata;
 @class DBFILESPreviewError;
-@class DBFILESPropertyGroupUpdate;
 @class DBFILESRelocationBatchError;
 @class DBFILESRelocationBatchJobStatus;
 @class DBFILESRelocationBatchLaunch;
 @class DBFILESRelocationBatchResult;
 @class DBFILESRelocationError;
 @class DBFILESRelocationPath;
-@class DBFILESRemovePropertiesError;
+@class DBFILESRelocationResult;
 @class DBFILESRestoreError;
 @class DBFILESSaveCopyReferenceError;
 @class DBFILESSaveCopyReferenceResult;
@@ -61,10 +76,11 @@
 @class DBFILESSearchMatch;
 @class DBFILESSearchMode;
 @class DBFILESSearchResult;
+@class DBFILESSharedLink;
+@class DBFILESThumbnailArg;
 @class DBFILESThumbnailError;
 @class DBFILESThumbnailFormat;
 @class DBFILESThumbnailSize;
-@class DBFILESUpdatePropertiesError;
 @class DBFILESUploadError;
 @class DBFILESUploadErrorWithProperties;
 @class DBFILESUploadSessionCursor;
@@ -80,12 +96,6 @@
 @class DBFILESWriteError;
 @class DBFILESWriteMode;
 @class DBNilObject;
-@class DBPROPERTIESGetPropertyTemplateResult;
-@class DBPROPERTIESListPropertyTemplateIds;
-@class DBPROPERTIESPropertyField;
-@class DBPROPERTIESPropertyFieldTemplate;
-@class DBPROPERTIESPropertyGroup;
-@class DBPROPERTIESPropertyTemplateError;
 
 @protocol DBTransportClient;
 
@@ -162,7 +172,7 @@ alphaUploadUrl:(NSString *)path
     autorename:(nullable NSNumber *)autorename
 clientModified:(nullable NSDate *)clientModified
           mute:(nullable NSNumber *)mute
-propertyGroups:(nullable NSArray<DBPROPERTIESPropertyGroup *> *)propertyGroups
+propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGroups
       inputUrl:(NSString *)inputUrl;
 
 ///
@@ -195,7 +205,7 @@ alphaUploadData:(NSString *)path
      autorename:(nullable NSNumber *)autorename
  clientModified:(nullable NSDate *)clientModified
            mute:(nullable NSNumber *)mute
- propertyGroups:(nullable NSArray<DBPROPERTIESPropertyGroup *> *)propertyGroups
+ propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGroups
       inputData:(NSData *)inputData;
 
 ///
@@ -229,26 +239,30 @@ alphaUploadStream:(NSString *)path
        autorename:(nullable NSNumber *)autorename
    clientModified:(nullable NSDate *)clientModified
              mute:(nullable NSNumber *)mute
-   propertyGroups:(nullable NSArray<DBPROPERTIESPropertyGroup *> *)propertyGroups
+   propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGroups
       inputStream:(NSInputStream *)inputStream;
 
 ///
-/// Copy a file or folder to a different location in the user's Dropbox. If the source path is a folder all its contents
-/// will be copied.
+/// DEPRECATED: Copy a file or folder to a different location in the user's Dropbox. If the source path is a folder all
+/// its contents will be copied.
 ///
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESMetadata` object on success or a
 /// `DBFILESRelocationError` object on failure.
 ///
-- (DBRpcTask<DBFILESMetadata *, DBFILESRelocationError *> *)dCopy:(NSString *)fromPath toPath:(NSString *)toPath;
+- (DBRpcTask<DBFILESMetadata *, DBFILESRelocationError *> *)dCopy:(NSString *)fromPath
+                                                           toPath:(NSString *)toPath
+    __deprecated_msg("dCopy is deprecated. Use dCopyV2.");
 
 ///
-/// Copy a file or folder to a different location in the user's Dropbox. If the source path is a folder all its contents
-/// will be copied.
+/// DEPRECATED: Copy a file or folder to a different location in the user's Dropbox. If the source path is a folder all
+/// its contents will be copied.
 ///
 /// @param allowSharedFolder If true, `dCopy` will copy contents in shared folder, otherwise `cantCopySharedFolder` in
 /// `DBFILESRelocationError` will be returned if fromPath contains shared folder. This field is always true for `move`.
 /// @param autorename If there's a conflict, have the Dropbox server try to autorename the file to avoid the conflict.
+/// @param allowOwnershipTransfer Allow moves by owner even if it would result in an ownership transfer for the content
+/// being moved. This does not apply to copies.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESMetadata` object on success or a
 /// `DBFILESRelocationError` object on failure.
@@ -256,7 +270,9 @@ alphaUploadStream:(NSString *)path
 - (DBRpcTask<DBFILESMetadata *, DBFILESRelocationError *> *)dCopy:(NSString *)fromPath
                                                            toPath:(NSString *)toPath
                                                 allowSharedFolder:(nullable NSNumber *)allowSharedFolder
-                                                       autorename:(nullable NSNumber *)autorename;
+                                                       autorename:(nullable NSNumber *)autorename
+                                           allowOwnershipTransfer:(nullable NSNumber *)allowOwnershipTransfer
+    __deprecated_msg("dCopy is deprecated. Use dCopyV2.");
 
 ///
 /// Copy multiple files or folders to different locations at once in the user's Dropbox. If `allowSharedFolder` in
@@ -285,13 +301,16 @@ alphaUploadStream:(NSString *)path
 /// field is always true for `moveBatch`.
 /// @param autorename If there's a conflict with any file, have the Dropbox server try to autorename that file to avoid
 /// the conflict.
+/// @param allowOwnershipTransfer Allow moves by owner even if it would result in an ownership transfer for the content
+/// being moved. This does not apply to copies.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESRelocationBatchLaunch` object on success or
 /// a `void` object on failure.
 ///
 - (DBRpcTask<DBFILESRelocationBatchLaunch *, DBNilObject *> *)dCopyBatch:(NSArray<DBFILESRelocationPath *> *)entries
                                                        allowSharedFolder:(nullable NSNumber *)allowSharedFolder
-                                                              autorename:(nullable NSNumber *)autorename;
+                                                              autorename:(nullable NSNumber *)autorename
+                                                  allowOwnershipTransfer:(nullable NSNumber *)allowOwnershipTransfer;
 
 ///
 /// Returns the status of an asynchronous job for `dCopyBatch`. If success, it returns list of results for each entry.
@@ -329,17 +348,48 @@ alphaUploadStream:(NSString *)path
                                                                                                 path:(NSString *)path;
 
 ///
-/// Create a folder at a given path.
+/// Copy a file or folder to a different location in the user's Dropbox. If the source path is a folder all its contents
+/// will be copied.
+///
+///
+/// @return Through the response callback, the caller will receive a `DBFILESRelocationResult` object on success or a
+/// `DBFILESRelocationError` object on failure.
+///
+- (DBRpcTask<DBFILESRelocationResult *, DBFILESRelocationError *> *)dCopyV2:(NSString *)fromPath
+                                                                     toPath:(NSString *)toPath;
+
+///
+/// Copy a file or folder to a different location in the user's Dropbox. If the source path is a folder all its contents
+/// will be copied.
+///
+/// @param allowSharedFolder If true, `dCopy` will copy contents in shared folder, otherwise `cantCopySharedFolder` in
+/// `DBFILESRelocationError` will be returned if fromPath contains shared folder. This field is always true for `move`.
+/// @param autorename If there's a conflict, have the Dropbox server try to autorename the file to avoid the conflict.
+/// @param allowOwnershipTransfer Allow moves by owner even if it would result in an ownership transfer for the content
+/// being moved. This does not apply to copies.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESRelocationResult` object on success or a
+/// `DBFILESRelocationError` object on failure.
+///
+- (DBRpcTask<DBFILESRelocationResult *, DBFILESRelocationError *> *)dCopyV2:(NSString *)fromPath
+                                                                     toPath:(NSString *)toPath
+                                                          allowSharedFolder:(nullable NSNumber *)allowSharedFolder
+                                                                 autorename:(nullable NSNumber *)autorename
+                                                     allowOwnershipTransfer:(nullable NSNumber *)allowOwnershipTransfer;
+
+///
+/// DEPRECATED: Create a folder at a given path.
 ///
 /// @param path Path in the user's Dropbox to create.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESFolderMetadata` object on success or a
 /// `DBFILESCreateFolderError` object on failure.
 ///
-- (DBRpcTask<DBFILESFolderMetadata *, DBFILESCreateFolderError *> *)createFolder:(NSString *)path;
+- (DBRpcTask<DBFILESFolderMetadata *, DBFILESCreateFolderError *> *)createFolder:(NSString *)path
+    __deprecated_msg("createFolder is deprecated. Use createFolderV2.");
 
 ///
-/// Create a folder at a given path.
+/// DEPRECATED: Create a folder at a given path.
 ///
 /// @param path Path in the user's Dropbox to create.
 /// @param autorename If there's a conflict, have the Dropbox server try to autorename the folder to avoid the conflict.
@@ -348,19 +398,43 @@ alphaUploadStream:(NSString *)path
 /// `DBFILESCreateFolderError` object on failure.
 ///
 - (DBRpcTask<DBFILESFolderMetadata *, DBFILESCreateFolderError *> *)createFolder:(NSString *)path
-                                                                      autorename:(nullable NSNumber *)autorename;
+                                                                      autorename:(nullable NSNumber *)autorename
+    __deprecated_msg("createFolder is deprecated. Use createFolderV2.");
 
 ///
-/// Delete the file or folder at a given path. If the path is a folder, all its contents will be deleted too. A
-/// successful response indicates that the file or folder was deleted. The returned metadata will be the corresponding
-/// FileMetadata or FolderMetadata for the item at time of deletion, and not a DeletedMetadata object.
+/// Create a folder at a given path.
+///
+/// @param path Path in the user's Dropbox to create.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESCreateFolderResult` object on success or a
+/// `DBFILESCreateFolderError` object on failure.
+///
+- (DBRpcTask<DBFILESCreateFolderResult *, DBFILESCreateFolderError *> *)createFolderV2:(NSString *)path;
+
+///
+/// Create a folder at a given path.
+///
+/// @param path Path in the user's Dropbox to create.
+/// @param autorename If there's a conflict, have the Dropbox server try to autorename the folder to avoid the conflict.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESCreateFolderResult` object on success or a
+/// `DBFILESCreateFolderError` object on failure.
+///
+- (DBRpcTask<DBFILESCreateFolderResult *, DBFILESCreateFolderError *> *)createFolderV2:(NSString *)path
+                                                                            autorename:(nullable NSNumber *)autorename;
+
+///
+/// DEPRECATED: Delete the file or folder at a given path. If the path is a folder, all its contents will be deleted
+/// too. A successful response indicates that the file or folder was deleted. The returned metadata will be the
+/// corresponding FileMetadata or FolderMetadata for the item at time of deletion, and not a DeletedMetadata object.
 ///
 /// @param path Path in the user's Dropbox to delete.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESMetadata` object on success or a
 /// `DBFILESDeleteError` object on failure.
 ///
-- (DBRpcTask<DBFILESMetadata *, DBFILESDeleteError *> *)delete_:(NSString *)path;
+- (DBRpcTask<DBFILESMetadata *, DBFILESDeleteError *> *)delete_:(NSString *)path
+    __deprecated_msg("delete_ is deprecated. Use deleteV2.");
 
 ///
 /// Delete multiple files/folders at once. This route is asynchronous, which returns a job ID immediately and runs the
@@ -384,6 +458,18 @@ alphaUploadStream:(NSString *)path
 - (DBRpcTask<DBFILESDeleteBatchJobStatus *, DBASYNCPollError *> *)deleteBatchCheck:(NSString *)asyncJobId;
 
 ///
+/// Delete the file or folder at a given path. If the path is a folder, all its contents will be deleted too. A
+/// successful response indicates that the file or folder was deleted. The returned metadata will be the corresponding
+/// FileMetadata or FolderMetadata for the item at time of deletion, and not a DeletedMetadata object.
+///
+/// @param path Path in the user's Dropbox to delete.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESDeleteResult` object on success or a
+/// `DBFILESDeleteError` object on failure.
+///
+- (DBRpcTask<DBFILESDeleteResult *, DBFILESDeleteError *> *)deleteV2:(NSString *)path;
+
+///
 /// Download a file from a user's Dropbox.
 ///
 /// @param path The path of the file to download.
@@ -403,7 +489,7 @@ alphaUploadStream:(NSString *)path
 /// Download a file from a user's Dropbox.
 ///
 /// @param path The path of the file to download.
-/// @param rev Deprecated. Please specify revision in path instead.
+/// @param rev Please specify revision in path instead.
 /// @param overwrite A boolean to set behavior in the event of a naming conflict. `YES` will overwrite conflicting file
 /// at destination. `NO` will take no action, resulting in an `NSError` returned to the response handler in the event of
 /// a file conflict.
@@ -443,7 +529,7 @@ alphaUploadStream:(NSString *)path
 /// Download a file from a user's Dropbox.
 ///
 /// @param path The path of the file to download.
-/// @param rev Deprecated. Please specify revision in path instead.
+/// @param rev Please specify revision in path instead.
 /// @param overwrite A boolean to set behavior in the event of a naming conflict. `YES` will overwrite conflicting file
 /// at destination. `NO` will take no action, resulting in an `NSError` returned to the response handler in the event of
 /// a file conflict.
@@ -477,7 +563,7 @@ alphaUploadStream:(NSString *)path
 /// Download a file from a user's Dropbox.
 ///
 /// @param path The path of the file to download.
-/// @param rev Deprecated. Please specify revision in path instead.
+/// @param rev Please specify revision in path instead.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESFileMetadata` object on success or a
 /// `DBFILESDownloadError` object on failure.
@@ -505,7 +591,7 @@ alphaUploadStream:(NSString *)path
 /// Download a file from a user's Dropbox.
 ///
 /// @param path The path of the file to download.
-/// @param rev Deprecated. Please specify revision in path instead.
+/// @param rev Please specify revision in path instead.
 /// @param byteOffsetStart For partial file download. Download file beginning from this starting byte position. Must
 /// include valid end range value.
 /// @param byteOffsetEnd For partial file download. Download file up until this ending byte position. Must include valid
@@ -574,7 +660,7 @@ alphaUploadStream:(NSString *)path
 /// error.
 ///
 /// @param path The path of the file to preview.
-/// @param rev Deprecated. Please specify revision in path instead.
+/// @param rev Please specify revision in path instead.
 /// @param overwrite A boolean to set behavior in the event of a naming conflict. `YES` will overwrite conflicting file
 /// at destination. `NO` will take no action, resulting in an `NSError` returned to the response handler in the event of
 /// a file conflict.
@@ -620,7 +706,7 @@ alphaUploadStream:(NSString *)path
 /// error.
 ///
 /// @param path The path of the file to preview.
-/// @param rev Deprecated. Please specify revision in path instead.
+/// @param rev Please specify revision in path instead.
 /// @param overwrite A boolean to set behavior in the event of a naming conflict. `YES` will overwrite conflicting file
 /// at destination. `NO` will take no action, resulting in an `NSError` returned to the response handler in the event of
 /// a file conflict.
@@ -660,7 +746,7 @@ alphaUploadStream:(NSString *)path
 /// error.
 ///
 /// @param path The path of the file to preview.
-/// @param rev Deprecated. Please specify revision in path instead.
+/// @param rev Please specify revision in path instead.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESFileMetadata` object on success or a
 /// `DBFILESPreviewError` object on failure.
@@ -694,7 +780,7 @@ alphaUploadStream:(NSString *)path
 /// error.
 ///
 /// @param path The path of the file to preview.
-/// @param rev Deprecated. Please specify revision in path instead.
+/// @param rev Please specify revision in path instead.
 /// @param byteOffsetStart For partial file download. Download file beginning from this starting byte position. Must
 /// include valid end range value.
 /// @param byteOffsetEnd For partial file download. Download file up until this ending byte position. Must include valid
@@ -880,6 +966,19 @@ getThumbnailData:(NSString *)path
    byteOffsetEnd:(NSNumber *)byteOffsetEnd;
 
 ///
+/// Get thumbnails for a list of images. We allow up to 25 thumbnails in a single batch. This method currently supports
+/// files with the following file extensions: jpg, jpeg, png, tiff, tif, gif and bmp. Photos that are larger than 20MB
+/// in size won't be converted to a thumbnail.
+///
+/// @param entries List of files to get thumbnails.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESGetThumbnailBatchResult` object on success
+/// or a `DBFILESGetThumbnailBatchError` object on failure.
+///
+- (DBRpcTask<DBFILESGetThumbnailBatchResult *, DBFILESGetThumbnailBatchError *> *)getThumbnailBatch:
+    (NSArray<DBFILESThumbnailArg *> *)entries;
+
+///
 /// Starts returning the contents of a folder. If the result's `hasMore` in `DBFILESListFolderResult` field is true,
 /// call `listFolderContinue` with the returned `cursor` in `DBFILESListFolderResult` to retrieve more entries. If
 /// you're using `recursive` in `DBFILESListFolderArg` set to true to keep a local cache of the contents of a Dropbox
@@ -894,7 +993,7 @@ getThumbnailData:(NSString *)path
 /// multiple `listFolder` or `listFolderContinue` calls with same parameters are made simultaneously by same API app for
 /// same user. If your app implements retry logic, please hold off the retry until the previous request finishes.
 ///
-/// @param path The path to the folder you want to see the contents of.
+/// @param path A unique identifier for the file.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESListFolderResult` object on success or a
 /// `DBFILESListFolderError` object on failure.
@@ -916,7 +1015,7 @@ getThumbnailData:(NSString *)path
 /// multiple `listFolder` or `listFolderContinue` calls with same parameters are made simultaneously by same API app for
 /// same user. If your app implements retry logic, please hold off the retry until the previous request finishes.
 ///
-/// @param path The path to the folder you want to see the contents of.
+/// @param path A unique identifier for the file.
 /// @param recursive If true, the list folder operation will be applied recursively to all subfolders and the response
 /// will contain contents of all subfolders.
 /// @param includeMediaInfo If true, `mediaInfo` in `DBFILESFileMetadata` is set for photo and video.
@@ -924,16 +1023,26 @@ getThumbnailData:(NSString *)path
 /// deleted.
 /// @param includeHasExplicitSharedMembers If true, the results will include a flag for each file indicating whether or
 /// not  that file has any explicit members.
+/// @param includeMountedFolders If true, the results will include entries under mounted folders which includes app
+/// folder, shared folder and team folder.
+/// @param limit The maximum number of results to return per request. Note: This is an approximate number and there can
+/// be slightly more entries returned in some cases.
+/// @param sharedLink A shared link to list the contents of. If the link is password-protected, the password must be
+/// provided. If this field is present, `path` in `DBFILESListFolderArg` will be relative to root of the shared link.
+/// Only non-recursive mode is supported for shared link.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESListFolderResult` object on success or a
 /// `DBFILESListFolderError` object on failure.
 ///
-- (DBRpcTask<DBFILESListFolderResult *, DBFILESListFolderError *> *)listFolder:(NSString *)path
-                                                                     recursive:(nullable NSNumber *)recursive
-                                                              includeMediaInfo:(nullable NSNumber *)includeMediaInfo
-                                                                includeDeleted:(nullable NSNumber *)includeDeleted
-                                               includeHasExplicitSharedMembers:
-                                                   (nullable NSNumber *)includeHasExplicitSharedMembers;
+- (DBRpcTask<DBFILESListFolderResult *, DBFILESListFolderError *> *)
+                     listFolder:(NSString *)path
+                      recursive:(nullable NSNumber *)recursive
+               includeMediaInfo:(nullable NSNumber *)includeMediaInfo
+                 includeDeleted:(nullable NSNumber *)includeDeleted
+includeHasExplicitSharedMembers:(nullable NSNumber *)includeHasExplicitSharedMembers
+          includeMountedFolders:(nullable NSNumber *)includeMountedFolders
+                          limit:(nullable NSNumber *)limit
+                     sharedLink:(nullable DBFILESSharedLink *)sharedLink;
 
 ///
 /// Once a cursor has been retrieved from `listFolder`, use this to paginate through all files and retrieve updates to
@@ -951,7 +1060,7 @@ getThumbnailData:(NSString *)path
 /// return any entries. This endpoint is for app which only needs to know about new files and modifications and doesn't
 /// need to know about files that already exist in Dropbox.
 ///
-/// @param path The path to the folder you want to see the contents of.
+/// @param path A unique identifier for the file.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESListFolderGetLatestCursorResult` object on
 /// success or a `DBFILESListFolderError` object on failure.
@@ -964,7 +1073,7 @@ getThumbnailData:(NSString *)path
 /// return any entries. This endpoint is for app which only needs to know about new files and modifications and doesn't
 /// need to know about files that already exist in Dropbox.
 ///
-/// @param path The path to the folder you want to see the contents of.
+/// @param path A unique identifier for the file.
 /// @param recursive If true, the list folder operation will be applied recursively to all subfolders and the response
 /// will contain contents of all subfolders.
 /// @param includeMediaInfo If true, `mediaInfo` in `DBFILESFileMetadata` is set for photo and video.
@@ -972,6 +1081,13 @@ getThumbnailData:(NSString *)path
 /// deleted.
 /// @param includeHasExplicitSharedMembers If true, the results will include a flag for each file indicating whether or
 /// not  that file has any explicit members.
+/// @param includeMountedFolders If true, the results will include entries under mounted folders which includes app
+/// folder, shared folder and team folder.
+/// @param limit The maximum number of results to return per request. Note: This is an approximate number and there can
+/// be slightly more entries returned in some cases.
+/// @param sharedLink A shared link to list the contents of. If the link is password-protected, the password must be
+/// provided. If this field is present, `path` in `DBFILESListFolderArg` will be relative to root of the shared link.
+/// Only non-recursive mode is supported for shared link.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESListFolderGetLatestCursorResult` object on
 /// success or a `DBFILESListFolderError` object on failure.
@@ -981,7 +1097,10 @@ getThumbnailData:(NSString *)path
                       recursive:(nullable NSNumber *)recursive
                includeMediaInfo:(nullable NSNumber *)includeMediaInfo
                  includeDeleted:(nullable NSNumber *)includeDeleted
-includeHasExplicitSharedMembers:(nullable NSNumber *)includeHasExplicitSharedMembers;
+includeHasExplicitSharedMembers:(nullable NSNumber *)includeHasExplicitSharedMembers
+          includeMountedFolders:(nullable NSNumber *)includeMountedFolders
+                          limit:(nullable NSNumber *)limit
+                     sharedLink:(nullable DBFILESSharedLink *)sharedLink;
 
 ///
 /// A longpoll endpoint to wait for changes on an account. In conjunction with `listFolderContinue`, this call gives you
@@ -1020,7 +1139,12 @@ listFolderLongpoll:(NSString *)cursor
            timeout:(nullable NSNumber *)timeout;
 
 ///
-/// Return revisions of a file.
+/// Returns revisions for files based on a file path or a file id. The file path or file id is identified from the
+/// latest file entry at the given file path or id. This end point allows your app to query either by file path or file
+/// id by setting the mode parameter appropriately. In the `path` in `DBFILESListRevisionsMode` (default) mode, all
+/// revisions at the same file path as the latest file entry are returned. If revisions with the same file id are
+/// desired, then mode must be set to `id_` in `DBFILESListRevisionsMode`. The `id_` in `DBFILESListRevisionsMode` mode
+/// is useful to retrieve revisions for a given file across moves or renames.
 ///
 /// @param path The path to the file you want to see the revisions of.
 ///
@@ -1030,34 +1154,46 @@ listFolderLongpoll:(NSString *)cursor
 - (DBRpcTask<DBFILESListRevisionsResult *, DBFILESListRevisionsError *> *)listRevisions:(NSString *)path;
 
 ///
-/// Return revisions of a file.
+/// Returns revisions for files based on a file path or a file id. The file path or file id is identified from the
+/// latest file entry at the given file path or id. This end point allows your app to query either by file path or file
+/// id by setting the mode parameter appropriately. In the `path` in `DBFILESListRevisionsMode` (default) mode, all
+/// revisions at the same file path as the latest file entry are returned. If revisions with the same file id are
+/// desired, then mode must be set to `id_` in `DBFILESListRevisionsMode`. The `id_` in `DBFILESListRevisionsMode` mode
+/// is useful to retrieve revisions for a given file across moves or renames.
 ///
 /// @param path The path to the file you want to see the revisions of.
+/// @param mode Determines the behavior of the API in listing the revisions for a given file path or id.
 /// @param limit The maximum number of revision entries returned.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESListRevisionsResult` object on success or a
 /// `DBFILESListRevisionsError` object on failure.
 ///
-- (DBRpcTask<DBFILESListRevisionsResult *, DBFILESListRevisionsError *> *)listRevisions:(NSString *)path
-                                                                                  limit:(nullable NSNumber *)limit;
+- (DBRpcTask<DBFILESListRevisionsResult *, DBFILESListRevisionsError *> *)
+listRevisions:(NSString *)path
+         mode:(nullable DBFILESListRevisionsMode *)mode
+        limit:(nullable NSNumber *)limit;
 
 ///
-/// Move a file or folder to a different location in the user's Dropbox. If the source path is a folder all its contents
-/// will be moved.
+/// DEPRECATED: Move a file or folder to a different location in the user's Dropbox. If the source path is a folder all
+/// its contents will be moved.
 ///
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESMetadata` object on success or a
 /// `DBFILESRelocationError` object on failure.
 ///
-- (DBRpcTask<DBFILESMetadata *, DBFILESRelocationError *> *)move:(NSString *)fromPath toPath:(NSString *)toPath;
+- (DBRpcTask<DBFILESMetadata *, DBFILESRelocationError *> *)move:(NSString *)fromPath
+                                                          toPath:(NSString *)toPath
+    __deprecated_msg("move is deprecated. Use moveV2.");
 
 ///
-/// Move a file or folder to a different location in the user's Dropbox. If the source path is a folder all its contents
-/// will be moved.
+/// DEPRECATED: Move a file or folder to a different location in the user's Dropbox. If the source path is a folder all
+/// its contents will be moved.
 ///
 /// @param allowSharedFolder If true, `dCopy` will copy contents in shared folder, otherwise `cantCopySharedFolder` in
 /// `DBFILESRelocationError` will be returned if fromPath contains shared folder. This field is always true for `move`.
 /// @param autorename If there's a conflict, have the Dropbox server try to autorename the file to avoid the conflict.
+/// @param allowOwnershipTransfer Allow moves by owner even if it would result in an ownership transfer for the content
+/// being moved. This does not apply to copies.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESMetadata` object on success or a
 /// `DBFILESRelocationError` object on failure.
@@ -1065,7 +1201,9 @@ listFolderLongpoll:(NSString *)cursor
 - (DBRpcTask<DBFILESMetadata *, DBFILESRelocationError *> *)move:(NSString *)fromPath
                                                           toPath:(NSString *)toPath
                                                allowSharedFolder:(nullable NSNumber *)allowSharedFolder
-                                                      autorename:(nullable NSNumber *)autorename;
+                                                      autorename:(nullable NSNumber *)autorename
+                                          allowOwnershipTransfer:(nullable NSNumber *)allowOwnershipTransfer
+    __deprecated_msg("move is deprecated. Use moveV2.");
 
 ///
 /// Move multiple files or folders to different locations at once in the user's Dropbox. This route is 'all or nothing',
@@ -1090,13 +1228,16 @@ listFolderLongpoll:(NSString *)cursor
 /// field is always true for `moveBatch`.
 /// @param autorename If there's a conflict with any file, have the Dropbox server try to autorename that file to avoid
 /// the conflict.
+/// @param allowOwnershipTransfer Allow moves by owner even if it would result in an ownership transfer for the content
+/// being moved. This does not apply to copies.
 ///
 /// @return Through the response callback, the caller will receive a `DBFILESRelocationBatchLaunch` object on success or
 /// a `void` object on failure.
 ///
 - (DBRpcTask<DBFILESRelocationBatchLaunch *, DBNilObject *> *)moveBatch:(NSArray<DBFILESRelocationPath *> *)entries
                                                       allowSharedFolder:(nullable NSNumber *)allowSharedFolder
-                                                             autorename:(nullable NSNumber *)autorename;
+                                                             autorename:(nullable NSNumber *)autorename
+                                                 allowOwnershipTransfer:(nullable NSNumber *)allowOwnershipTransfer;
 
 ///
 /// Returns the status of an asynchronous job for `moveBatch`. If success, it returns list of results for each entry.
@@ -1110,6 +1251,36 @@ listFolderLongpoll:(NSString *)cursor
 - (DBRpcTask<DBFILESRelocationBatchJobStatus *, DBASYNCPollError *> *)moveBatchCheck:(NSString *)asyncJobId;
 
 ///
+/// Move a file or folder to a different location in the user's Dropbox. If the source path is a folder all its contents
+/// will be moved.
+///
+///
+/// @return Through the response callback, the caller will receive a `DBFILESRelocationResult` object on success or a
+/// `DBFILESRelocationError` object on failure.
+///
+- (DBRpcTask<DBFILESRelocationResult *, DBFILESRelocationError *> *)moveV2:(NSString *)fromPath
+                                                                    toPath:(NSString *)toPath;
+
+///
+/// Move a file or folder to a different location in the user's Dropbox. If the source path is a folder all its contents
+/// will be moved.
+///
+/// @param allowSharedFolder If true, `dCopy` will copy contents in shared folder, otherwise `cantCopySharedFolder` in
+/// `DBFILESRelocationError` will be returned if fromPath contains shared folder. This field is always true for `move`.
+/// @param autorename If there's a conflict, have the Dropbox server try to autorename the file to avoid the conflict.
+/// @param allowOwnershipTransfer Allow moves by owner even if it would result in an ownership transfer for the content
+/// being moved. This does not apply to copies.
+///
+/// @return Through the response callback, the caller will receive a `DBFILESRelocationResult` object on success or a
+/// `DBFILESRelocationError` object on failure.
+///
+- (DBRpcTask<DBFILESRelocationResult *, DBFILESRelocationError *> *)moveV2:(NSString *)fromPath
+                                                                    toPath:(NSString *)toPath
+                                                         allowSharedFolder:(nullable NSNumber *)allowSharedFolder
+                                                                autorename:(nullable NSNumber *)autorename
+                                                    allowOwnershipTransfer:(nullable NSNumber *)allowOwnershipTransfer;
+
+///
 /// Permanently delete the file or folder at a given path (see https://www.dropbox.com/en/help/40). Note: This endpoint
 /// is only available for Dropbox Business apps.
 ///
@@ -1121,80 +1292,82 @@ listFolderLongpoll:(NSString *)cursor
 - (DBRpcTask<DBNilObject *, DBFILESDeleteError *> *)permanentlyDelete:(NSString *)path;
 
 ///
-/// Add custom properties to a file using a filled property template. See properties/template/add to create new property
-/// templates.
+/// DEPRECATED: The propertiesAdd route
 ///
-/// @param path A unique identifier for the file.
-/// @param propertyGroups Filled custom property templates associated with a file.
+/// @param path A unique identifier for the file or folder.
+/// @param propertyGroups The property groups which are to be added to a Dropbox file.
 ///
 /// @return Through the response callback, the caller will receive a `void` object on success or a
-/// `DBFILESAddPropertiesError` object on failure.
+/// `DBFILEPROPERTIESAddPropertiesError` object on failure.
 ///
-- (DBRpcTask<DBNilObject *, DBFILESAddPropertiesError *> *)propertiesAdd:(NSString *)path
-                                                          propertyGroups:
-                                                              (NSArray<DBPROPERTIESPropertyGroup *> *)propertyGroups;
+- (DBRpcTask<DBNilObject *, DBFILEPROPERTIESAddPropertiesError *> *)
+ propertiesAdd:(NSString *)path
+propertyGroups:(NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGroups
+    __deprecated_msg("propertiesAdd is deprecated.");
 
 ///
-/// Overwrite custom properties from a specified template associated with a file.
+/// DEPRECATED: The propertiesOverwrite route
 ///
-/// @param path A unique identifier for the file.
-/// @param propertyGroups Filled custom property templates associated with a file.
+/// @param path A unique identifier for the file or folder.
+/// @param propertyGroups The property groups "snapshot" updates to force apply.
 ///
 /// @return Through the response callback, the caller will receive a `void` object on success or a
-/// `DBFILESInvalidPropertyGroupError` object on failure.
+/// `DBFILEPROPERTIESInvalidPropertyGroupError` object on failure.
 ///
-- (DBRpcTask<DBNilObject *, DBFILESInvalidPropertyGroupError *> *)
+- (DBRpcTask<DBNilObject *, DBFILEPROPERTIESInvalidPropertyGroupError *> *)
 propertiesOverwrite:(NSString *)path
-     propertyGroups:(NSArray<DBPROPERTIESPropertyGroup *> *)propertyGroups;
+     propertyGroups:(NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGroups
+    __deprecated_msg("propertiesOverwrite is deprecated.");
 
 ///
-/// Remove all custom properties from a specified template associated with a file. To remove specific property key value
-/// pairs, see `propertiesUpdate`. To update a property template, see properties/template/update. Property templates
-/// can't be removed once created.
+/// DEPRECATED: The propertiesRemove route
 ///
-/// @param path A unique identifier for the file.
-/// @param propertyTemplateIds A list of identifiers for a property template created by route properties/template/add.
+/// @param path A unique identifier for the file or folder.
+/// @param propertyTemplateIds A list of identifiers for a template created by `templatesAddForUser` or
+/// `templatesAddForTeam`.
 ///
 /// @return Through the response callback, the caller will receive a `void` object on success or a
-/// `DBFILESRemovePropertiesError` object on failure.
+/// `DBFILEPROPERTIESRemovePropertiesError` object on failure.
 ///
-- (DBRpcTask<DBNilObject *, DBFILESRemovePropertiesError *> *)propertiesRemove:(NSString *)path
-                                                           propertyTemplateIds:
-                                                               (NSArray<NSString *> *)propertyTemplateIds;
+- (DBRpcTask<DBNilObject *, DBFILEPROPERTIESRemovePropertiesError *> *)propertiesRemove:(NSString *)path
+                                                                    propertyTemplateIds:
+                                                                        (NSArray<NSString *> *)propertyTemplateIds
+    __deprecated_msg("propertiesRemove is deprecated.");
 
 ///
-/// Get the schema for a specified template.
+/// DEPRECATED: The propertiesTemplateGet route
 ///
-/// @param templateId An identifier for property template added by route properties/template/add.
+/// @param templateId An identifier for template added by route  See `templatesAddForUser` or `templatesAddForTeam`.
 ///
-/// @return Through the response callback, the caller will receive a `DBPROPERTIESGetPropertyTemplateResult` object on
-/// success or a `DBPROPERTIESPropertyTemplateError` object on failure.
+/// @return Through the response callback, the caller will receive a `DBFILEPROPERTIESGetTemplateResult` object on
+/// success or a `DBFILEPROPERTIESTemplateError` object on failure.
 ///
-- (DBRpcTask<DBPROPERTIESGetPropertyTemplateResult *, DBPROPERTIESPropertyTemplateError *> *)propertiesTemplateGet:
-    (NSString *)templateId;
+- (DBRpcTask<DBFILEPROPERTIESGetTemplateResult *, DBFILEPROPERTIESTemplateError *> *)propertiesTemplateGet:
+    (NSString *)templateId __deprecated_msg("propertiesTemplateGet is deprecated.");
 
 ///
-/// Get the property template identifiers for a user. To get the schema of each template use `propertiesTemplateGet`.
+/// DEPRECATED: The propertiesTemplateList route
 ///
 ///
-/// @return Through the response callback, the caller will receive a `DBPROPERTIESListPropertyTemplateIds` object on
-/// success or a `DBPROPERTIESPropertyTemplateError` object on failure.
+/// @return Through the response callback, the caller will receive a `DBFILEPROPERTIESListTemplateResult` object on
+/// success or a `DBFILEPROPERTIESTemplateError` object on failure.
 ///
-- (DBRpcTask<DBPROPERTIESListPropertyTemplateIds *, DBPROPERTIESPropertyTemplateError *> *)propertiesTemplateList;
+- (DBRpcTask<DBFILEPROPERTIESListTemplateResult *, DBFILEPROPERTIESTemplateError *> *)propertiesTemplateList
+    __deprecated_msg("propertiesTemplateList is deprecated.");
 
 ///
-/// Add, update or remove custom properties from a specified template associated with a file. Fields that already exist
-/// and not described in the request will not be modified.
+/// DEPRECATED: The propertiesUpdate route
 ///
-/// @param path A unique identifier for the file.
-/// @param updatePropertyGroups Filled custom property templates associated with a file.
+/// @param path A unique identifier for the file or folder.
+/// @param updatePropertyGroups The property groups "delta" updates to apply.
 ///
 /// @return Through the response callback, the caller will receive a `void` object on success or a
-/// `DBFILESUpdatePropertiesError` object on failure.
+/// `DBFILEPROPERTIESUpdatePropertiesError` object on failure.
 ///
-- (DBRpcTask<DBNilObject *, DBFILESUpdatePropertiesError *> *)propertiesUpdate:(NSString *)path
-                                                          updatePropertyGroups:(NSArray<DBFILESPropertyGroupUpdate *> *)
-                                                                                   updatePropertyGroups;
+- (DBRpcTask<DBNilObject *, DBFILEPROPERTIESUpdatePropertiesError *> *)
+    propertiesUpdate:(NSString *)path
+updatePropertyGroups:(NSArray<DBFILEPROPERTIESPropertyGroupUpdate *> *)updatePropertyGroups
+    __deprecated_msg("propertiesUpdate is deprecated.");
 
 ///
 /// Restore a file to a specific revision.
@@ -1391,7 +1564,7 @@ propertiesOverwrite:(NSString *)path
 - (DBUploadTask<DBNilObject *, DBFILESUploadSessionLookupError *> *)uploadSessionAppendUrl:(NSString *)sessionId
                                                                                     offset:(NSNumber *)offset
                                                                                   inputUrl:(NSString *)inputUrl
-    __deprecated_msg("upload_session/append is deprecated. Use upload_session/append_v2.");
+    __deprecated_msg("uploadSessionAppend is deprecated. Use uploadSessionAppendV2.");
 
 ///
 /// DEPRECATED: Append more data to an upload session. A single request should not upload more than 150 MB.
@@ -1407,7 +1580,7 @@ propertiesOverwrite:(NSString *)path
 - (DBUploadTask<DBNilObject *, DBFILESUploadSessionLookupError *> *)uploadSessionAppendData:(NSString *)sessionId
                                                                                      offset:(NSNumber *)offset
                                                                                   inputData:(NSData *)inputData
-    __deprecated_msg("upload_session/append is deprecated. Use upload_session/append_v2.");
+    __deprecated_msg("uploadSessionAppend is deprecated. Use uploadSessionAppendV2.");
 
 ///
 /// DEPRECATED: Append more data to an upload session. A single request should not upload more than 150 MB.
@@ -1424,7 +1597,7 @@ propertiesOverwrite:(NSString *)path
                                                                                        offset:(NSNumber *)offset
                                                                                   inputStream:
                                                                                       (NSInputStream *)inputStream
-    __deprecated_msg("upload_session/append is deprecated. Use upload_session/append_v2.");
+    __deprecated_msg("uploadSessionAppend is deprecated. Use uploadSessionAppendV2.");
 
 ///
 /// Append more data to an upload session. When the parameter close is set, this call will close the session. A single

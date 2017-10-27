@@ -31,25 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// Device information.
 @property (nonatomic, readonly) DBTEAMLOGDeviceLogInfo *deviceInfo;
 
-/// Linking app version. Might be missing due to historical data gap.
-@property (nonatomic, readonly, copy, nullable) NSString *appVersion;
-
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
-///
-/// @param deviceInfo Device information.
-/// @param appVersion Linking app version. Might be missing due to historical
-/// data gap.
-///
-/// @return An initialized instance.
-///
-- (instancetype)initWithDeviceInfo:(DBTEAMLOGDeviceLogInfo *)deviceInfo appVersion:(nullable NSString *)appVersion;
-
-///
-/// Convenience constructor (exposes only non-nullable instance variables with
-/// no default value).
 ///
 /// @param deviceInfo Device information.
 ///
@@ -77,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGDeviceLinkSuccessDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGDeviceLinkSuccessDetails *)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMLOGDeviceLinkSuccessDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGDeviceLinkSuccessDetails` instances.

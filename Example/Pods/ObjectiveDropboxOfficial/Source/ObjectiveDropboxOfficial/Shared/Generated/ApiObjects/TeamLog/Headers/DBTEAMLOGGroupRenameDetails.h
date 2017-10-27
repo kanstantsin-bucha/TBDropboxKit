@@ -8,7 +8,6 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGGroupLogInfo;
 @class DBTEAMLOGGroupRenameDetails;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,23 +27,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Group details.
-@property (nonatomic, readonly) DBTEAMLOGGroupLogInfo *groupInfo;
-
 /// Previous display name.
 @property (nonatomic, readonly, copy) NSString *previousValue;
+
+/// New display name.
+@property (nonatomic, readonly, copy) NSString *dNewValue;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param groupInfo Group details.
 /// @param previousValue Previous display name.
+/// @param dNewValue New display name.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithGroupInfo:(DBTEAMLOGGroupLogInfo *)groupInfo previousValue:(NSString *)previousValue;
+- (instancetype)initWithPreviousValue:(NSString *)previousValue dNewValue:(NSString *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -65,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGGroupRenameDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGGroupRenameDetails *)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMLOGGroupRenameDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGGroupRenameDetails` instances.

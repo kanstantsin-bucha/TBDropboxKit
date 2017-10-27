@@ -93,7 +93,10 @@
                                     recursive: @(self.recursive)
                              includeMediaInfo: @(self.includeMediaInfo)
                                includeDeleted: @(self.includeDeleted)
-              includeHasExplicitSharedMembers: @(self.includeHasExplicitSharedMembers)];
+              includeHasExplicitSharedMembers: @(self.includeHasExplicitSharedMembers)
+                        includeMountedFolders: @(NO)
+                                        limit: @(NSIntegerMax)
+                                   sharedLink: nil];
     } else {
         self.dropboxTask = [routes listFolderContinue: self.cursor];
     }

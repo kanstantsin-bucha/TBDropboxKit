@@ -8,8 +8,8 @@
 
 #import "DBSerializableProtocol.h"
 
-@class DBTEAMLOGEnableDisableChangePolicy;
 @class DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails;
+@class DBTEAMLOGSharedContentViewerInfoPolicy;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,8 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Instance fields
 
-/// Target asset index.
-@property (nonatomic, readonly) NSNumber *targetIndex;
+/// Target asset position in the Assets list.
+@property (nonatomic, readonly) NSNumber *targetAssetIndex;
 
 /// Original shared folder name.
 @property (nonatomic, readonly, copy, nullable) NSString *originalFolderName;
@@ -38,17 +38,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy, nullable) NSString *sharedFolderType;
 
 /// New viewer info policy.
-@property (nonatomic, readonly) DBTEAMLOGEnableDisableChangePolicy *dNewValue;
+@property (nonatomic, readonly) DBTEAMLOGSharedContentViewerInfoPolicy *dNewValue;
 
 /// Previous view info policy. Might be missing due to historical data gap.
-@property (nonatomic, readonly, nullable) DBTEAMLOGEnableDisableChangePolicy *previousValue;
+@property (nonatomic, readonly, nullable) DBTEAMLOGSharedContentViewerInfoPolicy *previousValue;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param targetIndex Target asset index.
+/// @param targetAssetIndex Target asset position in the Assets list.
 /// @param dNewValue New viewer info policy.
 /// @param originalFolderName Original shared folder name.
 /// @param sharedFolderType Shared folder type. Might be missing due to
@@ -58,22 +58,23 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithTargetIndex:(NSNumber *)targetIndex
-                          dNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue
-                 originalFolderName:(nullable NSString *)originalFolderName
-                   sharedFolderType:(nullable NSString *)sharedFolderType
-                      previousValue:(nullable DBTEAMLOGEnableDisableChangePolicy *)previousValue;
+- (instancetype)initWithTargetAssetIndex:(NSNumber *)targetAssetIndex
+                               dNewValue:(DBTEAMLOGSharedContentViewerInfoPolicy *)dNewValue
+                      originalFolderName:(nullable NSString *)originalFolderName
+                        sharedFolderType:(nullable NSString *)sharedFolderType
+                           previousValue:(nullable DBTEAMLOGSharedContentViewerInfoPolicy *)previousValue;
 
 ///
 /// Convenience constructor (exposes only non-nullable instance variables with
 /// no default value).
 ///
-/// @param targetIndex Target asset index.
+/// @param targetAssetIndex Target asset position in the Assets list.
 /// @param dNewValue New viewer info policy.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithTargetIndex:(NSNumber *)targetIndex dNewValue:(DBTEAMLOGEnableDisableChangePolicy *)dNewValue;
+- (instancetype)initWithTargetAssetIndex:(NSNumber *)targetAssetIndex
+                               dNewValue:(DBTEAMLOGSharedContentViewerInfoPolicy *)dNewValue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -96,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails *)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails`

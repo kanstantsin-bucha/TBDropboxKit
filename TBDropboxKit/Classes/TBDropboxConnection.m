@@ -18,6 +18,8 @@
 @property (copy, nonatomic, readwrite) NSString * accessTokenUID;
 @property (assign, nonatomic, readwrite) BOOL connected;
 
+@property (assign, nonatomic) BOOL hasAppLaunchActivationHandled;
+
 @property (strong, nonatomic, readwrite) TBLogger * logger;
 
 @end
@@ -302,6 +304,13 @@
 
 - (void)appBecomeActive:(NSNotification *)notification {
     [self.logger verbose: @"did receive appBecomeActive notification"];
+    
+    if (self.hasAppLaunchActivationHandled == NO) {
+        [self.logger verbose: @"did receive appBecomeActive first time. Note app launch"];
+        self.hasAppLaunchActivationHandled = YES;
+        return;
+    }
+    
     if (self.state != TBDropboxConnectionStateAuthorization) {
         return;
     }

@@ -29,18 +29,18 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Instance fields
 
 /// User's name.
-@property (nonatomic, readonly) DBTEAMLOGUserNameLogInfo *dNewValue;
+@property (nonatomic, readonly) DBTEAMLOGUserNameLogInfo *value;
 
 #pragma mark - Constructors
 
 ///
 /// Full constructor for the struct (exposes all instance variables).
 ///
-/// @param dNewValue User's name.
+/// @param value User's name.
 ///
 /// @return An initialized instance.
 ///
-- (instancetype)initWithDNewValue:(DBTEAMLOGUserNameLogInfo *)dNewValue;
+- (instancetype)initWithValue:(DBTEAMLOGUserNameLogInfo *)value;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGMemberAddNameDetails` API object.
 ///
-+ (NSDictionary *)serialize:(DBTEAMLOGMemberAddNameDetails *)instance;
++ (nullable NSDictionary *)serialize:(DBTEAMLOGMemberAddNameDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGMemberAddNameDetails` instances.

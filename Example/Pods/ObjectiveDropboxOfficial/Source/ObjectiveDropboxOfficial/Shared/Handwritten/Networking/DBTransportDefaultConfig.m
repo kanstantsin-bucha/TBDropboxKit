@@ -67,7 +67,50 @@
                  delegateQueue:(NSOperationQueue *)delegateQueue
         forceForegroundSession:(BOOL)forceForegroundSession
      sharedContainerIdentifier:(NSString *)sharedContainerIdentifier {
-  if (self = [super initWithAppKey:appKey appSecret:appSecret userAgent:userAgent asMemberId:asMemberId]) {
+  return [self initWithAppKey:appKey
+                      appSecret:appSecret
+                      userAgent:userAgent
+                     asMemberId:asMemberId
+              additionalHeaders:nil
+                  delegateQueue:delegateQueue
+         forceForegroundSession:forceForegroundSession
+      sharedContainerIdentifier:sharedContainerIdentifier];
+}
+
+- (instancetype)initWithAppKey:(NSString *)appKey
+                     appSecret:(NSString *)appSecret
+                     userAgent:(NSString *)userAgent
+                    asMemberId:(NSString *)asMemberId
+             additionalHeaders:(NSDictionary<NSString *, NSString *> *)additionalHeaders
+                 delegateQueue:(NSOperationQueue *)delegateQueue
+        forceForegroundSession:(BOOL)forceForegroundSession
+     sharedContainerIdentifier:(NSString *)sharedContainerIdentifier {
+  return [self initWithAppKey:appKey
+                      appSecret:appSecret
+                 hostnameConfig:nil
+                      userAgent:userAgent
+                     asMemberId:asMemberId
+              additionalHeaders:additionalHeaders
+                  delegateQueue:delegateQueue
+         forceForegroundSession:forceForegroundSession
+      sharedContainerIdentifier:sharedContainerIdentifier];
+}
+
+- (instancetype)initWithAppKey:(NSString *)appKey
+                     appSecret:(nullable NSString *)appSecret
+                hostnameConfig:(nullable DBTransportBaseHostnameConfig *)hostnameConfig
+                     userAgent:(nullable NSString *)userAgent
+                    asMemberId:(nullable NSString *)asMemberId
+             additionalHeaders:(nullable NSDictionary<NSString *, NSString *> *)additionalHeaders
+                 delegateQueue:(nullable NSOperationQueue *)delegateQueue
+        forceForegroundSession:(BOOL)forceForegroundSession
+     sharedContainerIdentifier:(nullable NSString *)sharedContainerIdentifier {
+  if (self = [super initWithAppKey:appKey
+                         appSecret:appSecret
+                    hostnameConfig:hostnameConfig
+                         userAgent:userAgent
+                        asMemberId:asMemberId
+                 additionalHeaders:additionalHeaders]) {
     _delegateQueue = delegateQueue;
     _forceForegroundSession = forceForegroundSession;
     _sharedContainerIdentifier = sharedContainerIdentifier;

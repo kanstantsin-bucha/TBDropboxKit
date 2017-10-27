@@ -100,6 +100,7 @@
 @class DBSHARINGUnshareFolderError;
 @class DBSHARINGUpdateFolderMemberError;
 @class DBSHARINGUpdateFolderPolicyError;
+@class DBSHARINGUserFileMembershipInfo;
 @class DBSHARINGUserMembershipInfo;
 @class DBSHARINGViewerInfoPolicy;
 @class DBSHARINGVisibility;
@@ -205,7 +206,7 @@ addMessageAsComment:(nullable NSNumber *)addMessageAsComment;
 changeFileMemberAccess:(NSString *)file
                 member:(DBSHARINGMemberSelector *)member
            accessLevel:(DBSHARINGAccessLevel *)accessLevel
-    __deprecated_msg("change_file_member_access is deprecated. Use update_file_member.");
+    __deprecated_msg("changeFileMemberAccess is deprecated. Use updateFileMember.");
 
 ///
 /// Returns the status of an asynchronous job. Apps must have full Dropbox access to use this endpoint.
@@ -256,7 +257,7 @@ changeFileMemberAccess:(NSString *)file
 /// `DBSHARINGCreateSharedLinkError` object on failure.
 ///
 - (DBRpcTask<DBSHARINGPathLinkMetadata *, DBSHARINGCreateSharedLinkError *> *)createSharedLink:(NSString *)path
-    __deprecated_msg("create_shared_link is deprecated. Use create_shared_link_with_settings.");
+    __deprecated_msg("createSharedLink is deprecated. Use createSharedLinkWithSettings.");
 
 ///
 /// DEPRECATED: Create a shared link. If a shared link already exists for the given path, that link is returned. Note
@@ -279,14 +280,14 @@ changeFileMemberAccess:(NSString *)file
 createSharedLink:(NSString *)path
         shortUrl:(nullable NSNumber *)shortUrl
    pendingUpload:(nullable DBSHARINGPendingUploadMode *)pendingUpload
-    __deprecated_msg("create_shared_link is deprecated. Use create_shared_link_with_settings.");
+    __deprecated_msg("createSharedLink is deprecated. Use createSharedLinkWithSettings.");
 
 ///
 /// Create a shared link with custom settings. If no settings are given then the default visibility is `public` in
 /// `DBSHARINGRequestedVisibility` (The resolved visibility, though, may depend on other aspects such as team and shared
 /// folder settings).
 ///
-/// @param path The path to be shared by the shared link
+/// @param path The path to be shared by the shared link.
 ///
 /// @return Through the response callback, the caller will receive a `DBSHARINGSharedLinkMetadata` object on success or
 /// a `DBSHARINGCreateSharedLinkWithSettingsError` object on failure.
@@ -299,8 +300,8 @@ createSharedLinkWithSettings:(NSString *)path;
 /// `DBSHARINGRequestedVisibility` (The resolved visibility, though, may depend on other aspects such as team and shared
 /// folder settings).
 ///
-/// @param path The path to be shared by the shared link
-/// @param settings The requested settings for the newly created shared link
+/// @param path The path to be shared by the shared link.
+/// @param settings The requested settings for the newly created shared link.
 ///
 /// @return Through the response callback, the caller will receive a `DBSHARINGSharedLinkMetadata` object on success or
 /// a `DBSHARINGCreateSharedLinkWithSettingsError` object on failure.
@@ -570,22 +571,22 @@ getSharedLinkMetadata:(NSString *)url
 
 ///
 /// DEPRECATED: Returns a list of LinkMetadata objects for this user, including collection links. If no path is given,
-/// returns a list of all shared links for the current user, including collection links. If a non-empty path is given,
-/// returns a list of all shared links that allow access to the given path.  Collection links are never returned in this
-/// case. Note that the url field in the response is never the shortened URL.
+/// returns a list of all shared links for the current user, including collection links, up to a maximum of 1000 links.
+/// If a non-empty path is given, returns a list of all shared links that allow access to the given path.  Collection
+/// links are never returned in this case. Note that the url field in the response is never the shortened URL.
 ///
 ///
 /// @return Through the response callback, the caller will receive a `DBSHARINGGetSharedLinksResult` object on success
 /// or a `DBSHARINGGetSharedLinksError` object on failure.
 ///
 - (DBRpcTask<DBSHARINGGetSharedLinksResult *, DBSHARINGGetSharedLinksError *> *)getSharedLinks
-    __deprecated_msg("get_shared_links is deprecated. Use list_shared_links.");
+    __deprecated_msg("getSharedLinks is deprecated. Use listSharedLinks.");
 
 ///
 /// DEPRECATED: Returns a list of LinkMetadata objects for this user, including collection links. If no path is given,
-/// returns a list of all shared links for the current user, including collection links. If a non-empty path is given,
-/// returns a list of all shared links that allow access to the given path.  Collection links are never returned in this
-/// case. Note that the url field in the response is never the shortened URL.
+/// returns a list of all shared links for the current user, including collection links, up to a maximum of 1000 links.
+/// If a non-empty path is given, returns a list of all shared links that allow access to the given path.  Collection
+/// links are never returned in this case. Note that the url field in the response is never the shortened URL.
 ///
 /// @param path See `getSharedLinks` description.
 ///
@@ -593,7 +594,7 @@ getSharedLinkMetadata:(NSString *)url
 /// or a `DBSHARINGGetSharedLinksError` object on failure.
 ///
 - (DBRpcTask<DBSHARINGGetSharedLinksResult *, DBSHARINGGetSharedLinksError *> *)getSharedLinks:(nullable NSString *)path
-    __deprecated_msg("get_shared_links is deprecated. Use list_shared_links.");
+    __deprecated_msg("getSharedLinks is deprecated. Use listSharedLinks.");
 
 ///
 /// Use to obtain the members who have been invited to a file, both inherited and uninherited members.
@@ -850,7 +851,7 @@ listSharedLinks:(nullable NSString *)path
 /// `DBSHARINGLinkPermissions` of the returned SharedLinkMetadata will reflect the actual visibility of the shared link
 /// and the `requestedVisibility` in `DBSHARINGLinkPermissions` will reflect the requested visibility.
 ///
-/// @param url URL of the shared link to change its settings
+/// @param url URL of the shared link to change its settings.
 /// @param settings Set of settings for the shared link.
 ///
 /// @return Through the response callback, the caller will receive a `DBSHARINGSharedLinkMetadata` object on success or
@@ -866,7 +867,7 @@ modifySharedLinkSettings:(NSString *)url
 /// `DBSHARINGLinkPermissions` of the returned SharedLinkMetadata will reflect the actual visibility of the shared link
 /// and the `requestedVisibility` in `DBSHARINGLinkPermissions` will reflect the requested visibility.
 ///
-/// @param url URL of the shared link to change its settings
+/// @param url URL of the shared link to change its settings.
 /// @param settings Set of settings for the shared link.
 /// @param removeExpiration If set to true, removes the expiration of the shared link.
 ///
@@ -944,7 +945,7 @@ relinquishFolderMembership:(NSString *)sharedFolderId
 - (DBRpcTask<DBSHARINGFileMemberActionIndividualResult *, DBSHARINGRemoveFileMemberError *> *)
 removeFileMember:(NSString *)file
           member:(DBSHARINGMemberSelector *)member
-    __deprecated_msg("remove_file_member is deprecated. Use remove_file_member_2.");
+    __deprecated_msg("removeFileMember is deprecated. Use removeFileMember2.");
 
 ///
 /// Removes a specified member from the file.
@@ -995,7 +996,6 @@ removeFolderMember:(NSString *)sharedFolderId
 /// `DBSHARINGShareFolderLaunch` is returned, you'll need to call `checkShareJobStatus` until the action completes to
 /// get the metadata for the folder. Apps must have full Dropbox access to use this endpoint.
 ///
-/// @param path The path to the folder to share. If it does not exist, then a new one is created.
 ///
 /// @return Through the response callback, the caller will receive a `DBSHARINGShareFolderLaunch` object on success or a
 /// `DBSHARINGShareFolderError` object on failure.
@@ -1008,30 +1008,23 @@ removeFolderMember:(NSString *)sharedFolderId
 /// `DBSHARINGShareFolderLaunch` is returned, you'll need to call `checkShareJobStatus` until the action completes to
 /// get the metadata for the folder. Apps must have full Dropbox access to use this endpoint.
 ///
-/// @param path The path to the folder to share. If it does not exist, then a new one is created.
-/// @param memberPolicy Who can be a member of this shared folder. Only applicable if the current user is on a team.
-/// @param aclUpdatePolicy Who can add and remove members of this shared folder.
-/// @param sharedLinkPolicy The policy to apply to shared links created for content inside this shared folder.  The
-/// current user must be on a team to set this policy to `members` in `DBSHARINGSharedLinkPolicy`.
-/// @param forceAsync Whether to force the share to happen asynchronously.
 /// @param actions A list of `FolderAction`s corresponding to `FolderPermission`s that should appear in the  response's
 /// `permissions` in `DBSHARINGSharedFolderMetadata` field describing the actions the  authenticated user can perform on
 /// the folder.
 /// @param linkSettings Settings on the link for this folder.
-/// @param viewerInfoPolicy Who can enable/disable viewer info for this shared folder.
 ///
 /// @return Through the response callback, the caller will receive a `DBSHARINGShareFolderLaunch` object on success or a
 /// `DBSHARINGShareFolderError` object on failure.
 ///
 - (DBRpcTask<DBSHARINGShareFolderLaunch *, DBSHARINGShareFolderError *> *)
      shareFolder:(NSString *)path
-    memberPolicy:(nullable DBSHARINGMemberPolicy *)memberPolicy
  aclUpdatePolicy:(nullable DBSHARINGAclUpdatePolicy *)aclUpdatePolicy
-sharedLinkPolicy:(nullable DBSHARINGSharedLinkPolicy *)sharedLinkPolicy
       forceAsync:(nullable NSNumber *)forceAsync
+    memberPolicy:(nullable DBSHARINGMemberPolicy *)memberPolicy
+sharedLinkPolicy:(nullable DBSHARINGSharedLinkPolicy *)sharedLinkPolicy
+viewerInfoPolicy:(nullable DBSHARINGViewerInfoPolicy *)viewerInfoPolicy
          actions:(nullable NSArray<DBSHARINGFolderAction *> *)actions
-    linkSettings:(nullable DBSHARINGLinkSettings *)linkSettings
-viewerInfoPolicy:(nullable DBSHARINGViewerInfoPolicy *)viewerInfoPolicy;
+    linkSettings:(nullable DBSHARINGLinkSettings *)linkSettings;
 
 ///
 /// Transfer ownership of a shared folder to a member of the shared folder. User must have `owner` in
