@@ -18,10 +18,10 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-  Stable version, core updated to ObjectiveDropboxOfficial 3.1.1.
+  Stable version, core updated to ObjectiveDropboxOfficial 3.3.4.
   Please refer to the readme in github. For some reason the cocoapods ignoring README.md :(
   This framework provide basic two way synchronization functionality for dropbox and changes nofification in both ways.
-  It uses official dropbox API version 2 under the hood. It smoothes broken changes that official guys do every release.
+  It uses official dropbox API version 2 under the hood.
   It was written using SOLID principles in DRY mode"
                        DESC
 

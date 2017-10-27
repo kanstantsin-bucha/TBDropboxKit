@@ -280,9 +280,13 @@
     
         void (^ openURL)(NSURL *) = ^(NSURL * url) {
             [self noteAuthStateChanged: TBDropboxAuthStateAuthorization];
-            [[UIApplication sharedApplication] openURL: url];
-            [self.logger log: @"did open auth url"];
-            [self.logger verbose: @"auth url %@", url];
+            weakCDB(wself);
+            [[UIApplication sharedApplication] openURL: url
+                                               options: @{}
+                                     completionHandler: ^(BOOL success) {
+                                         [wself.logger log: @"did open auth url"];
+                                         [wself.logger verbose: @"auth url %@", url];
+            }];
         };
         
         self.state = TBDropboxConnectionStateAuthorization;

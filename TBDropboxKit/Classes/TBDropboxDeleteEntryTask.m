@@ -40,7 +40,7 @@
 - (void)performMainUsingRoutes:(DBFILESUserAuthRoutes *)routes
                 withCompletion:(CDBErrorCompletion)completion {
     
-    self.dropboxTask = [routes delete_: self.entry.dropboxPath];
+    self.dropboxTask = [routes deleteV2: self.entry.dropboxPath];
     weakCDB(wself);
     [(DBRpcTask *)self.dropboxTask setResponseBlock: ^(DBFILESMetadata * response,
                                                        id  _Nullable routeError,
