@@ -110,14 +110,19 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes {
         || state == TBDropboxConnectionStateReconnected) {
         
         // Upload example file to app folder in dropbox
-        [self uploadExampleFileWithComplation:^(NSError * _Nullable error) {
-            NSLog(@"Upload file %@", error == nil? @"Succeed" : @"Failed");
-            // download that file to local documents directory
-            [self downloadLocalDocumentFromDropboxPath: self.examplePath
-                                            completion: ^(NSError * _Nullable error) {
-                // disconnecting
-                NSLog(@"download file %@", error == nil? @"Succeed" : @"Failed");
-                self.dropbox.connectionDesired = NO;
+        [self listFolderWithCompletion:^(NSArray * _Nullable array, NSError * _Nullable error) {
+            NSArray<id<TBDropboxEntry>> * entries = array;
+            NSLog(@"list root folder (error: %@) /r%@", error, entries);
+            
+            [self uploadExampleFileWithComplation:^(NSError * _Nullable upploadError) {
+                NSLog(@"Upload file %@", upploadError == nil ? @"Succeed" : @"Failed");
+                // download that file to local documents directory
+                [self downloadLocalDocumentFromDropboxPath: self.examplePath
+                                                completion: ^(NSError * _Nullable downloadError) {
+                    // disconnecting
+                    NSLog(@"download file %@", downloadError == nil? @"Succeed" : @"Failed");
+                    self.dropbox.connectionDesired = NO;
+                }];
             }];
         }];
     }
@@ -143,6 +148,26 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes {
     }];
     
     [self.dropbox.tasksQueue addTask: task];
+}
+
+- (void) listFolderWithCompletion: (CDBArrayErrorCompletion) completion {
+    TBDropboxFolderEntry * rootEntry = [TBDropboxEntryFactory folderEntryUsingDropboxPath:nil];
+    TBDropboxListFolderTask * listTask =
+        [TBDropboxListFolderTask taskUsingEntry: rootEntry
+                                     completion: ^(TBDropboxTask * _Nonnull task,
+                                                   NSError * _Nullable error) {
+            NSArray * entries = [(TBDropboxListFolderTask *)task folderEntries];
+            completion(entries, error);
+        }];
+    
+    if (listTask == nil
+        && completion != nil) {
+        NSDictionary * info = @{NSLocalizedDescriptionKey : @"List root folder task failed"};
+        NSError * error = [self taskCreationFailedErrorUsingInfo: info];
+        completion(nil, error);
+    }
+    
+    [self.dropbox.tasksQueue addTask: listTask];
 }
 
 // Don't use it on user dropbox [IT DELETE EVERYTHING] it is only for app folder cleunup

@@ -97,17 +97,40 @@
 }
 
 - (instancetype)initWithAppKey:(NSString *)appKey
-                     appSecret:(nullable NSString *)appSecret
-                hostnameConfig:(nullable DBTransportBaseHostnameConfig *)hostnameConfig
-                     userAgent:(nullable NSString *)userAgent
-                    asMemberId:(nullable NSString *)asMemberId
-             additionalHeaders:(nullable NSDictionary<NSString *, NSString *> *)additionalHeaders
-                 delegateQueue:(nullable NSOperationQueue *)delegateQueue
+                     appSecret:(NSString *)appSecret
+                hostnameConfig:(DBTransportBaseHostnameConfig *)hostnameConfig
+                     userAgent:(NSString *)userAgent
+                    asMemberId:(NSString *)asMemberId
+             additionalHeaders:(NSDictionary<NSString *, NSString *> *)additionalHeaders
+                 delegateQueue:(NSOperationQueue *)delegateQueue
         forceForegroundSession:(BOOL)forceForegroundSession
-     sharedContainerIdentifier:(nullable NSString *)sharedContainerIdentifier {
+     sharedContainerIdentifier:(NSString *)sharedContainerIdentifier {
+  return [self initWithAppKey:appKey
+                      appSecret:appSecret
+                 hostnameConfig:hostnameConfig
+                    redirectURL:nil
+                      userAgent:userAgent
+                     asMemberId:asMemberId
+              additionalHeaders:additionalHeaders
+                  delegateQueue:delegateQueue
+         forceForegroundSession:forceForegroundSession
+      sharedContainerIdentifier:sharedContainerIdentifier];
+}
+
+- (instancetype)initWithAppKey:(NSString *)appKey
+                     appSecret:(NSString *)appSecret
+                hostnameConfig:(DBTransportBaseHostnameConfig *)hostnameConfig
+                   redirectURL:(NSString *)redirectURL
+                     userAgent:(NSString *)userAgent
+                    asMemberId:(NSString *)asMemberId
+             additionalHeaders:(NSDictionary<NSString *, NSString *> *)additionalHeaders
+                 delegateQueue:(NSOperationQueue *)delegateQueue
+        forceForegroundSession:(BOOL)forceForegroundSession
+     sharedContainerIdentifier:(NSString *)sharedContainerIdentifier {
   if (self = [super initWithAppKey:appKey
                          appSecret:appSecret
                     hostnameConfig:hostnameConfig
+                       redirectURL:redirectURL
                          userAgent:userAgent
                         asMemberId:asMemberId
                  additionalHeaders:additionalHeaders]) {

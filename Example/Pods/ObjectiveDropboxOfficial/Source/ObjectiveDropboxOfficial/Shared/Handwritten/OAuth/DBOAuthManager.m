@@ -51,7 +51,11 @@ static DBOAuthManager *s_sharedOAuthManager;
   return [self initWithAppKey:appKey host:nil];
 }
 
-- (instancetype)initWithAppKey:(NSString *)appKey host:(nullable NSString *)host {
+- (instancetype)initWithAppKey:(NSString *)appKey host:(NSString *)host {
+  return [self initWithAppKey:appKey host:host redirectURL:nil];
+}
+
+- (instancetype)initWithAppKey:(NSString *)appKey host:(NSString *)host redirectURL:(NSString *)redirectURL {
   self = [super init];
   if (self) {
     if (host == nil) {
@@ -60,7 +64,7 @@ static DBOAuthManager *s_sharedOAuthManager;
     }
 
     _appKey = appKey;
-    _redirectURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"db-%@://2/token", _appKey]];
+    _redirectURL = [[NSURL alloc] initWithString:redirectURL ?: [NSString stringWithFormat:@"db-%@://2/token", appKey]];
     _cancelURL = [NSURL URLWithString:[NSString stringWithFormat:@"db-%@://2/cancel", _appKey]];
     _host = host;
     _urls = [NSMutableArray arrayWithObjects:_redirectURL, nil];

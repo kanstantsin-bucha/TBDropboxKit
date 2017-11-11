@@ -25,9 +25,29 @@
 
 @implementation TBDropboxListFolderTask
 
-@synthesize entry;
+@synthesize
+entry,
+listItemsMaxLimit = _listItemsMaxLimit;
 
 /// MAKR: property
+
+- (void) setListItemsMaxLimit: (NSInteger) listItemsMaxLimit {
+    if (listItemsMaxLimit <= 0
+        || listItemsMaxLimit > TBDropboxListFolderTaskListItemsMaxLimitCount) {
+        return;
+    }
+    
+    _listItemsMaxLimit = listItemsMaxLimit;
+}
+
+- (NSInteger) listItemsMaxLimit {
+    if (_listItemsMaxLimit <= 0
+        || _listItemsMaxLimit > TBDropboxListFolderTaskListItemsMaxLimitCount) {
+        return TBDropboxListFolderTaskListItemsMaxLimitCount;
+    }
+    
+    return _listItemsMaxLimit;
+}
 
 - (NSArray<id<TBDropboxEntry>> *)folderEntries {
     if (_folderEntries != nil) {
@@ -94,8 +114,8 @@
                              includeMediaInfo: @(self.includeMediaInfo)
                                includeDeleted: @(self.includeDeleted)
               includeHasExplicitSharedMembers: @(self.includeHasExplicitSharedMembers)
-                        includeMountedFolders: @(NO)
-                                        limit: @(NSIntegerMax)
+                        includeMountedFolders: @(self.includeMountedFolders)
+                                        limit: @(self.listItemsMaxLimit)
                                    sharedLink: nil];
     } else {
         self.dropboxTask = [routes listFolderContinue: self.cursor];
