@@ -399,6 +399,9 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 08C1ECD21E966F16003D7CAA;
 					};
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = HUUYEKWPEW;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -999,6 +1002,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = HUUYEKWPEW;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TBDropboxKit/TBDropboxKit-Prefix.pch";
 				INFOPLIST_FILE = "TBDropboxKit/TBDropboxKit-Info.plist";
@@ -1016,6 +1020,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = HUUYEKWPEW;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TBDropboxKit/TBDropboxKit-Prefix.pch";
 				INFOPLIST_FILE = "TBDropboxKit/TBDropboxKit-Info.plist";

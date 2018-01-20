@@ -116,7 +116,8 @@ listItemsMaxLimit = _listItemsMaxLimit;
               includeHasExplicitSharedMembers: @(self.includeHasExplicitSharedMembers)
                         includeMountedFolders: @(self.includeMountedFolders)
                                         limit: @(self.listItemsMaxLimit)
-                                   sharedLink: nil];
+                                   sharedLink: nil
+                        includePropertyGroups: nil];
     } else {
         self.dropboxTask = [routes listFolderContinue: self.cursor];
     }
