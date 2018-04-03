@@ -45,8 +45,8 @@ Pod::Spec.new do |s|
   s.public_header_files = 'TBDropboxKit/Classes/**/*.h'
   s.frameworks = 'Foundation'
   s.dependency 'ObjectiveDropboxOfficial', '~> 3.8.1'
-  s.dependency 'CDBKit', '~> 1.1'
-  s.dependency 'CDBDelegateCollection', '~> 1.1'
-  s.dependency 'TBLogger', '~> 1.1'
+  s.dependency 'CDBKit'
+  s.dependency 'CDBDelegateCollection'
+  s.dependency 'TBLogger'
 
   end
