@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TBDropboxKit'
-  s.version          = '1.2.1'
+  s.version          = '1.2.2'
   s.summary          = 'Dropbox ObjC synchronization kit using API v2'
 
 # This description is used to generate tags and improve search results.
@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/truebucha/TBDropboxKit.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/truebucha'
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '10.0'
   s.osx.deployment_target = '10.10'
   s.requires_arc = true
 
