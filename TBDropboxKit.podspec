@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TBDropboxKit'
-  s.version          = '1.2.0'
+  s.version          = '1.2.1'
   s.summary          = 'Dropbox ObjC synchronization kit using API v2'
 
 # This description is used to generate tags and improve search results.
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-  Stable version, core updated to ObjectiveDropboxOfficial 3.4.0.
+  Stable version, core updated to ObjectiveDropboxOfficial 3.8.1.
   Please refer to the readme in github. For some reason the cocoapods ignoring README.md :(
   This framework provide basic two way synchronization functionality for dropbox and changes nofification in both ways.
   It uses official dropbox API version 2 under the hood.
@@ -44,7 +44,7 @@ Pod::Spec.new do |s|
 
   s.public_header_files = 'TBDropboxKit/Classes/**/*.h'
   s.frameworks = 'Foundation'
-  s.dependency 'ObjectiveDropboxOfficial', '~> 3.4.0'
+  s.dependency 'ObjectiveDropboxOfficial', '~> 3.8.1'
   s.dependency 'CDBKit', '~> 1.1'
   s.dependency 'CDBDelegateCollection', '~> 1.1'
   s.dependency 'TBLogger', '~> 1.1'
