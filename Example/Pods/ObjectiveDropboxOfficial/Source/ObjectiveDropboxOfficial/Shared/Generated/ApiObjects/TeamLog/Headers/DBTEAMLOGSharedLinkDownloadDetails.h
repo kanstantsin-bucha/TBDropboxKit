@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedLinkDownloadDetails` struct.
 ///
-/// Downloaded a file/folder from a shared link.
+/// Downloaded file/folder from shared link.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedLinkDownloadDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedLinkDownloadDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedLinkDownloadDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedLinkDownloadDetails` instances.
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGSharedLinkDownloadDetails` object.
 ///
-+ (DBTEAMLOGSharedLinkDownloadDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedLinkDownloadDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

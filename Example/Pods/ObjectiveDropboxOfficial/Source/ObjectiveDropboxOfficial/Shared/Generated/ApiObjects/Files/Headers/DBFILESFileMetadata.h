@@ -13,6 +13,7 @@
 @class DBFILESFileMetadata;
 @class DBFILESFileSharingInfo;
 @class DBFILESMediaInfo;
+@class DBFILESSymlinkInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -53,6 +54,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Additional information if the file is a photo or video.
 @property (nonatomic, readonly, nullable) DBFILESMediaInfo *mediaInfo;
 
+/// Set if this file is a symlink.
+@property (nonatomic, readonly, nullable) DBFILESSymlinkInfo *symlinkInfo;
+
 /// Set if this file is contained in a shared folder.
 @property (nonatomic, readonly, nullable) DBFILESFileSharingInfo *sharingInfo;
 
@@ -68,8 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) NSNumber *hasExplicitSharedMembers;
 
 /// A hash of the file content. This field can be used to verify data integrity.
-/// For more information see our Content hash /developers/reference/content-hash
-/// page.
+/// For more information see our Content hash
+/// https://www.dropbox.com/developers/reference/content-hash page.
 @property (nonatomic, readonly, copy, nullable) NSString *contentHash;
 
 #pragma mark - Constructors
@@ -103,6 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// `DBFILESFileSharingInfo` or `parentSharedFolderId` in
 /// `DBFILESFolderSharingInfo` instead.
 /// @param mediaInfo Additional information if the file is a photo or video.
+/// @param symlinkInfo Set if this file is a symlink.
 /// @param sharingInfo Set if this file is contained in a shared folder.
 /// @param propertyGroups Additional information if the file has custom
 /// properties with the property template specified.
@@ -114,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// contained within  a shared folder.
 /// @param contentHash A hash of the file content. This field can be used to
 /// verify data integrity. For more information see our Content hash
-/// /developers/reference/content-hash page.
+/// https://www.dropbox.com/developers/reference/content-hash page.
 ///
 /// @return An initialized instance.
 ///
@@ -128,6 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
                  pathDisplay:(nullable NSString *)pathDisplay
         parentSharedFolderId:(nullable NSString *)parentSharedFolderId
                    mediaInfo:(nullable DBFILESMediaInfo *)mediaInfo
+                 symlinkInfo:(nullable DBFILESSymlinkInfo *)symlinkInfo
                  sharingInfo:(nullable DBFILESFileSharingInfo *)sharingInfo
               propertyGroups:(nullable NSArray<DBFILEPROPERTIESPropertyGroup *> *)propertyGroups
     hasExplicitSharedMembers:(nullable NSNumber *)hasExplicitSharedMembers
@@ -177,7 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESFileMetadata` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBFILESFileMetadata *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBFILESFileMetadata *)instance;
 
 ///
 /// Deserializes `DBFILESFileMetadata` instances.
@@ -187,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBFILESFileMetadata` object.
 ///
-+ (DBFILESFileMetadata *)deserialize:(NSDictionary *)dict;
++ (DBFILESFileMetadata *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

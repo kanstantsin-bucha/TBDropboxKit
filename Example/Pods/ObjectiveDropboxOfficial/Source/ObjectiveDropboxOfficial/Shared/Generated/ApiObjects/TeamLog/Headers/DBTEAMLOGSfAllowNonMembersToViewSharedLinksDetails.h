@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SfAllowNonMembersToViewSharedLinksDetails` struct.
 ///
-/// Allowed non collaborators to view links to files in a shared folder.
+/// Allowed non-collaborators to view links to files in shared folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSfAllowNonMembersToViewSharedLinksDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSfAllowNonMembersToViewSharedLinksDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSfAllowNonMembersToViewSharedLinksDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSfAllowNonMembersToViewSharedLinksDetails` instances.
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGSfAllowNonMembersToViewSharedLinksDetails` object.
 ///
-+ (DBTEAMLOGSfAllowNonMembersToViewSharedLinksDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSfAllowNonMembersToViewSharedLinksDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

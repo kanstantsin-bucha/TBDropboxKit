@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `TeamFolderChangeStatusDetails` struct.
 ///
-/// Changed the archival status of a team folder.
+/// Changed archival status of team folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGTeamFolderChangeStatusDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGTeamFolderChangeStatusDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGTeamFolderChangeStatusDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGTeamFolderChangeStatusDetails` instances.
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGTeamFolderChangeStatusDetails`
 /// object.
 ///
-+ (DBTEAMLOGTeamFolderChangeStatusDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGTeamFolderChangeStatusDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

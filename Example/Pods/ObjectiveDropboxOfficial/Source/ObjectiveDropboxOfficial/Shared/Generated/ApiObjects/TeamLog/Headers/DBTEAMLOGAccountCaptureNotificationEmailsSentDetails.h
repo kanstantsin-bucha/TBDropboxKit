@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `AccountCaptureNotificationEmailsSentDetails` struct.
 ///
-/// Proactive account capture email sent to all unmanaged members.
+/// Sent proactive account capture email to all unmanaged members.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGAccountCaptureNotificationEmailsSentDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGAccountCaptureNotificationEmailsSentDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGAccountCaptureNotificationEmailsSentDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGAccountCaptureNotificationEmailsSentDetails`
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGAccountCaptureNotificationEmailsSentDetails` object.
 ///
-+ (DBTEAMLOGAccountCaptureNotificationEmailsSentDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGAccountCaptureNotificationEmailsSentDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

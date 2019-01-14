@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedFolderMountDetails` struct.
 ///
-/// Added a shared folder to own Dropbox.
+/// Added shared folder to own Dropbox.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedFolderMountDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedFolderMountDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedFolderMountDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedFolderMountDetails` instances.
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGSharedFolderMountDetails` object.
 ///
-+ (DBTEAMLOGSharedFolderMountDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedFolderMountDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

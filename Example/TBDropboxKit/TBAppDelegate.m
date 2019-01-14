@@ -109,6 +109,8 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes {
     if (state == TBDropboxConnectionStateConnected
         || state == TBDropboxConnectionStateReconnected) {
         
+        BOOL shouldDisconnect = NO;
+        
         // Upload example file to app folder in dropbox
         [self listFolderWithCompletion:^(NSArray * _Nullable array, NSError * _Nullable error) {
             NSArray<id<TBDropboxEntry>> * entries = array;
@@ -121,7 +123,14 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes {
                                                 completion: ^(NSError * _Nullable downloadError) {
                     // disconnecting
                     NSLog(@"download file %@", downloadError == nil? @"Succeed" : @"Failed");
-                    self.dropbox.connectionDesired = NO;
+                    [self deleteFileAtDropboxPath:self.examplePath
+                                       completion:^(NSError * _Nullable deleteError) {
+                        NSLog(@"delete file %@", deleteError == nil ? @"Succeed"
+                                                                    : @"Failed");
+                        if (shouldDisconnect) {
+                            self.dropbox.connectionDesired = NO;
+                        }
+                    }];
                 }];
             }];
         }];
@@ -247,6 +256,31 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes {
     [self.dropbox.tasksQueue addTask: uploadTask];
 }
 
+
+- (void)deleteFileAtDropboxPath:(NSString *)path
+                     completion:(CDBErrorCompletion)completion {
+    TBDropboxFileEntry * entry =
+        [TBDropboxEntryFactory fileEntryUsingDropboxPath: path];
+    TBDropboxTask * deleteTask =
+        [TBDropboxDeleteEntryTask taskUsingEntry:entry
+                                      completion: ^(TBDropboxTask * _Nonnull task, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"FAILED deleteFile At Dropbox path %@, error: %@",
+                  path, error);
+        }
+        if (completion != nil) {
+            completion(error);
+        }
+    }];
+    
+    if (deleteTask == nil) {
+        NSLog(@"FAILED create task for deleteFileAtDropboxPath: %@", path);
+        return;
+    }
+    
+    [self.dropbox.tasksQueue addTask:deleteTask];
+
+}
 - (void)downloadDocumentToURL:(NSURL *)URL
               fromDropboxPath:(NSString *)path
                    completion:(CDBErrorCompletion)completion  {
@@ -269,6 +303,7 @@ didReceiveIncomingChanges:(NSArray <TBDropboxChange *> * _Nullable)changes {
     if (downloadTask == nil) {
         NSLog(@"FAILED create task for dropboxSyncChangedDocumentAtURL: %@\
                    \r Dropbox path: %@", URL, path);
+        return;
     }
     
     [self.dropbox.tasksQueue addTask: downloadTask];

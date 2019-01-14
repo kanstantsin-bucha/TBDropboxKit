@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedLinkChangeExpiryDetails` struct.
 ///
-/// Changed the shared link expiration date.
+/// Changed shared link expiration date.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedLinkChangeExpiryDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedLinkChangeExpiryDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedLinkChangeExpiryDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedLinkChangeExpiryDetails` instances.
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGSharedLinkChangeExpiryDetails`
 /// object.
 ///
-+ (DBTEAMLOGSharedLinkChangeExpiryDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedLinkChangeExpiryDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

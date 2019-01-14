@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedContentRemoveMemberDetails` struct.
 ///
-/// Removed a user or a group from the membership of a shared file or folder.
+/// Removed user/group from shared file/folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedContentRemoveMemberDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedContentRemoveMemberDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedContentRemoveMemberDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedContentRemoveMemberDetails` instances.
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGSharedContentRemoveMemberDetails`
 /// object.
 ///
-+ (DBTEAMLOGSharedContentRemoveMemberDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedContentRemoveMemberDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

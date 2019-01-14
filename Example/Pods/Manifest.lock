@@ -1,37 +1,44 @@
 PODS:
   - CDBDelegateCollection (1.1.1)
-  - CDBKit (1.4.3):
-    - CDBKit/Array (= 1.4.3)
-    - CDBKit/Core (= 1.4.3)
-    - CDBKit/Localize (= 1.4.3)
-    - CDBKit/UI (= 1.4.3)
-  - CDBKit/Array (1.4.3)
-  - CDBKit/Core (1.4.3)
-  - CDBKit/Localize (1.4.3)
-  - CDBKit/UI (1.4.3)
-  - ObjectiveDropboxOfficial (3.8.1)
-  - TBDropboxKit (1.2.0):
-    - CDBDelegateCollection (~> 1.1)
-    - CDBKit (~> 1.1)
-    - ObjectiveDropboxOfficial (~> 3.8.1)
-    - TBLogger (~> 1.1)
+  - CDBKit (1.4.6):
+    - CDBKit/Array (= 1.4.6)
+    - CDBKit/Core (= 1.4.6)
+    - CDBKit/Localize (= 1.4.6)
+    - CDBKit/UI (= 1.4.6)
+  - CDBKit/Array (1.4.6)
+  - CDBKit/Core (1.4.6)
+  - CDBKit/Localize (1.4.6)
+  - CDBKit/UI (1.4.6)
+  - ObjectiveDropboxOfficial (3.9.4)
+  - TBDropboxKit (1.2.2):
+    - CDBDelegateCollection
+    - CDBKit
+    - ObjectiveDropboxOfficial (= 3.9.4)
+    - TBLogger
   - TBLogger (1.1.2):
     - CDBKit (~> 1.1)
 
 DEPENDENCIES:
   - TBDropboxKit (from `../`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - CDBDelegateCollection
+    - CDBKit
+    - ObjectiveDropboxOfficial
+    - TBLogger
+
 EXTERNAL SOURCES:
   TBDropboxKit:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   CDBDelegateCollection: d3dc7666965f701bc54ed7eae591de2328a8c706
-  CDBKit: aeb16954308b9a39c07bf1deaf32dc64074f0be2
-  ObjectiveDropboxOfficial: f43302e5924785cf8822af3bcce33d81f9a58493
-  TBDropboxKit: a4c15d652a4c93bd676f4dd4ed1aab3f1506f8a3
+  CDBKit: d24cdc2039baaf27e1eabe9b024997a3fd8bc1fe
+  ObjectiveDropboxOfficial: a5afefc83f6467c42c45f2253f583f2ad1ffc701
+  TBDropboxKit: 7c19cd536087b6d310ad4838d88d617095727f93
   TBLogger: 228c8ce0f8e6acdea7e85544f1567ead2af98411
 
-PODFILE CHECKSUM: 90e636c4efb66bce2c96b1ecf68f69afa2372e17
+PODFILE CHECKSUM: 4650228bf75e0bb2ca80f252de58a07b4cb06252
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.6.0.beta.1

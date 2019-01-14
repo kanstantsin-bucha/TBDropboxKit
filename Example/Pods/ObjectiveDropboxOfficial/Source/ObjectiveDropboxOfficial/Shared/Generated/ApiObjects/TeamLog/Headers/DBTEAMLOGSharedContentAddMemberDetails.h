@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedContentAddMemberDetails` struct.
 ///
-/// Added users and/or groups to the membership of a shared file or folder.
+/// Added users and/or groups to shared file/folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedContentAddMemberDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedContentAddMemberDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedContentAddMemberDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedContentAddMemberDetails` instances.
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGSharedContentAddMemberDetails`
 /// object.
 ///
-+ (DBTEAMLOGSharedContentAddMemberDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedContentAddMemberDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

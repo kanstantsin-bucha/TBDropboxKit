@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedContentChangeInviteeRoleDetails` struct.
 ///
-/// Changed the access type of an invitee to a shared file or folder before the
-/// invitation was claimed.
+/// Changed access type of invitee to shared file/folder before invite was
+/// accepted.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedContentChangeInviteeRoleDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedContentChangeInviteeRoleDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedContentChangeInviteeRoleDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedContentChangeInviteeRoleDetails` instances.
@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGSharedContentChangeInviteeRoleDetails` object.
 ///
-+ (DBTEAMLOGSharedContentChangeInviteeRoleDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedContentChangeInviteeRoleDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

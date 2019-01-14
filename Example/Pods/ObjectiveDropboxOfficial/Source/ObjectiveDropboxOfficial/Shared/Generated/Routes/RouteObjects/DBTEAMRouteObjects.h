@@ -125,6 +125,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// Accessor method for the membersListContinue route object.
 + (DBRoute *)DBTEAMMembersListContinue;
 
+/// Accessor method for the membersMoveFormerMemberFiles route object.
++ (DBRoute *)DBTEAMMembersMoveFormerMemberFiles;
+
+/// Accessor method for the membersMoveFormerMemberFilesJobStatusCheck route
+/// object.
++ (DBRoute *)DBTEAMMembersMoveFormerMemberFilesJobStatusCheck;
+
 /// Accessor method for the membersRecover route object.
 + (DBRoute *)DBTEAMMembersRecover;
 
@@ -205,6 +212,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Accessor method for the teamFolderRename route object.
 + (DBRoute *)DBTEAMTeamFolderRename;
+
+/// Accessor method for the teamFolderUpdateSyncSettings route object.
++ (DBRoute *)DBTEAMTeamFolderUpdateSyncSettings;
 
 /// Accessor method for the tokenGetAuthenticatedAdmin route object.
 + (DBRoute *)DBTEAMTokenGetAuthenticatedAdmin;

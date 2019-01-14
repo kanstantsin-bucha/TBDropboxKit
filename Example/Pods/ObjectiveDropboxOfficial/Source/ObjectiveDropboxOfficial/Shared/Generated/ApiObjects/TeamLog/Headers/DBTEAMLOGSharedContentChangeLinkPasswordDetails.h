@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedContentChangeLinkPasswordDetails` struct.
 ///
-/// Changed the password on the link for the shared file or folder.
+/// Changed link password of shared file/folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedContentChangeLinkPasswordDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedContentChangeLinkPasswordDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedContentChangeLinkPasswordDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedContentChangeLinkPasswordDetails` instances.
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGSharedContentChangeLinkPasswordDetails` object.
 ///
-+ (DBTEAMLOGSharedContentChangeLinkPasswordDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedContentChangeLinkPasswordDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

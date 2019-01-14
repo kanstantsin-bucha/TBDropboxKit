@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `PaperExternalViewForbidDetails` struct.
 ///
-/// Paper external sharing policy changed: team-only.
+/// Changed Paper external sharing setting to team-only.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGPaperExternalViewForbidDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGPaperExternalViewForbidDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGPaperExternalViewForbidDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGPaperExternalViewForbidDetails` instances.
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGPaperExternalViewForbidDetails`
 /// object.
 ///
-+ (DBTEAMLOGPaperExternalViewForbidDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGPaperExternalViewForbidDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

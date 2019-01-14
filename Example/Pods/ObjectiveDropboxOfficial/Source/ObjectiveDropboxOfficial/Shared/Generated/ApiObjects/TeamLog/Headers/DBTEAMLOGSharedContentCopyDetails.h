@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedContentCopyDetails` struct.
 ///
-/// Copied the shared file or folder to own Dropbox.
+/// Copied shared file/folder to own Dropbox.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedContentCopyDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedContentCopyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedContentCopyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedContentCopyDetails` instances.
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGSharedContentCopyDetails` object.
 ///
-+ (DBTEAMLOGSharedContentCopyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedContentCopyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

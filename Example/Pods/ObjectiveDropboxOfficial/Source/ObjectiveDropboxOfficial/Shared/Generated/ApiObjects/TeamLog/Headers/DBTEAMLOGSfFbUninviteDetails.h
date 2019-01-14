@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SfFbUninviteDetails` struct.
 ///
-/// Uninvited a Facebook user from a shared folder.
+/// Uninvited Facebook user from shared folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSfFbUninviteDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSfFbUninviteDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSfFbUninviteDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSfFbUninviteDetails` instances.
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGSfFbUninviteDetails` object.
 ///
-+ (DBTEAMLOGSfFbUninviteDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSfFbUninviteDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

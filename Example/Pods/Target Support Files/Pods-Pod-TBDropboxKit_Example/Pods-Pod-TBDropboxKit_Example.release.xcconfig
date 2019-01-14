@@ -2,7 +2,7 @@ FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/CDBDelega
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/CDBDelegateCollection-iOS/CDBDelegateCollection.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/CDBKit-iOS/CDBKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/ObjectiveDropboxOfficial-iOS/ObjectiveDropboxOfficial.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/TBDropboxKit-iOS/TBDropboxKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/TBLogger-iOS/TBLogger.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "CDBDelegateCollection" -framework "CDBKit" -framework "ObjectiveDropboxOfficial" -framework "TBDropboxKit" -framework "TBLogger"
+OTHER_LDFLAGS = $(inherited) -framework "CDBDelegateCollection" -framework "CDBKit" -framework "Foundation" -framework "ObjectiveDropboxOfficial" -framework "SafariServices" -framework "SystemConfiguration" -framework "TBDropboxKit" -framework "TBLogger" -framework "UIKit"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.

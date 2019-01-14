@@ -1,8 +1,8 @@
 {
   "name": "TBDropboxKit",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "summary": "Dropbox ObjC synchronization kit using API v2",
-  "description": "Stable version, core updated to ObjectiveDropboxOfficial 3.4.0.\nPlease refer to the readme in github. For some reason the cocoapods ignoring README.md :(\nThis framework provide basic two way synchronization functionality for dropbox and changes nofification in both ways.\nIt uses official dropbox API version 2 under the hood.\nIt was written using SOLID principles in DRY mode\"",
+  "description": "Stable version, core updated to ObjectiveDropboxOfficial 3.9.4.\nPlease refer to the readme in github. For some reason the cocoapods ignoring README.md :(\nThis framework provide basic two way synchronization functionality for dropbox and changes nofification in both ways.\nIt uses official dropbox API version 2 under the hood.\nIt was written using SOLID principles in DRY mode\"",
   "homepage": "https://github.com/truebucha/TBDropboxKit",
   "license": {
     "type": "MIT",
@@ -13,11 +13,11 @@
   },
   "source": {
     "git": "https://github.com/truebucha/TBDropboxKit.git",
-    "tag": "1.2.0"
+    "tag": "1.2.2"
   },
   "social_media_url": "https://twitter.com/truebucha",
   "platforms": {
-    "ios": "9.0",
+    "ios": "10.0",
     "osx": "10.10"
   },
   "requires_arc": true,
@@ -26,16 +26,16 @@
   "frameworks": "Foundation",
   "dependencies": {
     "ObjectiveDropboxOfficial": [
-      "~> 3.8.1"
+      "= 3.9.4"
     ],
     "CDBKit": [
-      "~> 1.1"
+
     ],
     "CDBDelegateCollection": [
-      "~> 1.1"
+
     ],
     "TBLogger": [
-      "~> 1.1"
+
     ]
   }
 }

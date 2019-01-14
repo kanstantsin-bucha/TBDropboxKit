@@ -71,7 +71,7 @@
             
         } else {
             
-            [self.logger warning: @"pause connection"];
+            [self.logger warning: @"close connection"];
             [self.connection closeConnection];
             
             [self nullifyQueueAndWatchdog];

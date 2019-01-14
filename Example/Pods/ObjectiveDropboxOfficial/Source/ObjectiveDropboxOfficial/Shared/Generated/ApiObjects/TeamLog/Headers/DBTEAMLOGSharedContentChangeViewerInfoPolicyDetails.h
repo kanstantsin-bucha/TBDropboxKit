@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedContentChangeViewerInfoPolicyDetails` struct.
 ///
-/// Changed whether members can see who viewed the shared file or folder.
+/// Changed whether members can see who viewed shared file/folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails`
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails` object.
 ///
-+ (DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedContentChangeViewerInfoPolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

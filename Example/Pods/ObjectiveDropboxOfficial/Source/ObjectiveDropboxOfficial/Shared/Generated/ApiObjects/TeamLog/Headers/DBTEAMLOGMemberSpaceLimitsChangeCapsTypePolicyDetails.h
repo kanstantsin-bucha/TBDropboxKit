@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `MemberSpaceLimitsChangeCapsTypePolicyDetails` struct.
 ///
-/// Change the member space limit type for the team.
+/// Changed member space limit type for team.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGMemberSpaceLimitsChangeCapsTypePolicyDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGMemberSpaceLimitsChangeCapsTypePolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGMemberSpaceLimitsChangeCapsTypePolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGMemberSpaceLimitsChangeCapsTypePolicyDetails`
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGMemberSpaceLimitsChangeCapsTypePolicyDetails` object.
 ///
-+ (DBTEAMLOGMemberSpaceLimitsChangeCapsTypePolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGMemberSpaceLimitsChangeCapsTypePolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

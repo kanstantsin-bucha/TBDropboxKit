@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `MemberChangeStatusDetails` struct.
 ///
-/// Changed the membership status of a team member.
+/// Changed member status (invited, joined, suspended, etc.).
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGMemberChangeStatusDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGMemberChangeStatusDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGMemberChangeStatusDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGMemberChangeStatusDetails` instances.
@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return An instantiation of the `DBTEAMLOGMemberChangeStatusDetails` object.
 ///
-+ (DBTEAMLOGMemberChangeStatusDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGMemberChangeStatusDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

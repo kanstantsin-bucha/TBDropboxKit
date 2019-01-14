@@ -68,7 +68,7 @@
 		11B13D92EAF5FB001C72DB78 /* Pods-TBDropboxKitMac-ExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBDropboxKitMac-ExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TBDropboxKitMac-ExampleTests/Pods-TBDropboxKitMac-ExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1CC4D88843EBFCBB5E211930 /* Pods_Pod_TBDropboxKitMac_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pod_TBDropboxKitMac_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26BDCA3A6956ECFF63D0AA8D /* Pods-Pod-TBDropboxKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pod-TBDropboxKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example.release.xcconfig"; sourceTree = "<group>"; };
-		277017EC77F047E83761D178 /* TBDropboxKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = TBDropboxKit.podspec; path = ../TBDropboxKit.podspec; sourceTree = "<group>"; };
+		277017EC77F047E83761D178 /* TBDropboxKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = TBDropboxKit.podspec; path = ../TBDropboxKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		288E99B5F2455B0704282BBD /* Pods-TBDropboxKitMac-ExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBDropboxKitMac-ExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TBDropboxKitMac-ExampleTests/Pods-TBDropboxKitMac-ExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		315618D2D40CB86C8C0ACC3E /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		3A6785BE48D03BD06DE05E1E /* Pods-TBDropboxKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TBDropboxKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TBDropboxKit_Example/Pods-TBDropboxKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -305,7 +305,6 @@
 				08C1ECD01E966F16003D7CAA /* Frameworks */,
 				08C1ECD11E966F16003D7CAA /* Resources */,
 				EE7A3DA3E3523015089B5BCC /* [CP] Embed Pods Frameworks */,
-				C81E5F7990C1C803141F786B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -324,8 +323,6 @@
 				08C1ECE41E966F16003D7CAA /* Sources */,
 				08C1ECE51E966F16003D7CAA /* Frameworks */,
 				08C1ECE61E966F16003D7CAA /* Resources */,
-				A2F5C17FB2B4698D78A5DC97 /* [CP] Embed Pods Frameworks */,
-				BCC6490F3C77BD042DC02FE7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -346,7 +343,6 @@
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
 				EC8D68EFD47DF2774DAE77EE /* [CP] Embed Pods Frameworks */,
-				0EE260BE3A756C4B9D4D383A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -365,8 +361,6 @@
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				2710A1BBBF012623B0B6F14E /* [CP] Embed Pods Frameworks */,
-				4C3B882154F9F5C228C2191C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -467,21 +461,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0EE260BE3A756C4B9D4D383A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		253E4F8C58D54A6AC02755A7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -498,36 +477,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2710A1BBBF012623B0B6F14E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TBDropboxKit_Tests/Pods-TBDropboxKit_Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4C3B882154F9F5C228C2191C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TBDropboxKit_Tests/Pods-TBDropboxKit_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5721C74C552E8CAFCBE68164 /* [CP] Check Pods Manifest.lock */ = {
@@ -566,51 +515,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A2F5C17FB2B4698D78A5DC97 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TBDropboxKitMac-ExampleTests/Pods-TBDropboxKitMac-ExampleTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BCC6490F3C77BD042DC02FE7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TBDropboxKitMac-ExampleTests/Pods-TBDropboxKitMac-ExampleTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C81E5F7990C1C803141F786B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pod-TBDropboxKitMac-Example/Pods-Pod-TBDropboxKitMac-Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E344B669D008F9A6778750CF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -635,7 +539,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CDBDelegateCollection-iOS/CDBDelegateCollection.framework",
 				"${BUILT_PRODUCTS_DIR}/CDBKit-iOS/CDBKit.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectiveDropboxOfficial-iOS/ObjectiveDropboxOfficial.framework",
@@ -652,7 +556,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pod-TBDropboxKit_Example/Pods-Pod-TBDropboxKit_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EE7A3DA3E3523015089B5BCC /* [CP] Embed Pods Frameworks */ = {
@@ -661,7 +565,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Pod-TBDropboxKitMac-Example/Pods-Pod-TBDropboxKitMac-Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Pod-TBDropboxKitMac-Example/Pods-Pod-TBDropboxKitMac-Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CDBDelegateCollection-macOS/CDBDelegateCollection.framework",
 				"${BUILT_PRODUCTS_DIR}/CDBKit-macOS/CDBKit.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectiveDropboxOfficial-macOS/ObjectiveDropboxOfficial.framework",
@@ -678,7 +582,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pod-TBDropboxKitMac-Example/Pods-Pod-TBDropboxKitMac-Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pod-TBDropboxKitMac-Example/Pods-Pod-TBDropboxKitMac-Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

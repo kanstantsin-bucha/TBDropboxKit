@@ -17,8 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SfExternalInviteWarnDetails` struct.
 ///
-/// Admin settings: team members see a warning before sharing folders outside
-/// the team (DEPRECATED FEATURE).
+/// Set team members to see warning before sharing folders outside team.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -90,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSfExternalInviteWarnDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSfExternalInviteWarnDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSfExternalInviteWarnDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSfExternalInviteWarnDetails` instances.
@@ -101,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGSfExternalInviteWarnDetails`
 /// object.
 ///
-+ (DBTEAMLOGSfExternalInviteWarnDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSfExternalInviteWarnDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

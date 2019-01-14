@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SfTeamJoinFromOobLinkDetails` struct.
 ///
-/// Joined a team member's shared folder from a link.
+/// Joined team member's shared folder from link.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSfTeamJoinFromOobLinkDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSfTeamJoinFromOobLinkDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSfTeamJoinFromOobLinkDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSfTeamJoinFromOobLinkDetails` instances.
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGSfTeamJoinFromOobLinkDetails`
 /// object.
 ///
-+ (DBTEAMLOGSfTeamJoinFromOobLinkDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSfTeamJoinFromOobLinkDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

@@ -33,7 +33,8 @@ typedef NS_ENUM(NSInteger, DBFILESUploadErrorTag) {
   /// Unable to save the uploaded contents to a file.
   DBFILESUploadErrorPath,
 
-  /// The supplied property group is invalid.
+  /// The supplied property group is invalid. The file has uploaded without
+  /// property groups.
   DBFILESUploadErrorPropertiesError,
 
   /// (no description).
@@ -49,9 +50,9 @@ typedef NS_ENUM(NSInteger, DBFILESUploadErrorTag) {
 /// raised.
 @property (nonatomic, readonly) DBFILESUploadWriteFailed *path;
 
-/// The supplied property group is invalid. @note Ensure the `isPropertiesError`
-/// method returns true before accessing, otherwise a runtime exception will be
-/// raised.
+/// The supplied property group is invalid. The file has uploaded without
+/// property groups. @note Ensure the `isPropertiesError` method returns true
+/// before accessing, otherwise a runtime exception will be raised.
 @property (nonatomic, readonly) DBFILEPROPERTIESInvalidPropertyGroupError *propertiesError;
 
 #pragma mark - Constructors
@@ -72,9 +73,10 @@ typedef NS_ENUM(NSInteger, DBFILESUploadErrorTag) {
 /// Initializes union class with tag state of "properties_error".
 ///
 /// Description of the "properties_error" tag state: The supplied property group
-/// is invalid.
+/// is invalid. The file has uploaded without property groups.
 ///
-/// @param propertiesError The supplied property group is invalid.
+/// @param propertiesError The supplied property group is invalid. The file has
+/// uploaded without property groups.
 ///
 /// @return An initialized instance.
 ///
@@ -143,7 +145,7 @@ typedef NS_ENUM(NSInteger, DBFILESUploadErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBFILESUploadError` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBFILESUploadError *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBFILESUploadError *)instance;
 
 ///
 /// Deserializes `DBFILESUploadError` instances.
@@ -153,7 +155,7 @@ typedef NS_ENUM(NSInteger, DBFILESUploadErrorTag) {
 ///
 /// @return An instantiation of the `DBFILESUploadError` object.
 ///
-+ (DBFILESUploadError *)deserialize:(NSDictionary *)dict;
++ (DBFILESUploadError *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

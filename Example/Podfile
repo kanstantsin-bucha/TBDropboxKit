@@ -5,11 +5,13 @@ abstract_target 'Pod' do
  pod 'TBDropboxKit', :path => '../'
 
     target 'TBDropboxKit_Example' do
+        platform :ios, '10.0'
         target 'TBDropboxKit_Tests' do
             inherit! :search_paths
         end
     end
     target 'TBDropboxKitMac-Example' do
+        platform :osx, '10.10'
         target 'TBDropboxKitMac-ExampleTests' do
             inherit! :search_paths
         end

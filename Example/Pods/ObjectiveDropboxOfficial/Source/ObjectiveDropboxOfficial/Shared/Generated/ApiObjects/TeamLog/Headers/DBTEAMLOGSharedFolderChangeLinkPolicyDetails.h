@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SharedFolderChangeLinkPolicyDetails` struct.
 ///
-/// Changed who can access the shared folder via a link.
+/// Changed who can access shared folder via link.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSharedFolderChangeLinkPolicyDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSharedFolderChangeLinkPolicyDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSharedFolderChangeLinkPolicyDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSharedFolderChangeLinkPolicyDetails` instances.
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the
 /// `DBTEAMLOGSharedFolderChangeLinkPolicyDetails` object.
 ///
-+ (DBTEAMLOGSharedFolderChangeLinkPolicyDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSharedFolderChangeLinkPolicyDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

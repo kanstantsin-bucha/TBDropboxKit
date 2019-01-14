@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The `SfFbInviteChangeRoleDetails` struct.
 ///
-/// Changed a Facebook user's role in a shared folder.
+/// Changed Facebook user's role in shared folder.
 ///
 /// This class implements the `DBSerializable` protocol (serialize and
 /// deserialize instance methods), which is required for all Obj-C SDK API route
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMLOGSfFbInviteChangeRoleDetails` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMLOGSfFbInviteChangeRoleDetails *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMLOGSfFbInviteChangeRoleDetails *)instance;
 
 ///
 /// Deserializes `DBTEAMLOGSfFbInviteChangeRoleDetails` instances.
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return An instantiation of the `DBTEAMLOGSfFbInviteChangeRoleDetails`
 /// object.
 ///
-+ (DBTEAMLOGSfFbInviteChangeRoleDetails *)deserialize:(NSDictionary *)dict;
++ (DBTEAMLOGSfFbInviteChangeRoleDetails *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 

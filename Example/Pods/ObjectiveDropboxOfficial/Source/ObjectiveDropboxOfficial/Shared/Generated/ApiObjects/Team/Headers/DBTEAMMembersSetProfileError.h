@@ -61,6 +61,9 @@ typedef NS_ENUM(NSInteger, DBTEAMMembersSetProfileErrorTag) {
   /// The persistent ID is already in use by another team member.
   DBTEAMMembersSetProfileErrorPersistentIdUsedByOtherUser,
 
+  /// Directory Restrictions option is not available.
+  DBTEAMMembersSetProfileErrorDirectoryRestrictedOff,
+
   /// (no description).
   DBTEAMMembersSetProfileErrorOther,
 
@@ -175,6 +178,16 @@ typedef NS_ENUM(NSInteger, DBTEAMMembersSetProfileErrorTag) {
 - (instancetype)initWithPersistentIdUsedByOtherUser;
 
 ///
+/// Initializes union class with tag state of "directory_restricted_off".
+///
+/// Description of the "directory_restricted_off" tag state: Directory
+/// Restrictions option is not available.
+///
+/// @return An initialized instance.
+///
+- (instancetype)initWithDirectoryRestrictedOff;
+
+///
 /// Initializes union class with tag state of "other".
 ///
 /// @return An initialized instance.
@@ -273,6 +286,15 @@ typedef NS_ENUM(NSInteger, DBTEAMMembersSetProfileErrorTag) {
 - (BOOL)isPersistentIdUsedByOtherUser;
 
 ///
+/// Retrieves whether the union's current tag state has value
+/// "directory_restricted_off".
+///
+/// @return Whether the union's current tag state has value
+/// "directory_restricted_off".
+///
+- (BOOL)isDirectoryRestrictedOff;
+
+///
 /// Retrieves whether the union's current tag state has value "other".
 ///
 /// @return Whether the union's current tag state has value "other".
@@ -304,7 +326,7 @@ typedef NS_ENUM(NSInteger, DBTEAMMembersSetProfileErrorTag) {
 /// @return A json-compatible dictionary representation of the
 /// `DBTEAMMembersSetProfileError` API object.
 ///
-+ (nullable NSDictionary *)serialize:(DBTEAMMembersSetProfileError *)instance;
++ (nullable NSDictionary<NSString *, id> *)serialize:(DBTEAMMembersSetProfileError *)instance;
 
 ///
 /// Deserializes `DBTEAMMembersSetProfileError` instances.
@@ -314,7 +336,7 @@ typedef NS_ENUM(NSInteger, DBTEAMMembersSetProfileErrorTag) {
 ///
 /// @return An instantiation of the `DBTEAMMembersSetProfileError` object.
 ///
-+ (DBTEAMMembersSetProfileError *)deserialize:(NSDictionary *)dict;
++ (DBTEAMMembersSetProfileError *)deserialize:(NSDictionary<NSString *, id> *)dict;
 
 @end
 
